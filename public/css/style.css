@@ -14,3 +14,7 @@ table a {
 .nav-header .brand-logo a b img {
 	max-width: 40px;
 }
+
+.cursor-pointer {
+	cursor: pointer;
+}

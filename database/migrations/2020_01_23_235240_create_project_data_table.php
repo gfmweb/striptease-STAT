@@ -22,7 +22,7 @@ class CreateProjectDataTable extends Migration
             $table->integer('clicks');
             $table->integer('leads');
             $table->integer('activations');
-            $table->float('price', 2);
+            $table->decimal('price', 6,2);
             $table->date('date_from');
             $table->date('date_to');
             $table->timestamps();

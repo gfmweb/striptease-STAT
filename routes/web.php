@@ -19,17 +19,19 @@ Route::get('/', 'PublicController@index');
 
 // заглушка отменяющая регистрацию с сайта
 Route::match(['post', 'get'], 'register', function () {
-	Auth::logout();
+    Auth::logout();
 
-	return redirect('/');
+    return redirect('/');
 })->name('register');
 
 
-
 Route::middleware('auth')->group(function () {
-	Route::get('home', 'HomeController@index')->name('home');
+    Route::get('home', 'HomeController@index')->name('home');
+    Route::get('project-data/create', 'ProjectDataController@create')->name('project-data.create');
+    Route::get('project-data/list', 'ProjectDataController@list')->name('project-data.list');
+    Route::post('project-data/save', 'ProjectDataController@save')->name('project-data.save');
 
-//	Route::get('user/{telegram_user_id}', 'HomeController@user')->name('users.show');
+    //	Route::get('user/{telegram_user_id}', 'HomeController@user')->name('users.show');
 });
 
 

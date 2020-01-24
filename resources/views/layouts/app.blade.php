@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Бот Abardag</title>
+    <title>Stat BVCRM</title>
     <!-- Favicon icon -->
     <link rel="apple-touch-icon" sizes="180x180" href="/img/icons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/img/icons/favicon-32x32.png">
@@ -24,6 +24,7 @@
     <link href="{{ asset('/vendor/ule/css/style.css') }}" rel="stylesheet">
     <link href="/css/style.css?<?=time()?>" rel="stylesheet">
     <script src="{{ asset('/vendor/ule/js/modernizr-3.6.0.min.js') }}"></script>
+    <script type="text/javascript"> const _token = '{{ csrf_token() }}';</script>
     @stack('css')
     @yield('css')
 </head>
