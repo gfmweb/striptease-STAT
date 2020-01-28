@@ -32,7 +32,6 @@ class AddTestProjects extends Seeder
                 $new = \App\Project::query()->create([
                     'name'       => $project,
                     'city_id'    => \App\City::query()->first()->id,
-                    'partner_id' => \App\Partner::query()->first()->id,
                 ]);
 
                 $this->command->info($project . ' created!');
@@ -46,6 +45,7 @@ class AddTestProjects extends Seeder
                     'name'       => $name,
                     'url'        => $url,
                     'project_id' => $project->id,
+                    'partner_id' => \App\Partner::query()->first()->id,
                 ]);
             $this->command->info('SubProjects also created!');
         }
