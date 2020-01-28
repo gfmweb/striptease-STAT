@@ -42,7 +42,6 @@ Vue.component('editable-field', {
             <div class=" input-append">
                 <input type="text" :class="{'input-mini':true, 'bg-danger': invalid}" v-model="newValue" 
                 @blur="change()" @focusout="change()" @keyup.enter="change()" @keyup.escape="back()">
-               
             </div>
         </div>`,
 });
