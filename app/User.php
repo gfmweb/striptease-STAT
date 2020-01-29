@@ -8,10 +8,18 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 /**
  * Class User
  * @package App
+ * @property int    $role
+ * @property int    id
+ * @property string name
+ * @property string login
+ * @property string password
  */
 class User extends Authenticatable
 {
     use Notifiable;
+
+    const ROLE_USER  = 1;
+    const ROLE_ADMIN = 2;
 
     /**
      * The attributes that are mass assignable.
@@ -19,7 +27,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'login', 'password',
+        'name', 'login', 'password', 'role',
     ];
 
     /**
@@ -28,6 +36,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'role',
     ];
+
+    public function isAdmin()
+    {
+        return $this->role == self::ROLE_ADMIN;
+    }
 }
