@@ -6,28 +6,43 @@
             <div class="card">
                 <div class="card-body">
                     <div class="card-title">Внесение данных за неделю</div>
-
-                    {{--                    @include('project-data.partials.date-filter')--}}
                     <div id="vue-project-data" class="data-block">
-
                         <div class="data-filter pull-left">
-                            <form class="data-filter-form m-3">
-                                <input type="text" name="date-range" id="date-range" value="" placeholder="Неделя"
-                                       readonly/>
-                                <select name="project" v-model="projects.selected" @change="resetSubProjectSelect()">
-                                    <option v-for="project in projects.list" :value="project.id">
-                                        @{{ project.name }}
-                                    </option>
-                                </select>
-                                <select name="subProject" v-model="subProjects.selected">
-                                    <option v-for="subProject in subProjectByProject" :value="subProject.id">
-                                        @{{subProject.name }}
-                                    </option>
-                                </select>
-                                <b class="btn btn-success btn-sm ml-2" v-if="filterSettled" @click="load()">Показать</b>
+                            <form class="data-filter-form m-3 form-inline">
+                                <div class="form-group m-1">
+                                    <label for="date-range">Неделя</label><br>
+                                    <input type="text" class="custom-select" name="date-range" id="date-range" value=""
+                                           placeholder="Неделя"
+                                           readonly/>
+                                </div>
+                                <div class="form-group m-1">
+                                    <label for="project-select">Проект</label><br>
+                                    <select name="project" id="project-select" class="custom-select"
+                                            v-model="projects.selected" @change="resetSubProjectSelect()">
+                                        <option v-for="project in projects.list" :value="project.id">
+                                            @{{ project.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group m-1">
+                                    <label for="subProject">Подпроект (сайт)</label><br>
+                                    <select name="subProject" id="subProject" class="custom-select"
+                                            v-model="subProjects.selected">
+                                        <option v-for="subProject in subProjectByProject" :value="subProject.id">
+                                            @{{subProject.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group m-1">
+                                    <div class="btn btn-success ml-4 mt-3" v-if="filterSettled" @click="load()">
+                                        Показать
+                                    </div>
+                                </div>
                             </form>
                         </div>
-                        <div class="btn btn-sm btn-success m-3 pull-right" v-if="haveChanges() && filterSettled" @click="saveChanges()">Сохранить</div>
+                        <div class="btn btn-sm btn-success m-3 pull-right" v-if="haveChanges() && filterSettled"
+                             @click="saveChanges()">Сохранить
+                        </div>
                         <div class="data-table">
                             <table class="table table-bordered table-sm">
                                 <thead>
@@ -48,28 +63,35 @@
                                         :class="{'project-row-edited':channel.changed}">
                                         <th>@{{ channel.name }}</th>
                                         <td>
-                                            <editable-field v-model="data[channel.id].coverage" @input="channel.changed = true"></editable-field>
+                                            <editable-field v-model="data[channel.id].coverage"
+                                                            @input="channel.changed = true"></editable-field>
                                         </td>
                                         <td>
-                                            <editable-field v-model="data[channel.id].transition" @input="channel.changed = true"></editable-field>
+                                            <editable-field v-model="data[channel.id].transition"
+                                                            @input="channel.changed = true"></editable-field>
                                         </td>
                                         <td>
-                                            <editable-field v-model="data[channel.id].clicks" @input="channel.changed = true"></editable-field>
+                                            <editable-field v-model="data[channel.id].clicks"
+                                                            @input="channel.changed = true"></editable-field>
                                         </td>
                                         <td>
-                                            <editable-field v-model="data[channel.id].leads" @input="channel.changed = true"></editable-field>
+                                            <editable-field v-model="data[channel.id].leads"
+                                                            @input="channel.changed = true"></editable-field>
                                         </td>
                                         <td>
-                                            <editable-field v-model="data[channel.id].activations" @input="channel.changed = true"></editable-field>
+                                            <editable-field v-model="data[channel.id].activations"
+                                                            @input="channel.changed = true"></editable-field>
                                         </td>
                                         <td>
                                             @{{ (data[channel.id].activations * data[channel.id].price).toFixed(2) }}
                                         </td>
                                         <td>
-                                            @{{ (data[channel.id].leads ? data[channel.id].activations * data[channel.id].price / data[channel.id].leads : 0).toFixed(2) }}
+                                            @{{ (data[channel.id].leads ? data[channel.id].activations *
+                                            data[channel.id].price / data[channel.id].leads : 0).toFixed(2) }}
                                         </td>
                                         <td>
-                                            <editable-field v-model="data[channel.id].price" @input="channel.changed = true" def="0.00"></editable-field>
+                                            <editable-field v-model="data[channel.id].price"
+                                                            @input="channel.changed = true" def="0.00"></editable-field>
                                         </td>
                                     </tr>
                                 </tbody>

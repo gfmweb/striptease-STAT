@@ -31,7 +31,8 @@ Route::middleware('auth')->group(function () {
     Route::get('project-data/list', 'ProjectDataController@list')->name('project-data.list');
     Route::post('project-data/save', 'ProjectDataController@save')->name('project-data.save');
 
-    //	Route::get('user/{telegram_user_id}', 'HomeController@user')->name('users.show');
+    // Channels
+    Route::resource('channels', 'ChannelsController');
 });
 
 
