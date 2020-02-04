@@ -1,4 +1,3 @@
-@php /** @var $channel \App\Channel */ @endphp
 @extends('layouts.private')
 
 @section('content')
@@ -6,9 +5,9 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="card-title">Редактирование канала {{ $channel->name }}</div>
-                    {!! Form::model($channel, ['route' => ['channels.update', $channel->id], 'method' => 'PUT']) !!}
-                    @include('channels.partials.form')
+                    <div class="card-title">Редактирование канала {{ $partner->name }}</div>
+                    {!! Form::model($partner, ['route' => ['partners.update', $partner->id], 'method' => 'PUT']) !!}
+                    @include('partners.partials.form')
                     {!! \Form::close(); !!}
                 </div>
             </div>

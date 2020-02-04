@@ -14,55 +14,55 @@ class PartnersController extends Controller
 		return view('partners.index')->with(['partners' => $partners]);
 	}
 
-	/*public function edit($id)
+	public function edit($id)
 	{
-		$channel  = Partner::query()->findOrFail($id);
-		$channels = Partner::all()->pluck('name', 'id')->toArray();
-		$channels = ['' => 'Укажите канал'] + $channels;
+		$partner  = Partner::query()->findOrFail($id);
+		$partners = Partner::all()->pluck('name', 'id')->toArray();
+		$partners = ['' => 'Укажите партнера'] + $partners;
 
-		return view('channels.edit')->with(['channel' => $channel, 'channels' => $channels]);
+		return view('partners.edit')->with(['partner' => $partner, 'partners' => $partners]);
 	}
 
 	public function create()
 	{
-		$channel  = new Channel();
-		$channels = Partner::all()->pluck('name', 'id')->toArray();
-		$channels = ['' => 'Укажите канал'] + $channels;
+		$partner  = new Partner();
+		$partners = Partner::all()->pluck('name', 'id')->toArray();
+		$partners = ['' => 'Укажите канал'] + $partners;
 
-		return view('channels.create')->with(['channel' => $channel, 'channels' => $channels]);
+		return view('partners.create')->with(['partner' => $partner, 'partners' => $partners]);
 	}
 
 	public function update(Request $request, $id)
 	{
-		$channel = Partner::query()->findOrFail($id);
-		$channel->fill($request->all());
-		$channel->save();
+		$partner = Partner::query()->findOrFail($id);
+		$partner->fill($request->all());
+		$partner->save();
 
-		\Flash::success('Канал успешно изменен');
+		\Flash::success('Партнер успешно изменен');
 
-		return redirect()->route('channels.index');
+		return redirect()->route('partners.index');
 	}
 
 
 	public function store(Request $request)
 	{
-		$channel = new Channel();
-		$channel->fill($request->all());
-		$channel->save();
+		$partner = new Partner();
+		$partner->fill($request->all());
+		$partner->save();
 
-		\Flash::success('Канал успешно создан');
+		\Flash::success('Партнер успешно создан');
 
-		return redirect()->route('channels.index');
+		return redirect()->route('partners.index');
 	}
 
 	public function destroy($id)
 	{
-		$channel = Partner::query()->findOrFail($id);
-		$channel->delete();
+		$partner = Partner::query()->findOrFail($id);
+		$partner->delete();
 
-		\Flash::success('Канал успешно удален');
+		\Flash::success('Партнер успешно удален');
 
-		return redirect()->route('channels.index')->getTargetUrl();
-	}*/
+		return redirect()->route('partners.index')->getTargetUrl();
+	}
 
 }
