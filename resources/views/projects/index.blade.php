@@ -7,9 +7,8 @@
 				<div class="card-body">
 					<div class="card-title">Список проектов</div>
 					<div class="table-responsive">
-						<a href="{{ route('channels.create') }}"
-						   class="btn btn-xs btn-outline-dark pull-right" title="Добавить канал"><i
-									class="fa fa-plus-square-o"></i></a>
+						<a href="{{ route('projects.create') }}"
+						   class="btn btn-xs btn-outline-dark pull-right" title="Добавить проект"><i class="fa fa-plus-square-o"></i></a>
 						<table class="table table-striped table-sm">
 							<thead>
 								<tr>
@@ -24,7 +23,6 @@
 									<tr>
 										<td>{{ $project->id }}</td>
 										<td>{{ $project->name }}</td>
-
 										<td>{{ $project->created_at->format('d.m.Y') }}</td>
 										<td>
 											<a href="{{ route('projects.edit',$project->id) }}"

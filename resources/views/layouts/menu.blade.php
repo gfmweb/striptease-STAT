@@ -11,7 +11,7 @@
 		<a href="{{ route('partners.index') }}"><i class="mdi mdi-human-male-female"></i> <span class="nav-text">Партнеры</span></a>
 	</li>
 	<li>
-		<a href="{{ route('channels.index') }}"><i class="mdi mdi-key-variant"></i> <span class="nav-text">Каналы</span></a>
+		<a href="{{ route('channels.index') }}"><i class="mdi mdi-key-variant"></i> <span class="nav-text">Каналы привлечения</span></a>
 	</li>
 	@stack('menu-footer')
 </ul>

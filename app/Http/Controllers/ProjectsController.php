@@ -14,54 +14,54 @@ class ProjectsController extends Controller
 		return view('projects.index')->with(['projects' => $projects]);
 	}
 
-/*	public function edit($id)
+	public function edit($id)
 	{
-		$channel  = Project::query()->findOrFail($id);
-		$channels = Project::all()->pluck('name', 'id')->toArray();
-		$channels = ['' => 'Укажите канал'] + $channels;
+		$project  = Project::query()->findOrFail($id);
+		$projects = Project::all()->pluck('name', 'id')->toArray();
+		$projects = ['' => 'Укажите Проект'] + $projects;
 
-		return view('channels.edit')->with(['channel' => $channel, 'channels' => $channels]);
+		return view('projects.edit')->with(['project' => $project, 'projects' => $projects]);
 	}
 
 	public function create()
 	{
-		$channel  = new Channel();
-		$channels = Project::all()->pluck('name', 'id')->toArray();
-		$channels = ['' => 'Укажите канал'] + $channels;
+		$project  = new Project();
+		$projects = Project::all()->pluck('name', 'id')->toArray();
+		$projects = ['' => 'Укажите Проект'] + $projects;
 
-		return view('channels.create')->with(['channel' => $channel, 'channels' => $channels]);
+		return view('projects.create')->with(['project' => $project, 'projects' => $projects]);
 	}
 
 	public function update(Request $request, $id)
 	{
-		$channel = Project::query()->findOrFail($id);
-		$channel->fill($request->all());
-		$channel->save();
+		$project = Project::query()->findOrFail($id);
+		$project->fill($request->all());
+		$project->save();
 
-		\Flash::success('Канал успешно изменен');
+		\Flash::success('Проект изменен');
 
-		return redirect()->route('channels.index');
+		return redirect()->route('projects.index');
 	}
 
 	public function store(Request $request)
 	{
-		$channel = new Channel();
-		$channel->fill($request->all());
-		$channel->save();
+		$project = new Project();
+		$project->fill($request->all());
+		$project->save();
 
-		\Flash::success('Канал успешно создан');
+		\Flash::success('Проект успешно создан');
 
-		return redirect()->route('channels.index');
+		return redirect()->route('projects.index');
 	}
 
 	public function destroy($id)
 	{
-		$channel = Project::query()->findOrFail($id);
-		$channel->delete();
+		$project = Project::query()->findOrFail($id);
+		$project->delete();
 
-		\Flash::success('Канал успешно удален');
+		\Flash::success('Проект удален');
 
-		return redirect()->route('channels.index')->getTargetUrl();
-	}*/
+		return redirect()->route('projects.index')->getTargetUrl();
+	}
 
 }
