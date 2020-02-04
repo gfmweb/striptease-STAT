@@ -8,7 +8,7 @@ table a {
 
 .card.bg-success .text-muted,
 .card.bg-danger .text-muted {
-	color: white!important;
+	color: white !important;
 }
 
 .nav-header .brand-logo a b img {

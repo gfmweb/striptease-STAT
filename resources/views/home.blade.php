@@ -33,7 +33,9 @@
 		<div class="col-lg-6">
 			<div class="card">
 				<div class="card-body">
-					<h4 class="card-title">Последние платежи <span data-toggle="tooltip" data-placement="top" title="Последние 10" class="badge badge-success">10</span></h4>
+					<h4 class="card-title">Последние платежи <span data-toggle="tooltip" data-placement="top"
+																   title="Последние 10"
+																   class="badge badge-success">10</span></h4>
 
 				</div>
 			</div>
