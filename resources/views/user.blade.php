@@ -17,7 +17,7 @@
 		<div class="col-lg-12">
 			<div class="card">
 				<div class="card-body">
-					<div class="card-title">Привычки </div>
+					<div class="card-title">Привычки</div>
 					@if (count($user->problems))
 						<div class="table-responsive">
 							<table class="table table-striped">
@@ -89,11 +89,15 @@
 										<span href="#" class="timeline-panel">
 											<span class=" text-muted">{{ $referral->created_at ? $referral->created_at->format('d.m.Y') : '' }}</span>
 
-											<a href="{{ route('users.show',$referral->id) }}" data-toggle="tooltip" data-placement="top" title="Профиль">
-												{{ $referral->fullName }} @if($referral->username)({{ $referral->username }})@endif
+											<a href="{{ route('users.show',$referral->id) }}" data-toggle="tooltip"
+											   data-placement="top" title="Профиль">
+												{{ $referral->fullName }} @if($referral->username)
+													({{ $referral->username }})@endif
 												</a>
 
-												<a href="{{ route('send',['users'=>[$referral->id]]) }}" class="ml-2" data-toggle="tooltip" data-placement="top" title="Отправить сообщение"><i class="fa fa-send-o"></i></a>
+												<a href="{{ route('send',['users'=>[$referral->id]]) }}" class="ml-2"
+												   data-toggle="tooltip" data-placement="top"
+												   title="Отправить сообщение"><i class="fa fa-send-o"></i></a>
 
 										</span>
 									</li>

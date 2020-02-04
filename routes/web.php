@@ -34,11 +34,10 @@ Route::middleware('auth')->group(function () {
 	// Channels
 	Route::resource('channels', 'ChannelsController');
 
+
 	// Projects
 	Route::resource('projects', 'ProjectsController');
 
 	// Partners
 	Route::resource('partners', 'PartnersController');
 });
-
-
