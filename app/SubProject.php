@@ -11,12 +11,17 @@ use Illuminate\Database\Eloquent\Model;
 class SubProject extends Model
 {
 
-    protected $table = 'sub_projects';
+	protected $table = 'sub_projects';
 
-    protected $fillable = [
-        'name',
-        'project_id',
-        'url'
-    ];
+	protected $fillable = [
+		'name',
+		'project_id',
+		'url'
+	];
+
+	public function city()
+	{
+		return $this->belongsTo('App\City', 'city_id');
+	}
 
 }

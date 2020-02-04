@@ -4,19 +4,19 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class User
- * @package App
- */
 class Project extends Model
 {
 
-    protected $table = 'projects';
+	protected $table = 'projects';
 
-    protected $fillable = [
-        'name',
-        'city_id',
-        'partner_id'
-    ];
+	protected $fillable = [
+		'name',
+		'city_id',
+		'partner_id'
+	];
+
+	public function subProjects()	{
+		return $this->hasMany('App\SubProject');
+	}
 
 }

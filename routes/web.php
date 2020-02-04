@@ -37,6 +37,7 @@ Route::middleware('auth')->group(function () {
 
 	// Projects
 	Route::resource('projects', 'ProjectsController');
+	Route::post('projects/{id}/addsubproject', 'ProjectsController@addSubProject')->name('projects.addsubproject');
 
 	// Partners
 	Route::resource('partners', 'PartnersController');
