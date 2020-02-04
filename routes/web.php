@@ -19,20 +19,26 @@ Route::get('/', 'PublicController@index');
 
 // заглушка отменяющая регистрацию с сайта
 Route::match(['post', 'get'], 'register', function () {
-    Auth::logout();
+	Auth::logout();
 
-    return redirect('/');
+	return redirect('/');
 })->name('register');
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('home', 'HomeController@index')->name('home');
-    Route::get('project-data/create', 'ProjectDataController@create')->name('project-data.create');
-    Route::get('project-data/list', 'ProjectDataController@list')->name('project-data.list');
-    Route::post('project-data/save', 'ProjectDataController@save')->name('project-data.save');
+	Route::get('home', 'HomeController@index')->name('home');
+	Route::get('project-data/create', 'ProjectDataController@create')->name('project-data.create');
+	Route::get('project-data/list', 'ProjectDataController@list')->name('project-data.list');
+	Route::post('project-data/save', 'ProjectDataController@save')->name('project-data.save');
 
-    // Channels
-    Route::resource('channels', 'ChannelsController');
+	// Channels
+	Route::resource('channels', 'ChannelsController');
+
+	// Projects
+	Route::resource('projects', 'ProjectsController');
+
+	// Partners
+	Route::resource('partners', 'PartnersController');
 });
 
 
