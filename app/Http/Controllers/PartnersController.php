@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Partner;
+use App\User;
 use Illuminate\Http\Request;
 
 class PartnersController extends Controller
 {
 	public function index()
 	{
-		$partners = Partner::all();
+		$partners = User::where('role', 1)->get();
 
 		return view('partners.index')->with(['partners' => $partners]);
 	}
 
 	public function edit($id)
 	{
-		$partner  = Partner::query()->findOrFail($id);
-		$partners = Partner::all()->pluck('name', 'id')->toArray();
+		$partner  = User::query()->findOrFail($id);
+		$partners = User::all()->pluck('name', 'id')->toArray();
 		$partners = ['' => 'Укажите партнера'] + $partners;
 
 		return view('partners.edit')->with(['partner' => $partner, 'partners' => $partners]);
@@ -25,8 +25,8 @@ class PartnersController extends Controller
 
 	public function create()
 	{
-		$partner  = new Partner();
-		$partners = Partner::all()->pluck('name', 'id')->toArray();
+		$partner  = new User();
+		$partners = User::all()->pluck('name', 'id')->toArray();
 		$partners = ['' => 'Укажите канал'] + $partners;
 
 		return view('partners.create')->with(['partner' => $partner, 'partners' => $partners]);
@@ -34,7 +34,7 @@ class PartnersController extends Controller
 
 	public function update(Request $request, $id)
 	{
-		$partner = Partner::query()->findOrFail($id);
+		$partner = User::query()->findOrFail($id);
 		$partner->fill($request->all());
 		$partner->save();
 
@@ -46,7 +46,7 @@ class PartnersController extends Controller
 
 	public function store(Request $request)
 	{
-		$partner = new Partner();
+		$partner = new User();
 		$partner->fill($request->all());
 		$partner->save();
 
@@ -57,7 +57,7 @@ class PartnersController extends Controller
 
 	public function destroy($id)
 	{
-		$partner = Partner::query()->findOrFail($id);
+		$partner = User::query()->findOrFail($id);
 		$partner->delete();
 
 		\Flash::success('Партнер успешно удален');
