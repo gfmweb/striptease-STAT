@@ -60,7 +60,7 @@
 				<div id="select_sub_project" style="display: none;">
 					<div class="form-group" id="subprojects_list">
 						<label for="sub_project_id">Подпроект</label>
-						<select name="sub_project_id" class="form-control">
+						<select name="sub_project_id" class="form-control" required>
 							<option value="">Выберите подпроект</option>
 							@foreach ($subProjects as $subProject)
 								<option data-project="{{ $subProject->project_id }}" value="{{ $subProject->id }}" hidden>{{ $subProject->name }}</option>
@@ -82,7 +82,8 @@
 		$(function(){
 			$('select[name=project_id]').on('change', function(){
 				$('#select_sub_project').hide();
-				$('select[name=sub_project_id] option').attr('hidden', 'hidden');
+				$('select[name=sub_project_id]').val('');
+				$('select[name=sub_project_id] option[data-project]').attr('hidden', 'hidden');
 				if (this.value != '') {
 					$('#select_sub_project').fadeIn(200);
 					var project = this.value;

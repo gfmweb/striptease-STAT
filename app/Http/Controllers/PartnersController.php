@@ -23,12 +23,16 @@ class PartnersController extends Controller
 	{
 		$partner  = User::query()->findOrFail($id);
 
-		// все проекты и подпроекты (для возможности добавления их партнеру)
-		$projects = Project::all();
-		$subProjects = SubProject::all();
-
 		// подпроекты партнера
 		$userSubProjects = $partner->subProjects;
+
+		// список id тех подпроектов, которые уже есть у юзера
+		$userSubProjectsIds = [];
+		foreach ($userSubProjects as $userSubProject) $userSubProjectsIds[] = $userSubProject->id;
+
+		// все проекты и подпроекты (для возможности добавления их партнеру)
+		$projects = Project::all();
+		$subProjects = SubProject::whereNotIn('id', $userSubProjectsIds)->get();
 
 		return view('partners.edit')
 			->with([
