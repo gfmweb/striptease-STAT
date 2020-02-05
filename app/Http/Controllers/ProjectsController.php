@@ -57,8 +57,6 @@ class ProjectsController extends Controller
 		\Flash::success('Подпроект добавлен');
 
 		return redirect()->route('projects.edit', $id);
-
-		// return view('projects.edit')->with(['project' => $project, 'subProjects' => $subProjects]);
 	}
 
 	public function store(Request $request)

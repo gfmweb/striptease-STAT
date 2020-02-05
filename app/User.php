@@ -16,31 +16,37 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  */
 class User extends Authenticatable
 {
-    use Notifiable;
+	use Notifiable;
 
-    const ROLE_USER  = 1;
-    const ROLE_ADMIN = 2;
+	const ROLE_USER  = 1;
+	const ROLE_ADMIN = 2;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'name', 'email', 'login', 'password', 'role',
-    ];
+	/**
+	 * The attributes that are mass assignable.
+	 *
+	 * @var array
+	 */
+	protected $fillable = [
+		'name', 'email', 'login', 'password', 'role',
+	];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password', 'remember_token', 'role',
-    ];
+	/**
+	 * The attributes that should be hidden for arrays.
+	 *
+	 * @var array
+	 */
+	protected $hidden = [
+		'password', 'remember_token', 'role',
+	];
 
-    public function isAdmin()
-    {
-        return $this->role == self::ROLE_ADMIN;
-    }
+	public function isAdmin()
+	{
+		return $this->role == self::ROLE_ADMIN;
+	}
+
+	// подпроекты юзеров
+	public function subProjects()
+	{
+		return $this->belongsToMany('App\SubProject', 'user_sub_projects');
+	}
 }

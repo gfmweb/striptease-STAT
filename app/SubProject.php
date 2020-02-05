@@ -19,6 +19,14 @@ class SubProject extends Model
 		'url'
 	];
 
+	// проект подпроекта
+	public function project()
+	{
+		return $this->belongsTo('App\Project');
+	}
+
+
+	// город подпроекта
 	public function city()
 	{
 		return $this->belongsTo('App\City', 'city_id');

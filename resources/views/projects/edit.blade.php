@@ -17,31 +17,33 @@
 						</div>
 					{!! \Form::close(); !!}
 
-					<hr>
+					@if (count($subProjects) > 0)
+						<hr>
+						<h5 class="mb-3">Подпроекты:</h5>
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Имя</th>
+									<th>URL</th>
+									<th>Город</th>
+									<th>Добавлен</th>
+								</tr>
+							</thead>
+							@foreach($subProjects as $subProject)
+								<tr>
+									<td>{{ $subProject->name }}</td>
+									<td>{{ $subProject->url }}</td>
+									<td>
+										@if ($subProject->city)
+											{{ $subProject->city->name }}
+										@endif
+									</td>
+									<td>{{ $subProject->created_at }}</td>
+								</tr>
+							@endforeach
+						</table>
+					@endif
 
-					<h5 class="mb-3">Сайты проекта:</h5>
-					<table class="table">
-						<thead>
-							<tr>
-								<th>Имя</th>
-								<th>URL</th>
-								<th>Город</th>
-								<th>Добавлен</th>
-							</tr>
-						</thead>
-						@foreach($subProjects as $subProject)
-							<tr>
-								<td>{{ $subProject->name }}</td>
-								<td>{{ $subProject->url }}</td>
-								<td>
-									@if ($subProject->city)
-										{{ $subProject->city->name }}
-									@endif
-								</td>
-								<td>{{ $subProject->created_at }}</td>
-							</tr>
-						@endforeach
-					</table>
 					<hr>
 					<h5 class="mb-4">Добавить новый подпроект</h5>
 					<form method="POST" action="/projects/{{ $project->id }}/addsubproject">
@@ -68,8 +70,8 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<input type="submit" value="Добавить" class="btn btn-dark">
 							{{ csrf_field() }}
+							<input type="submit" value="Добавить" class="btn btn-dark">
 						</div>
 					</form>
 				</div>

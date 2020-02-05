@@ -34,11 +34,11 @@ Route::middleware('auth')->group(function () {
 	// Channels
 	Route::resource('channels', 'ChannelsController');
 
-
 	// Projects
 	Route::resource('projects', 'ProjectsController');
 	Route::post('projects/{id}/addsubproject', 'ProjectsController@addSubProject')->name('projects.addsubproject');
 
 	// Partners
 	Route::resource('partners', 'PartnersController');
+	Route::post('partners/{id}/addsubproject', 'PartnersController@addUserSubProject')->name('partners.addsubproject');
 });
