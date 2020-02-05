@@ -91,7 +91,7 @@ class PartnersController extends Controller
 		$userSubProject->save();
 
 		// добавим юзеру все таргеты по каналам с дефолтным комментарием
-		$channels = Channel::all();
+		$channels = Channel::whereNull('parent_id')->get();
 		foreach ($channels as $channel) {
 			$userTarget = new UserTarget;
 			$userTarget->user_sub_project_id = $userSubProject->id;
