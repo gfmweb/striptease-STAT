@@ -6,6 +6,8 @@ use App\User;
 use App\Project;
 use App\SubProject;
 use App\UserSubProject;
+use App\UserTarget;
+use App\Channel;
 use Illuminate\Http\Request;
 
 class PartnersController extends Controller
@@ -80,12 +82,22 @@ class PartnersController extends Controller
 	}
 
 
+	// добавление проекта пользователю
 	public function addUserSubProject(Request $request, $id)
 	{
 		$userSubProject = new UserSubProject;
 		$userSubProject->user_id = $id;
 		$userSubProject->sub_project_id = $request->get('sub_project_id');
 		$userSubProject->save();
+
+		// добавим юзеру все таргеты по каналам с дефолтным комментарием
+		$channels = Channel::all();
+		foreach ($channels as $channel) {
+			$userTarget = new UserTarget;
+			$userTarget->user_sub_project_id = $userSubProject->id;
+			$userTarget->channel_id          = $channel->id;
+			$userTarget->save();
+		}
 
 		\Flash::success('Проект добавлен партнеру');
 
