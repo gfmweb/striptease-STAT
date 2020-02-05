@@ -1,5 +1,10 @@
 <ul class="metismenu" id="menu">
 	<li class="nav-label">Главная</li>
+	@if (Auth::user()->isAdmin())
+		<li>
+			<a href="{{ route('projects.statuses') }}"><i class="mdi mdi-view-dashboard"></i> <span class="nav-text">Статусы проектов</span></a>
+		</li>
+	@endif
 	@if (!Auth::user()->isAdmin())
 		<li>
 			<a href="{{ route('project-data.create') }}"><i class="mdi mdi-view-dashboard"></i> <span class="nav-text">Заполнение данных</span></a>

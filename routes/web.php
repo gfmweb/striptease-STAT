@@ -33,14 +33,18 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('auth', 'admin')->group(function () {
-	// Channels
+	// каналы
 	Route::resource('channels', 'ChannelsController');
 
-	// Projects
+	// проекты
+	Route::get('projects/statuses', 'ProjectsController@targets')->name('projects.statuses');
+
 	Route::resource('projects', 'ProjectsController');
 	Route::post('projects/{id}/addsubproject', 'ProjectsController@addSubProject')->name('projects.addsubproject');
 
-	// Partners
+
+
+	// партнеры
 	Route::resource('partners', 'PartnersController');
 	Route::post('partners/{id}/addsubproject', 'PartnersController@addUserSubProject')->name('partners.addsubproject');
 });

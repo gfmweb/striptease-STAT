@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Project;
 use App\SubProject;
 use App\City;
+use App\UserTarget;
 use Illuminate\Http\Request;
 
 class ProjectsController extends Controller
@@ -80,4 +81,12 @@ class ProjectsController extends Controller
 		return redirect()->route('projects.index')->getTargetUrl();
 	}
 
+	// статусы проектов
+	public function targets() {
+		$targets = UserTarget::paginate(20);
+
+		return view('projects.targets')->with([
+			'targets' => $targets,
+		]);
+	}
 }
