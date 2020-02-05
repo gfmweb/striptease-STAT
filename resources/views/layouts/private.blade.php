@@ -33,6 +33,7 @@
 						<li class="icons">
 							<a href="javascript:void(0)">
 								<i class="mdi mdi-account f-s-20" aria-hidden="true"></i>
+								<span style="position: relative; top: -2px;">{{ Auth::user()->name }}</span>
 							</a>
 							<div class="drop-down dropdown-profile animated bounceInDown">
 								<div class="dropdown-content-body">

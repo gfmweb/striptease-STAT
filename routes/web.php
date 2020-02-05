@@ -30,7 +30,9 @@ Route::middleware('auth')->group(function () {
 	Route::get('project-data/create', 'ProjectDataController@create')->name('project-data.create');
 	Route::get('project-data/list', 'ProjectDataController@list')->name('project-data.list');
 	Route::post('project-data/save', 'ProjectDataController@save')->name('project-data.save');
+});
 
+Route::middleware('auth', 'admin')->group(function () {
 	// Channels
 	Route::resource('channels', 'ChannelsController');
 
