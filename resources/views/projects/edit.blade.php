@@ -7,14 +7,7 @@
 				<div class="card-body">
 					<div class="card-title mb-4">Редактирование проекта {{ $project->name }}</div>
 					{!! Form::model($project, ['route' => ['projects.update', $project->id], 'method' => 'PUT']) !!}
-						<div class="row">
-							<div class="col-sm-10">
-								{!! Form::text('name',null, ['class' => 'form-control', 'required' => "true"] )!!}
-							</div>
-							<div class="col-sm-2">
-								{!! \Form::submit('Изменить имя',['class'=> 'btn btn-dark']) !!}
-							</div>
-						</div>
+						@include('projects.partials.form')
 					{!! \Form::close(); !!}
 
 					@if (count($subProjects) > 0)
