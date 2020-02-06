@@ -24,14 +24,18 @@ Route::match(['post', 'get'], 'register', function () {
 	return redirect('/');
 })->name('register');
 
-
+// партнеры
 Route::middleware('auth')->group(function () {
 	Route::get('home', 'HomeController@index')->name('home');
+
+	Route::get('my-projects', 'PartnersController@userTargets')->name('my-projects');
+
 	Route::get('project-data/create', 'ProjectDataController@create')->name('project-data.create');
 	Route::get('project-data/list', 'ProjectDataController@list')->name('project-data.list');
 	Route::post('project-data/save', 'ProjectDataController@save')->name('project-data.save');
 });
 
+// админы
 Route::middleware('auth', 'admin')->group(function () {
 	// каналы
 	Route::resource('channels', 'ChannelsController');
@@ -41,8 +45,6 @@ Route::middleware('auth', 'admin')->group(function () {
 
 	Route::resource('projects', 'ProjectsController');
 	Route::post('projects/{id}/addsubproject', 'ProjectsController@addSubProject')->name('projects.addsubproject');
-
-
 
 	// партнеры
 	Route::resource('partners', 'PartnersController');

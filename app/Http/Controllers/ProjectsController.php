@@ -6,6 +6,7 @@ use App\Project;
 use App\SubProject;
 use App\City;
 use App\UserTarget;
+
 use Illuminate\Http\Request;
 
 class ProjectsController extends Controller
@@ -89,4 +90,5 @@ class ProjectsController extends Controller
 			'targets' => $targets,
 		]);
 	}
+
 }

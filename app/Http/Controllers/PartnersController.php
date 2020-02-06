@@ -8,6 +8,9 @@ use App\SubProject;
 use App\UserSubProject;
 use App\UserTarget;
 use App\Channel;
+
+use Auth;
+
 use Illuminate\Http\Request;
 
 class PartnersController extends Controller
@@ -106,6 +109,18 @@ class PartnersController extends Controller
 		\Flash::success('Проект добавлен партнеру');
 
 		return redirect()->route('partners.edit', $id);
+	}
+
+	// проекты пользователя
+	public function userTargets() {
+		$userSubProjects = UserSubProject::where('user_id', Auth::user()->id)->get();
+		$userSubProjectsIds = [];
+		foreach ($userSubProjects as $userSubProject) $userSubProjectsIds[] = $userSubProject->id;
+
+		$userTargets = UserTarget::whereIn('user_sub_project_id', $userSubProjectsIds)->get();
+		return view('projects.user-targets')->with([
+			'userTargets' => $userTargets,
+		]);
 	}
 
 }

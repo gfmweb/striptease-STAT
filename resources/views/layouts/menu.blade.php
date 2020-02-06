@@ -9,6 +9,9 @@
 		<li>
 			<a href="{{ route('project-data.create') }}"><i class="mdi mdi-view-dashboard"></i> <span class="nav-text">Заполнение данных</span></a>
 		</li>
+		<li>
+			<a href="{{ route('my-projects') }}"><i class="mdi mdi-view-dashboard"></i> <span class="nav-text">Мои проекты</span></a>
+		</li>
 	@endif
 	@if (Auth::user()->isAdmin())
 		<li>
