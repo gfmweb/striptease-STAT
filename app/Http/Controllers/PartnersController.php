@@ -118,7 +118,7 @@ class PartnersController extends Controller
 		foreach ($userSubProjects as $userSubProject) $userSubProjectsIds[] = $userSubProject->id;
 
 		$userTargets = UserTarget::whereIn('user_sub_project_id', $userSubProjectsIds)->get();
-		return view('projects.user-targets')->with([
+		return view('partners.targets')->with([
 			'userTargets' => $userTargets,
 		]);
 	}
