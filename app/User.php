@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\ListForSelectTrait;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -16,7 +17,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  */
 class User extends Authenticatable
 {
-	use Notifiable;
+	use Notifiable, ListForSelectTrait;
 
 	const ROLE_USER  = 1;
 	const ROLE_ADMIN = 2;
@@ -47,6 +48,13 @@ class User extends Authenticatable
 	// подпроекты юзеров
 	public function subProjects()
 	{
-		return $this->belongsToMany('App\SubProject', 'user_sub_projects');
+		return $this->belongsToMany(SubProject::class, 'user_sub_projects');
 	}
+
+	public function userTargets()
+	{
+		return $this->hasManyThrough(UserTarget::class, UserSubProject::class, 'user_id', 'user_sub_project_id');
+	}
+
+
 }

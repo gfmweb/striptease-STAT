@@ -3,20 +3,48 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
+/**
+ * Class UserTarget
+ * @package App
+ * @property int                         id
+ * @property Channel                     channel
+ * @property Collection | UserTargetData data
+ */
 class UserTarget extends Model
 {
 
-	public function userSubProject() {
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+	 */
+	public function userSubProject()
+	{
 		return $this->belongsTo('App\UserSubProject');
 	}
 
-	public function channel() {
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+	 */
+	public function channel()
+	{
 		return $this->belongsTo('App\Channel');
 	}
 
-	public function status() {
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+	 */
+	public function status()
+	{
 		return $this->belongsTo('App\Status');
+	}
+
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function data()
+	{
+		return $this->hasMany(UserTargetData::class);
 	}
 
 }

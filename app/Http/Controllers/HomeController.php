@@ -15,7 +15,7 @@ class HomeController extends Controller
 	 */
 	public function index()
 	{
-		return redirect()->route('project-data.create');//view('home' );
+		return redirect()->route('user-target-data.create');//view('home' );
 	}
 
 }

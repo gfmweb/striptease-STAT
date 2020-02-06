@@ -91,4 +91,9 @@ class ChannelsController extends Controller
 		return redirect()->route('channels.index')->getTargetUrl();
 	}
 
+	public function list()
+	{
+		return Channel::listForSelect();
+	}
+
 }

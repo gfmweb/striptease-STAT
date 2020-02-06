@@ -7,10 +7,13 @@
 	@endif
 	@if (!Auth::user()->isAdmin())
 		<li>
-			<a href="{{ route('project-data.create') }}"><i class="mdi mdi-view-dashboard"></i> <span class="nav-text">Заполнение данных</span></a>
+			<a href="{{ route('user-target-data.create') }}"><i class="mdi mdi-view-dashboard"></i> <span class="nav-text">Заполнение данных</span></a>
 		</li>
 	@endif
 	@if (Auth::user()->isAdmin())
+		<li>
+			<a href="{{ route('user-target-data.index') }}"><i class="mdi mdi-view-dashboard"></i><span class="nav-text">Отчет по партнерам</span></a>
+		</li>
 		<li>
 			<a href="{{ route('partners.index') }}"><i class="mdi mdi-human-male-female"></i> <span class="nav-text">Партнеры</span></a>
 		</li>

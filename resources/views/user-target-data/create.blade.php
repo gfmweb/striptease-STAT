@@ -6,8 +6,9 @@
 			<div class="card">
 				<div class="card-body">
 					<div class="card-title">Внесение данных за неделю</div>
-					<div id="vue-project-data" class="data-block">
-						<div class="data-filter pull-left">
+					{{--VUE--}}
+					<div id="vue-user-target-data" class="data-block">
+						<div class="data-filter">
 							<form class="data-filter-form m-3 form-inline">
 								<div class="form-group m-1">
 									<label for="date-range">Неделя</label><br>
@@ -15,7 +16,7 @@
 										   placeholder="Неделя"
 										   readonly/>
 								</div>
-								<div class="form-group m-1">
+								{{--<div class="form-group m-1">
 									<label for="project-select">Проект</label><br>
 									<select name="project" id="project-select" class="custom-select"
 											v-model="projects.selected" @change="resetSubProjectSelect()">
@@ -23,12 +24,12 @@
 											@{{ project.name }}
 										</option>
 									</select>
-								</div>
+								</div>--}}
 								<div class="form-group m-1">
-									<label for="subProject">Подпроект (сайт)</label><br>
+									<label for="subProject">Проект</label><br>
 									<select name="subProject" id="subProject" class="custom-select"
 											v-model="subProjects.selected">
-										<option v-for="subProject in subProjectByProject" :value="subProject.id">
+										<option v-for="subProject in subProjects.list" :value="subProject.id">
 											@{{subProject.name }}
 										</option>
 									</select>
@@ -37,13 +38,15 @@
 									<div class="btn btn-success ml-4 mt-3" v-if="filterSettled" @click="load()">
 										Показать
 									</div>
+									<div class="btn btn-success ml-4 mt-3" v-if="haveChanges() && filterSettled"
+										 @click="save()">Сохранить
+									</div>
 								</div>
 							</form>
 						</div>
-						<div class="btn btn-sm btn-success m-3 pull-right" v-if="haveChanges() && filterSettled"
-							 @click="saveChanges()">Сохранить
-						</div>
-						<div class="data-table">
+
+						<div class="data-table" v-if="loaded">
+							<loading-block :loading="loading"></loading-block>
 							<table class="table table-bordered table-sm">
 								<thead>
 									<tr>
@@ -59,39 +62,39 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr v-for="channel in channels"
-										:class="{'project-row-edited':channel.changed}">
-										<th>@{{ channel.name }}</th>
+									<tr v-for="row in userTargetData"
+										:class="{'project-row-edited':row.changed}">
+										<th>@{{ row.targetChannelName }}</th>
 										<td>
-											<editable-field v-model="data[channel.id].coverage"
-															@input="channel.changed = true"></editable-field>
+											<editable-field v-model="row.values.coverage"
+															@input="row.changed = true"></editable-field>
 										</td>
 										<td>
-											<editable-field v-model="data[channel.id].transition"
-															@input="channel.changed = true"></editable-field>
+											<editable-field v-model="row.values.transition"
+															@input="row.changed = true"></editable-field>
 										</td>
 										<td>
-											<editable-field v-model="data[channel.id].clicks"
-															@input="channel.changed = true"></editable-field>
+											<editable-field v-model="row.values.clicks"
+															@input="row.changed = true"></editable-field>
 										</td>
 										<td>
-											<editable-field v-model="data[channel.id].leads"
-															@input="channel.changed = true"></editable-field>
+											<editable-field v-model="row.values.leads"
+															@input="row.changed = true"></editable-field>
 										</td>
 										<td>
-											<editable-field v-model="data[channel.id].activations"
-															@input="channel.changed = true"></editable-field>
+											<editable-field v-model="row.values.activations"
+															@input="row.changed = true"></editable-field>
+										</td>
+										<td class="text-right">
+											@{{ (row.values.activations * row.values.price).toFixed(2) }}
+										</td>
+										<td class="text-right">
+											@{{ (row.values.leads ? row.values.activations *
+											row.values.price / row.values.leads : 0).toFixed(2) }}
 										</td>
 										<td>
-											@{{ (data[channel.id].activations * data[channel.id].price).toFixed(2) }}
-										</td>
-										<td>
-											@{{ (data[channel.id].leads ? data[channel.id].activations *
-											data[channel.id].price / data[channel.id].leads : 0).toFixed(2) }}
-										</td>
-										<td>
-											<editable-field v-model="data[channel.id].price"
-															@input="channel.changed = true" def="0.00"></editable-field>
+											<editable-field v-model="row.values.price"
+															@input="row.changed = true" def="0.00"></editable-field>
 										</td>
 									</tr>
 								</tbody>
@@ -107,17 +110,16 @@
 @push('js')
 	<script type="text/javascript">
 		// For Vue mount
-		const dataProjects    = false || {!! $projects !!};
-		const dataSubProjects = false || {!! $subProjects !!};
-		const dataChannels    = false || {!! $channels !!};
+		const dataSubProjects = false || {!! $dataSubProjects !!};
 	</script>
 	<script type="text/javascript" src="/vendor/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
 	<script type="text/javascript" src="/vendor/bootstrap-datepicker/bootstrap-datepicker.ru.min.js"></script>
 	<script type="text/javascript" src="/vendor/moment/moment.js"></script>
 	<script type="text/javascript" src="/js/vue/helpers/work-with-object.js"></script>
 	<script type="text/javascript" src="/vendor/vue/vue.js"></script>
-	<script type="text/javascript" src="/js/vue/apps/project-data/components/editable-field.js"></script>
-	<script type="text/javascript" src="/js/vue/apps/project-data/project-data.js"></script>
+	<script type="text/javascript" src="/js/vue/apps/user-target-data/components/editable-field.js"></script>
+	<script type="text/javascript" src="/js/vue/components/loading-block.js"></script>
+	<script type="text/javascript" src="/js/vue/apps/user-target-data/user-target-data.js"></script>
 
 @endpush
 @push('css')
@@ -136,6 +138,7 @@
 			border: 0;
 			width: 100%;
 			position: absolute;
+			text-align: right;
 		}
 
 		.vue-editable-field input:hover, .vue-editable-field input:focus {

@@ -27,9 +27,17 @@ Route::match(['post', 'get'], 'register', function () {
 
 Route::middleware('auth')->group(function () {
 	Route::get('home', 'HomeController@index')->name('home');
-	Route::get('project-data/create', 'ProjectDataController@create')->name('project-data.create');
-	Route::get('project-data/list', 'ProjectDataController@list')->name('project-data.list');
-	Route::post('project-data/save', 'ProjectDataController@save')->name('project-data.save');
+	Route::get('user-target-data/index', 'UserTargetDataController@index')->name('user-target-data.index');
+	Route::get('user-target-data/create', 'UserTargetDataController@create')->name('user-target-data.create');
+	Route::get('user-target-data/list', 'UserTargetDataController@list')->name('user-target-data.list');
+	Route::post('user-target-data/save', 'UserTargetDataController@save')->name('user-target-data.save');
+
+	Route::get('/cities/list', 'CitiesController@list')->name('cities.list');
+	Route::get('/sub-projects/list', 'SubProjectsController@list')->name('sub-projects.list');
+	Route::get('/users/partners/list', 'UsersController@partnersList')->name('users.partners.list');
+	Route::get('/channels/list', 'ChannelsController@list')->name('channels.list');
+
+	Route::post('/reports/main', 'ReportsController@main')->name('reports.main');
 });
 
 Route::middleware('auth', 'admin')->group(function () {
