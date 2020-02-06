@@ -1,19 +1,17 @@
 <ul class="metismenu" id="menu">
 	<li class="nav-label">Главная</li>
-	@if (Auth::user()->isAdmin())
-		<li>
-			<a href="{{ route('projects.statuses') }}"><i class="mdi mdi-view-dashboard"></i> <span class="nav-text">Статусы проектов</span></a>
-		</li>
-	@endif
 	@if (!Auth::user()->isAdmin())
 		<li>
 			<a href="{{ route('project-data.create') }}"><i class="mdi mdi-view-dashboard"></i> <span class="nav-text">Заполнение данных</span></a>
 		</li>
 		<li>
-			<a href="{{ route('my-projects') }}"><i class="mdi mdi-view-dashboard"></i> <span class="nav-text">Мои проекты</span></a>
+			<a href="{{ route('user-targets') }}"><i class="mdi mdi-calendar-check"></i> <span class="nav-text">Мои проекты</span></a>
 		</li>
 	@endif
 	@if (Auth::user()->isAdmin())
+		<li>
+			<a href="{{ route('projects.statuses') }}"><i class="mdi mdi-view-dashboard"></i> <span class="nav-text">Статусы проектов</span></a>
+		</li>
 		<li>
 			<a href="{{ route('partners.index') }}"><i class="mdi mdi-human-male-female"></i> <span class="nav-text">Партнеры</span></a>
 		</li>

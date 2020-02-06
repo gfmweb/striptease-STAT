@@ -19,4 +19,7 @@ class UserTarget extends Model
 		return $this->belongsTo('App\Status');
 	}
 
+	public function lastHistory() {
+		return $this->hasOne('App\StatusHistory')->latest();
+	}
 }

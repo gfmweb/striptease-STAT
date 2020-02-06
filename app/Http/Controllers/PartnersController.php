@@ -8,6 +8,8 @@ use App\SubProject;
 use App\UserSubProject;
 use App\UserTarget;
 use App\Channel;
+use App\Status;
+use App\StatusHistory;
 
 use Auth;
 
@@ -113,14 +115,38 @@ class PartnersController extends Controller
 
 	// проекты пользователя
 	public function userTargets() {
+		// подпроекты юзера
 		$userSubProjects = UserSubProject::where('user_id', Auth::user()->id)->get();
 		$userSubProjectsIds = [];
 		foreach ($userSubProjects as $userSubProject) $userSubProjectsIds[] = $userSubProject->id;
 
-		$userTargets = UserTarget::whereIn('user_sub_project_id', $userSubProjectsIds)->get();
+		// таргеты юзера
+		$userTargets = UserTarget::whereIn('user_sub_project_id', $userSubProjectsIds)->paginate(40);
+
+		$statuses = Status::all();
+
 		return view('partners.targets')->with([
 			'userTargets' => $userTargets,
+			'statuses' => $statuses,
 		]);
+	}
+
+	// обновление таргета пользователя
+	public function userTargetUpdate(Request $request) {
+		$target = UserTarget::where('id', $request->get('target_id'))->first();
+		$target->status_id = $request->get('target_status');
+		$target->save();
+
+		// история смены статусов
+		$history = new StatusHistory();
+		$history->status_id = $request->get('target_status');
+		$history->user_target_id = $request->get('target_id');
+		$history->comment   = $request->get('target_comment');
+		$history->save();
+
+		\Flash::success('Статус проекта обновлен');
+
+		return redirect()->back();
 	}
 
 }

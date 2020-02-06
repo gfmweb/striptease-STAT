@@ -28,7 +28,8 @@ Route::match(['post', 'get'], 'register', function () {
 Route::middleware('auth')->group(function () {
 	Route::get('home', 'HomeController@index')->name('home');
 
-	Route::get('my-projects', 'PartnersController@userTargets')->name('my-projects');
+	Route::get('my-projects', 'PartnersController@userTargets')->name('user-targets');
+	Route::post('my-projects', 'PartnersController@userTargetUpdate')->name('user-targets.update');
 
 	Route::get('project-data/create', 'ProjectDataController@create')->name('project-data.create');
 	Route::get('project-data/list', 'ProjectDataController@list')->name('project-data.list');
