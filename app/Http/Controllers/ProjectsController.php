@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Project;
 use App\SubProject;
 use App\City;
+use App\User;
+use App\Channel;
+use App\Status;
 use App\UserTarget;
 
 use Illuminate\Http\Request;
@@ -14,8 +17,9 @@ class ProjectsController extends Controller
 	public function index()
 	{
 		$projects = Project::all();
-
-		return view('projects.index')->with(['projects' => $projects]);
+		return view('projects.index')->with([
+			'projects' => $projects,
+		]);
 	}
 
 	public function edit($id)
@@ -94,11 +98,26 @@ class ProjectsController extends Controller
 	}
 
 	// статусы проектов
-	public function targets() {
-		$targets = UserTarget::paginate(20);
+	public function targets(Request $request) {
+		if (!empty($request->user)) {
+			// $userSubProjects = UserSubProject::with(['subProject'])
+			$targets = UserTarget::paginate(20);
+		} else
+			$targets = UserTarget::paginate(20);
+
+		$projects = Project::all();
+		$channels = Channel::whereNull('parent_id')->get();
+		$users    = User::where('role', 1)->get();
+		$statuses = Status::all();
+
+
 
 		return view('projects.targets')->with([
-			'targets' => $targets,
+			'targets'  => $targets,
+			'users'    => $users,
+			'projects' => $projects,
+			'channels' => $channels,
+			'statuses' => $statuses,
 		]);
 	}
 
