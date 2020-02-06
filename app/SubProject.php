@@ -3,11 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-/**
- * Class User
- * @package App
- */
 class SubProject extends Model
 {
 
@@ -18,6 +15,8 @@ class SubProject extends Model
 		'project_id',
 		'url'
 	];
+
+	use SoftDeletes;
 
 	// проект подпроекта
 	public function project()

@@ -20,6 +20,7 @@
 									<th>URL</th>
 									<th>Город</th>
 									<th>Добавлен</th>
+									<th></th>
 								</tr>
 							</thead>
 							@foreach($subProjects as $subProject)
@@ -32,6 +33,13 @@
 										@endif
 									</td>
 									<td>{{ $subProject->created_at }}</td>
+									<td>
+										<a href="#" data-delete data-toggle="tooltip" data-placement="top" title="Удалить"><i class="fa fa-close color-danger"></i></a>
+										<form action="/projects/{{ $project->id }}/subproject/delete" method="POST" class="d-none">
+											@csrf
+											<input type="hidden" name="sub_project_id" value="{{ $subProject->id }}">
+										</form>
+									</td>
 								</tr>
 							@endforeach
 						</table>
@@ -39,7 +47,7 @@
 
 					<hr>
 					<h5 class="mb-4">Добавить новый подпроект</h5>
-					<form method="POST" action="/projects/{{ $project->id }}/addsubproject">
+					<form method="POST" action="/projects/{{ $project->id }}/subproject/add">
 						<div class="form-group row">
 							<label for="sub_project_name" class="col-sm-2 col-form-label">Имя</label>
 							<div class="col-sm-10">
@@ -72,3 +80,14 @@
 		</div>
 	</div>
 @endsection
+
+@push('js')
+	<script>
+		$(function(){
+			$('[data-delete]').click(function(e){
+				e.preventDefault();
+				if (confirm('Удалить подпроект?')) $(this).closest('td').find('form').submit();
+			})
+		})
+	</script>
+@endpush

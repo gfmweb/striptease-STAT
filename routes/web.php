@@ -45,7 +45,8 @@ Route::middleware('auth', 'admin')->group(function () {
 	Route::get('projects/statuses', 'ProjectsController@targets')->name('projects.statuses');
 
 	Route::resource('projects', 'ProjectsController');
-	Route::post('projects/{id}/addsubproject', 'ProjectsController@addSubProject')->name('projects.addsubproject');
+	Route::post('projects/{id}/subproject/add', 'ProjectsController@addSubProject')->name('projects.addsubproject');
+	Route::post('projects/{id}/subproject/delete', 'ProjectsController@deleteSubProject');
 
 	// партнеры
 	Route::resource('partners', 'PartnersController');

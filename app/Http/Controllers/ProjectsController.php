@@ -47,20 +47,6 @@ class ProjectsController extends Controller
 		return redirect()->route('projects.index');
 	}
 
-	public function addSubProject(Request $request, $id)
-	{
-		$subProject = new SubProject;
-		$subProject->project_id = $id;
-		$subProject->name       = $request->get('sub_project_name');
-		$subProject->url        = $request->get('sub_project_url');
-		$subProject->city_id    = $request->get('sub_project_city');
-		$subProject->save();
-
-		\Flash::success('Подпроект добавлен');
-
-		return redirect()->route('projects.edit', $id);
-	}
-
 	public function store(Request $request)
 	{
 		$project = new Project();
@@ -80,6 +66,31 @@ class ProjectsController extends Controller
 		\Flash::success('Проект удален');
 
 		return redirect()->route('projects.index')->getTargetUrl();
+	}
+
+	// добавить подпроект проекту
+	public function addSubProject(Request $request, $id)
+	{
+		$subProject = new SubProject;
+		$subProject->project_id = $id;
+		$subProject->name       = $request->get('sub_project_name');
+		$subProject->url        = $request->get('sub_project_url');
+		$subProject->city_id    = $request->get('sub_project_city');
+		$subProject->save();
+
+		\Flash::success('Подпроект добавлен');
+
+		return redirect()->route('projects.edit', $id);
+	}
+
+	// удалить подпроект
+	public function deleteSubProject(Request $request, $id)
+	{
+		$subProject = SubProject::where('id', $request->get('sub_project_id'))->delete();
+
+		\Flash::success('Подпроект удален');
+
+		return redirect()->route('projects.edit', $id);
 	}
 
 	// статусы проектов
