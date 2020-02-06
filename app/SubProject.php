@@ -4,6 +4,7 @@ namespace App;
 
 use App\Traits\ListForSelectTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class User
@@ -27,6 +28,8 @@ class SubProject extends Model
 		'project_id',
 		'url'
 	];
+
+	use SoftDeletes;
 
 	// проект подпроекта
 	public function project()

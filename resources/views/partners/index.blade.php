@@ -5,7 +5,7 @@
 		<div class="col-lg-12">
 			<div class="card">
 				<div class="card-body">
-					<div class="card-title">Список партреров</div>
+					<div class="card-title">Список партнеров</div>
 					<div class="table-responsive">
 						<a href="{{ route('partners.create') }}"
 						   class="btn btn-xs btn-outline-dark pull-right" title="Добавить канал"><i

@@ -24,7 +24,7 @@ Route::match(['post', 'get'], 'register', function () {
 	return redirect('/');
 })->name('register');
 
-
+// партнеры
 Route::middleware('auth')->group(function () {
 	Route::get('home', 'HomeController@index')->name('home');
 	Route::get('user-target-data/index', 'UserTargetDataController@index')->name('user-target-data.index');
@@ -38,8 +38,12 @@ Route::middleware('auth')->group(function () {
 	Route::get('/channels/list', 'ChannelsController@list')->name('channels.list');
 
 	Route::post('/reports/main', 'ReportsController@main')->name('reports.main');
+
+	Route::get('my-projects', 'PartnersController@userTargets')->name('user-targets');
+	Route::post('my-projects', 'PartnersController@userTargetUpdate')->name('user-targets.update');
 });
 
+// админы
 Route::middleware('auth', 'admin')->group(function () {
 	// каналы
 	Route::resource('channels', 'ChannelsController');
@@ -48,9 +52,8 @@ Route::middleware('auth', 'admin')->group(function () {
 	Route::get('projects/statuses', 'ProjectsController@targets')->name('projects.statuses');
 
 	Route::resource('projects', 'ProjectsController');
-	Route::post('projects/{id}/addsubproject', 'ProjectsController@addSubProject')->name('projects.addsubproject');
-
-
+	Route::post('projects/{id}/subproject/add', 'ProjectsController@addSubProject')->name('projects.addsubproject');
+	Route::post('projects/{id}/subproject/delete', 'ProjectsController@deleteSubProject');
 
 	// партнеры
 	Route::resource('partners', 'PartnersController');

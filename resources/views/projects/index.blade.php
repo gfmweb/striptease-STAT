@@ -15,7 +15,7 @@
 									<th>#</th>
 									<th>Название</th>
 									<th>Создан</th>
-									<th></th>
+									<th>Действия</th>
 								</tr>
 							</thead>
 							<tbody>

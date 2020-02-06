@@ -47,4 +47,7 @@ class UserTarget extends Model
 		return $this->hasMany(UserTargetData::class);
 	}
 
+	public function lastHistory() {
+		return $this->hasOne('App\StatusHistory')->latest();
+	}
 }

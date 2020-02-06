@@ -8,6 +8,11 @@ use App\SubProject;
 use App\UserSubProject;
 use App\UserTarget;
 use App\Channel;
+use App\Status;
+use App\StatusHistory;
+
+use Auth;
+
 use Illuminate\Http\Request;
 
 class PartnersController extends Controller
@@ -23,12 +28,16 @@ class PartnersController extends Controller
 	{
 		$partner  = User::query()->findOrFail($id);
 
-		// все проекты и подпроекты (для возможности добавления их партнеру)
-		$projects = Project::all();
-		$subProjects = SubProject::all();
-
 		// подпроекты партнера
 		$userSubProjects = $partner->subProjects;
+
+		// список id тех подпроектов, которые уже есть у юзера
+		$userSubProjectsIds = [];
+		foreach ($userSubProjects as $userSubProject) $userSubProjectsIds[] = $userSubProject->id;
+
+		// все проекты и подпроекты (для возможности добавления их партнеру)
+		$projects = Project::all();
+		$subProjects = SubProject::whereNotIn('id', $userSubProjectsIds)->get();
 
 		return view('partners.edit')
 			->with([
@@ -91,7 +100,7 @@ class PartnersController extends Controller
 		$userSubProject->save();
 
 		// добавим юзеру все таргеты по каналам с дефолтным комментарием
-		$channels = Channel::all();
+		$channels = Channel::whereNull('parent_id')->get();
 		foreach ($channels as $channel) {
 			$userTarget = new UserTarget;
 			$userTarget->user_sub_project_id = $userSubProject->id;
@@ -102,6 +111,42 @@ class PartnersController extends Controller
 		\Flash::success('Проект добавлен партнеру');
 
 		return redirect()->route('partners.edit', $id);
+	}
+
+	// проекты пользователя
+	public function userTargets() {
+		// подпроекты юзера
+		$userSubProjects = UserSubProject::where('user_id', Auth::user()->id)->get();
+		$userSubProjectsIds = [];
+		foreach ($userSubProjects as $userSubProject) $userSubProjectsIds[] = $userSubProject->id;
+
+		// таргеты юзера
+		$userTargets = UserTarget::whereIn('user_sub_project_id', $userSubProjectsIds)->paginate(40);
+
+		$statuses = Status::all();
+
+		return view('partners.targets')->with([
+			'userTargets' => $userTargets,
+			'statuses' => $statuses,
+		]);
+	}
+
+	// обновление таргета пользователя
+	public function userTargetUpdate(Request $request) {
+		$target = UserTarget::where('id', $request->get('target_id'))->first();
+		$target->status_id = $request->get('target_status');
+		$target->save();
+
+		// история смены статусов
+		$history = new StatusHistory();
+		$history->status_id = $request->get('target_status');
+		$history->user_target_id = $request->get('target_id');
+		$history->comment   = $request->get('target_comment');
+		$history->save();
+
+		\Flash::success('Статус проекта обновлен');
+
+		return redirect()->back();
 	}
 
 }
