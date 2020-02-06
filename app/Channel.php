@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\ListForSelectTrait;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -14,36 +15,37 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Channel extends Model
 {
+	use ListForSelectTrait;
 
-    protected $table = 'channels';
+	protected $table = 'channels';
 
-    protected $fillable = [
-        'name',
-        'parent_id'
-    ];
+	protected $fillable = [
+		'name',
+		'parent_id'
+	];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function parentChannel()
-    {
-        return $this->belongsTo(self::class, 'parent_id', 'id');
-    }
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+	 */
+	public function parentChannel()
+	{
+		return $this->belongsTo(self::class, 'parent_id', 'id');
+	}
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function subChannels()
-    {
-        return $this->hasMany(self::class, 'parent_id', 'id');
-    }
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function subChannels()
+	{
+		return $this->hasMany(self::class, 'parent_id', 'id');
+	}
 
-    /**
-     * @return bool
-     */
-    public function hasSubChannels()
-    {
-        return $this->subChannels()->exists();
-    }
+	/**
+	 * @return bool
+	 */
+	public function hasSubChannels()
+	{
+		return $this->subChannels()->exists();
+	}
 
 }

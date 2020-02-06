@@ -4,6 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Project
+ * @package App
+ * @property string name
+ */
 class Project extends Model
 {
 
