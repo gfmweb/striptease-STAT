@@ -7,7 +7,7 @@
 				<div class="card-body">
 					<div class="card-title mb-4">Мои проекты</div>
 					<div class="table-responsive">
-						<table class="table table-striped table-sm">
+						<table class="table table-sm">
 							<thead>
 								<tr>
 									<th>Проект</th>
@@ -20,7 +20,7 @@
 							</thead>
 							<tbody>
 								@foreach($userTargets as $userTarget)
-									<tr>
+									<tr class="table-{{ $userTarget->status->class }}">
 										<td>{{ $userTarget->userSubProject->subProject->project->name }}</td>
 										<td>{{ $userTarget->userSubProject->subProject->name }}</td>
 										<td>{{ $userTarget->channel->name }}</td>
