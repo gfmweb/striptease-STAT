@@ -28,7 +28,7 @@
 <div class="form-group row">
 	{!! Form::label('password', 'Пароль', ['class' => 'col-sm-2 col-form-label']) !!}
 	<div class="col-sm-10">
-		{!! Form::text('password',null, ['class' => 'form-control', 'required' => "true"] )!!}
+		{!! Form::password('password', ['class' => 'form-control', 'required' => "true"] )!!}
 		<span class="help-block">Пароль пользователя в системе статистики</span>
 	</div>
 </div>

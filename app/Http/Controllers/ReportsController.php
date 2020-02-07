@@ -38,6 +38,7 @@ class ReportsController extends Controller
 				},
 				'userTargets.channel',
 				'subProject',
+				'subProject.project',
 				'subProject.city',
 				'user',
 			])
@@ -50,7 +51,7 @@ class ReportsController extends Controller
 				$userTarget->data->each(function (UserTargetData $userTargetData) use ($report, $userTarget, $userSubProject) {
 					$report->push([
 							'city'       => $userSubProject->subProject->city->name,
-							'subProject' => $userSubProject->subProject->name,
+							'subProject' => $userSubProject->subProject->fullName,
 							'url'        => $userSubProject->subProject->url,
 							'partner'    => $userSubProject->user->name,
 							'channel'    => $userTarget->channel->name,

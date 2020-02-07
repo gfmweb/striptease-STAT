@@ -6,6 +6,7 @@
 			<div class="card">
 				<div class="card-body">
 					<div class="card-title mb-4">Отчет по партнерам</div>
+					<p>Для формирования отчета сперва заполните следующие поля:</p>
 					{{--VUE--}}
 					<div id="vue-report-query-builder" class="data-block">
 						<loading-block :loading="loading"></loading-block>
@@ -57,7 +58,7 @@
 								<div class="form-row">
 									<div class="form-group col-md-6">
 										<div class="input-group input-daterange" name="date-range" id="date-range">
-											<div class="mx-2 mt-2">Период с </div>
+											<div class="mx-2 mt-2">Период с</div>
 											<input type="text" class="form-control form-control-sm datepicker-input" name="dateFrom" :value="dateFrom" @input="changeDates($emit)">
 											<div class="mx-2 mt-2">по</div>
 											<input type="text" class="form-control form-control-sm datepicker-input" name="dateTo" :value="dateTo">
@@ -89,22 +90,11 @@
 	</script>
 	<script type="text/javascript" src="/vendor/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
 	<script type="text/javascript" src="/vendor/bootstrap-datepicker/bootstrap-datepicker.ru.min.js"></script>
-	<script type="text/javascript" src="/js/vue/helpers/work-with-object.js"></script>
 	<script type="text/javascript" src="/vendor/vue/vue.js"></script>
-	<script type="text/javascript" src="/js/vue/components/loading-block.js"></script>
-		<script type="text/javascript" src="/js/vue/apps/user-target-data/report-query-builder.js"></script>
+	@js('/js/vue/components/loading-block.js')
+	@js('/js/vue/apps/user-target-data/report-query-builder.js')
 
 @endpush
 @push('css')
 	<link type="text/css" rel="stylesheet" href="/vendor/bootstrap-datepicker/bootstrap-datepicker.min.css">
-	<style>
-		.datepicker-days tr:hover {
-			background-color: #d8d8d8;
-		}
-
-		.datepicker-days tr:hover td {
-			border-radius: 0;
-		}
-
-	</style>
 @endpush
