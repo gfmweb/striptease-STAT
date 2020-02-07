@@ -63,7 +63,9 @@
 						<select name="sub_project_id" class="form-control" required>
 							<option value="">Выберите подпроект</option>
 							@foreach ($subProjects as $subProject)
-								<option data-project="{{ $subProject->project_id }}" value="{{ $subProject->id }}" hidden>{{ $subProject->name }}</option>
+								<option data-project="{{ $subProject->project_id }}" value="{{ $subProject->id }}" hidden>
+									{{ $subProject->name }} @if ($subProject->city) ({{ $subProject->city->name }}) @endif
+								</option>
 							@endforeach
 						</select>
 					</div>
