@@ -15,6 +15,7 @@ use Auth;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class PartnersController extends Controller
 {
@@ -74,6 +75,7 @@ class PartnersController extends Controller
 	{
 		$partner = new User();
 		$partner->fill($request->all());
+		$partner->password = Hash::make($request->get('password'));
 		$partner->save();
 
 		\Flash::success('Партнер успешно создан');
