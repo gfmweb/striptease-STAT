@@ -4,7 +4,7 @@ const chat = new Vue({
 			urls: {
 				cities: '/cities/list',
 				subProjects: '/sub-projects/list',
-				partners: '/users/partners/list',
+				partners: '/partners/list',
 				channels: '/channels/list',
 				report: '/reports/main',
 			},

@@ -34,7 +34,6 @@ Route::middleware('auth')->group(function () {
 
 	Route::get('/cities/list', 'CitiesController@list')->name('cities.list');
 	Route::get('/sub-projects/list', 'SubProjectsController@list')->name('sub-projects.list');
-	Route::get('/users/partners/list', 'UsersController@partnersList')->name('users.partners.list');
 	Route::get('/channels/list', 'ChannelsController@list')->name('channels.list');
 
 	Route::post('/reports/main', 'ReportsController@main')->name('reports.main');
@@ -56,6 +55,7 @@ Route::middleware('auth', 'admin')->group(function () {
 	Route::post('projects/{id}/subproject/delete', 'ProjectsController@deleteSubProject');
 
 	// партнеры
+	Route::get('partners/list', 'PartnersController@list')->name('partners.list');
 	Route::resource('partners', 'PartnersController');
 	Route::post('partners/{id}/addsubproject', 'PartnersController@addUserSubProject')->name('partners.addsubproject');
 });

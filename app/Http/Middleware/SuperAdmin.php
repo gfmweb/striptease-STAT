@@ -2,16 +2,16 @@
 
 namespace App\Http\Middleware;
 
-use Auth;
 use Closure;
+use Auth;
 
-class Admin
-{
+class SuperAdmin {
 
 	public function handle($request, Closure $next)
 	{
 
-		if (Auth::check() && (Auth::user()->isAdmin() || Auth::user()->isSuperAdmin())) {
+		if ( Auth::check() && Auth::user()->isSuperAdmin() )
+		{
 			return $next($request);
 		}
 

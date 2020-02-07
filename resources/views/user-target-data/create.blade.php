@@ -6,6 +6,7 @@
 			<div class="card">
 				<div class="card-body">
 					<div class="card-title">Внесение данных за неделю</div>
+					<p>Для заполнения данных пожалуйста сперва укажите неделю и проект.</p>
 					{{--VUE--}}
 					<div id="vue-user-target-data" class="data-block">
 						<div class="data-filter">
@@ -166,6 +167,12 @@
 			background-color: #8ec7a0;;
 			color: white;
 		}
+
+		.datepicker table tr td.day.focused,
+		.datepicker table tr td.day:hover {
+			background: #d8d8d8;
+		}
+
 	</style>
 	{{-- <style>
 		 .data-block {
