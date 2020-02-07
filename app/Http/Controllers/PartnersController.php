@@ -13,13 +13,14 @@ use App\StatusHistory;
 
 use Auth;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class PartnersController extends Controller
 {
 	public function index()
 	{
-		$partners = User::where('role', 1)->get();
+		$partners = User::onlyPartners()->get();
 
 		return view('partners.index')->with(['partners' => $partners]);
 	}
@@ -147,6 +148,25 @@ class PartnersController extends Controller
 		\Flash::success('Статус проекта обновлен');
 
 		return redirect()->back();
+	}
+
+	public function list(Request $request)
+	{
+		$cityIds       = $request->get('cityIds');
+		$subProjectIds = $request->get('subProjectIds');
+
+		$list = User::listForSelect(function (Builder $query) use ($cityIds, $subProjectIds) {
+			$query->onlyPartners();
+			if ($subProjectIds) {
+				$query->whereHas('subProjects', function (Builder $query) use ($cityIds) {
+					if ($cityIds) {
+						$query->whereIn('city_id', $cityIds);
+					}
+				});
+			}
+		});
+
+		return response()->json($list);
 	}
 
 }
