@@ -2,13 +2,14 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Traits\ListForSelectTrait;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Project extends Model
 {
 
-	use ListForSelectTrait;
+	use ListForSelectTrait, SoftDeletes;
 
 	protected $table = 'projects';
 
@@ -18,7 +19,8 @@ class Project extends Model
 		'partner_id'
 	];
 
-	public function subProjects()	{
+	public function subProjects()
+	{
 		return $this->hasMany('App\SubProject');
 	}
 
