@@ -46,3 +46,7 @@ table a {
 .data-table {
 	position: relative;
 }
+
+.nowrap {
+	white-space:nowrap;
+}

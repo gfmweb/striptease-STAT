@@ -49,8 +49,9 @@
 										<th>Кол-во лидов</th>
 										<th>Кол-во активациий</th>
 										<th>Затраты, руб.</th>
-										<th>CPL, руб. / Стоимость лида</th>
+										<th title="Стоимость лида. Формула: [Затраты] / [Кол-во лидов]">CPL, руб.</th>
 										<th>Стоимость активации, руб.</th>
+										<th title="Формула: [Кол-во активаций] / [Кол-во лидов] * 100%">Конверсия, %</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -77,16 +78,19 @@
 											<editable-field v-model="row.values.activations"
 															@input="row.changed = true"></editable-field>
 										</td>
-										<td class="text-right">
-											@{{ (row.values.activations * row.values.price).toFixed(2) }}
+										<td>
+											<editable-field v-model="row.values.cost"
+															@input="row.changed = true"></editable-field>
 										</td>
 										<td class="text-right">
-											@{{ (row.values.leads ? row.values.activations *
-											row.values.price / row.values.leads : 0).toFixed(2) }}
+											@{{ (row.values.leads ? row.values.cost / row.values.leads : 0).toFixed(2) }}
 										</td>
 										<td>
 											<editable-field v-model="row.values.price"
 															@input="row.changed = true" def="0.00"></editable-field>
+										</td>
+										<td class="text-right">
+											@{{ (row.values.leads ? row.values.activations / row.values.leads * 100 : 0).toFixed(2)  }}%
 										</td>
 									</tr>
 								</tbody>

@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int    leads
  * @property int    activations
  * @property float  price
+ * @property float  cost
  * @property Carbon date_from
  * @property Carbon date_to
  */
@@ -27,6 +28,7 @@ class UserTargetData extends Model
 		'leads',
 		'activations',
 		'price',
+		'cost',
 	];
 
 	protected $table = 'user_target_data';
@@ -38,6 +40,7 @@ class UserTargetData extends Model
 		'leads'       => 0,
 		'activations' => 0,
 		'price'       => 0.00,
+		'cost'        => 0.00,
 	];
 	protected $fillable   = [
 		'user_target_id',
@@ -47,6 +50,7 @@ class UserTargetData extends Model
 		'leads',
 		'activations',
 		'price',
+		'cost',
 		'date_from',
 		'date_to',
 	];

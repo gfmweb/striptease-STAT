@@ -105,6 +105,7 @@ class UserTargetDataController extends Controller
 			$userTargetData->leads       = $values['leads'];
 			$userTargetData->activations = $values['activations'];
 			$userTargetData->price       = $values['price'];
+			$userTargetData->cost        = $values['cost'];
 
 
 			$userTargetData->save();

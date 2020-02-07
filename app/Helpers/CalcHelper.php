@@ -15,4 +15,9 @@ class CalcHelper
 	{
 		return $count != 0 ? $cost / $count : 0;
 	}
+
+	public static function percent($current, $total)
+	{
+		return $total != 0 ? $current / $total * 100 : 0;
+	}
 }
