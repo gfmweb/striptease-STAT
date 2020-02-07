@@ -11,16 +11,24 @@
 							<div class="form-group mb-2 col-md-3">
 								<select name="user" class="form-control form-control-sm">
 									<option value="">Партнер</option>
-									@foreach ($users as $user)
-										<option value="{{ $user->id }}">{{ $user->name }}</option>
+									@foreach ($users as $user_id => $user_name)
+										<option value="{{ $user_id }}" @if (Request::input('user') == $user_id) selected="selected" @endif>{{ $user_name }}</option>
 									@endforeach
 								</select>
 							</div>
 							<div class="form-group mb-2 col-md-3">
 								<select name="project" class="form-control form-control-sm">
 									<option value="">Проект</option>
-									@foreach ($projects as $project)
-										<option value="{{ $project->id }}">{{ $project->name }}</option>
+									@foreach ($projects as $project_id => $project_name)
+										<option value="{{ $project_id }}" @if (Request::input('project') == $project_id) selected="selected" @endif>{{ $project_name }}</option>
+									@endforeach
+								</select>
+							</div>
+							<div class="form-group mb-2 col-md-3">
+								<select name="city" class="form-control form-control-sm">
+									<option value="">Город</option>
+									@foreach ($cities as $city_id => $city_name)
+										<option value="{{ $city_id }}" @if (Request::input('city') == $city_id) selected="selected" @endif>{{ $city_name }}</option>
 									@endforeach
 								</select>
 							</div>
@@ -28,15 +36,15 @@
 								<select name="channel" class="form-control form-control-sm">
 									<option value="">Канал</option>
 									@foreach ($channels as $channel)
-										<option value="{{ $channel->id }}">{{ $channel->name }}</option>
+										<option value="{{ $channel->id }}" @if (Request::input('channel') == $channel->id) selected="selected" @endif>{{ $channel->name }}</option>
 									@endforeach
 								</select>
 							</div>
 							<div class="form-group mb-2 col-md-3">
 								<select name="status" class="form-control form-control-sm">
 									<option value="">Статус</option>
-									@foreach ($statuses as $status)
-										<option value="{{ $status->id }}">{{ $status->name }}</option>
+									@foreach ($statuses as $status_id => $status_name)
+										<option value="{{ $status_id }}" @if (Request::input('status') == $status_id) selected="selected" @endif>{{ $status_name }}</option>
 									@endforeach
 								</select>
 							</div>
@@ -56,8 +64,10 @@
 									<th>Партнер</th>
 									<th>Проект</th>
 									<th>Подпроект</th>
+									<th>Город</th>
 									<th>Канал</th>
 									<th>Статус</th>
+									<th>Последний комментарий</th>
 									<th>Создан</th>
 								</tr>
 							</thead>
@@ -68,8 +78,18 @@
 										<td>{{ $target->userSubProject->user->name }}</td>
 										<td>{{ $target->userSubProject->subProject->project->name }}</td>
 										<td>{{ $target->userSubProject->subProject->name }}</td>
+										<td>
+											@if ($target->userSubProject->subProject->city)
+												{{ $target->userSubProject->subProject->city->name }}
+											@endif
+										</td>
 										<td>{{ $target->channel->name }}</td>
 										<td>{{ $target->status->name }}</td>
+										<td>
+											@if ($target->lastHistory)
+												{{ $target->lastHistory->comment }}
+											@endif
+										</td>
 										<td>{{ $target->created_at }}</td>
 									</tr>
 								@endforeach

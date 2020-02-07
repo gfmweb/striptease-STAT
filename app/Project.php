@@ -3,14 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\ListForSelectTrait;
 
-/**
- * Class Project
- * @package App
- * @property string name
- */
 class Project extends Model
 {
+
+	use ListForSelectTrait;
 
 	protected $table = 'projects';
 

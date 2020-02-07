@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Project;
 use App\SubProject;
+use App\UserSubProject;
 use App\City;
 use App\User;
 use App\Channel;
@@ -99,18 +100,42 @@ class ProjectsController extends Controller
 
 	// статусы проектов
 	public function targets(Request $request) {
+
+		$targets = UserTarget::query();
+
+		// фильтр по юзерам
 		if (!empty($request->user)) {
-			// $userSubProjects = UserSubProject::with(['subProject'])
-			$targets = UserTarget::paginate(20);
-		} else
-			$targets = UserTarget::paginate(20);
+			$userSubProjectsIds = UserSubProject::where('user_id', $request->user)->pluck('id');
+			$targets = $targets->whereIn('user_sub_project_id', $userSubProjectsIds);
+		}
+		// фильтр по проектам
+		if (!empty($request->project)) {
+			$subProjectsIds = SubProject::where('project_id', $request->project)->pluck('id');
+			$userSubProjectsIds = UserSubProject::whereIn('sub_project_id', $subProjectsIds)->pluck('id');
+			$targets = $targets->whereIn('user_sub_project_id', $userSubProjectsIds);
+		}
+		// фильтр по городам
+		if (!empty($request->city)) {
+			$subProjectsIds = SubProject::where('city_id', $request->city)->pluck('id');
+			$userSubProjectsIds = UserSubProject::whereIn('sub_project_id', $subProjectsIds)->pluck('id');
+			$targets = $targets->whereIn('user_sub_project_id', $userSubProjectsIds);
+		}
+		// фильтр по каналам
+		if (!empty($request->channel)) {
+			$targets = $targets->where('channel_id', $request->channel);
+		}
+		// фильтр по статусам
+		if (!empty($request->status)) {
+			$targets = $targets->where('status_id', $request->status);
+		}
 
-		$projects = Project::all();
+		$targets = $targets->paginate(20);
+
+		$projects = Project::listForSelect();
 		$channels = Channel::whereNull('parent_id')->get();
-		$users    = User::where('role', 1)->get();
-		$statuses = Status::all();
-
-
+		$users    = User::listForSelect();
+		$statuses = Status::listForSelect();
+		$cities   = City::listForSelect();
 
 		return view('projects.targets')->with([
 			'targets'  => $targets,
@@ -118,6 +143,7 @@ class ProjectsController extends Controller
 			'projects' => $projects,
 			'channels' => $channels,
 			'statuses' => $statuses,
+			'cities'   => $cities,
 		]);
 	}
 
