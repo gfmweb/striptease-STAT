@@ -90,10 +90,9 @@
 	</script>
 	<script type="text/javascript" src="/vendor/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
 	<script type="text/javascript" src="/vendor/bootstrap-datepicker/bootstrap-datepicker.ru.min.js"></script>
-	<script type="text/javascript" src="/js/vue/helpers/work-with-object.js"></script>
 	<script type="text/javascript" src="/vendor/vue/vue.js"></script>
-	<script type="text/javascript" src="/js/vue/components/loading-block.js"></script>
-	<script type="text/javascript" src="/js/vue/apps/user-target-data/report-query-builder.js"></script>
+	@js('/js/vue/components/loading-block.js')
+	@js('/js/vue/apps/user-target-data/report-query-builder.js')
 
 @endpush
 @push('css')

@@ -17,15 +17,6 @@
 										   placeholder="Неделя"
 										   readonly/>
 								</div>
-								{{--<div class="form-group m-1">
-									<label for="project-select">Проект</label><br>
-									<select name="project" id="project-select" class="custom-select"
-											v-model="projects.selected" @change="resetSubProjectSelect()">
-										<option v-for="project in projects.list" :value="project.id">
-											@{{ project.name }}
-										</option>
-									</select>
-								</div>--}}
 								<div class="form-group m-1">
 									<label for="subProject">Проект</label><br>
 									<select name="subProject" id="subProject" class="custom-select"
@@ -102,6 +93,7 @@
 							</table>
 						</div>
 					</div>
+					{{--/VUE--}}
 				</div>
 			</div>
 		</div>
@@ -116,12 +108,10 @@
 	<script type="text/javascript" src="/vendor/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
 	<script type="text/javascript" src="/vendor/bootstrap-datepicker/bootstrap-datepicker.ru.min.js"></script>
 	<script type="text/javascript" src="/vendor/moment/moment.js"></script>
-	<script type="text/javascript" src="/js/vue/helpers/work-with-object.js"></script>
 	<script type="text/javascript" src="/vendor/vue/vue.js"></script>
-	<script type="text/javascript" src="/js/vue/apps/user-target-data/components/editable-field.js"></script>
-	<script type="text/javascript" src="/js/vue/components/loading-block.js"></script>
-	<script type="text/javascript" src="/js/vue/apps/user-target-data/user-target-data.js"></script>
-
+	@js('/js/vue/apps/user-target-data/components/editable-field.js')
+	@js('/js/vue/components/loading-block.js')
+	@js('/js/vue/apps/user-target-data/user-target-data.js')
 @endpush
 @push('css')
 	<link type="text/css" rel="stylesheet" href="/vendor/bootstrap-datepicker/bootstrap-datepicker.min.css">
