@@ -16,7 +16,8 @@
 								<tr>
 									<th>#</th>
 									<th>Имя</th>
-									<th>E-mail</th>
+									<th>Логин</th>
+									<th>Основной E-mail</th>
 									<th>Создан</th>
 									<th></th>
 								</tr>
@@ -26,6 +27,7 @@
 									<tr>
 										<td>{{ $partner->id }}</td>
 										<td>{{ $partner->name }}</td>
+										<td>{{ $partner->login }}</td>
 										<td>{{ $partner->email }}</td>
 										<td>{{ $partner->created_at->format('d.m.Y') }}</td>
 										<td class="text-right">

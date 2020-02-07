@@ -16,6 +16,7 @@
 						<table class="table">
 							<thead>
 								<tr>
+									<th>#</th>
 									<th>Имя</th>
 									<th>URL</th>
 									<th>Город</th>
@@ -25,6 +26,7 @@
 							</thead>
 							@foreach($subProjects as $subProject)
 								<tr>
+									<td>{{ $subProject->id }}</td>
 									<td>{{ $subProject->name }}</td>
 									<td>{{ $subProject->url }}</td>
 									<td>
