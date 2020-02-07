@@ -6,11 +6,12 @@
 		<div class="col-lg-12">
 			<div class="card">
 				<div class="card-body">
-					<div class="card-title">Список каналов</div>
-					<div class="table-responsive">
+					<div class="card-title mb-4">
+						Список каналов
 						<a href="{{ route('channels.create') }}"
-						   class="btn btn-xs btn-outline-dark pull-right" title="Добавить канал"><i
-									class="fa fa-plus-square-o"></i></a>
+						   class="btn btn-sm btn-primary pull-right" title="Добавить канал"><i class="fa fa-plus"></i> Создать новый канал</a>
+					</div>
+					<div class="table-responsive">
 						<table class="table table-striped table-sm">
 							<thead>
 								<tr>
@@ -28,12 +29,12 @@
 										<td>{{ $channel->name }}</td>
 										<td>{{ $channel->parentChannel ? $channel->parentChannel->name : '—'}}</td>
 										<td>{{ $channel->created_at->format('d.m.Y') }}</td>
-										<td>
+										<td class="text-right">
 											<a href="{{ route('channels.edit',$channel->id) }}"
 											   class="btn btn-xs btn-outline-dark"><i class="fa fa-pencil"></i>
 											</a>
 											<a href="{{ route('channels.destroy',$channel->id) }}"
-											   class="btn btn-xs btn-outline-dark btn-destroy"><i
+											   class="btn btn-xs btn-danger"><i
 														class="fa fa-remove"></i>
 											</a>
 										</td>

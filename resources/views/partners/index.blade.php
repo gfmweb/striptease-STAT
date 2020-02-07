@@ -5,11 +5,12 @@
 		<div class="col-lg-12">
 			<div class="card">
 				<div class="card-body">
-					<div class="card-title">Список партнеров</div>
-					<div class="table-responsive">
+					<div class="card-title mb-4">
+						Список партнеров
 						<a href="{{ route('partners.create') }}"
-						   class="btn btn-xs btn-outline-dark pull-right" title="Добавить канал"><i
-									class="fa fa-plus-square-o"></i></a>
+						   class="btn btn-sm btn-primary pull-right" title="Добавить партнера"><i class="fa fa-plus"></i> Создать нового партнера</a>
+					</div>
+					<div class="table-responsive">
 						<table class="table table-striped table-sm">
 							<thead>
 								<tr>
@@ -27,12 +28,12 @@
 										<td>{{ $partner->name }}</td>
 										<td>{{ $partner->email }}</td>
 										<td>{{ $partner->created_at->format('d.m.Y') }}</td>
-										<td>
+										<td class="text-right">
 											<a href="{{ route('partners.edit',$partner->id) }}"
 											   class="btn btn-xs btn-outline-dark"><i class="fa fa-pencil"></i>
 											</a>
 											<a href="{{ route('partners.destroy',$partner->id) }}"
-											   class="btn btn-xs btn-outline-dark btn-destroy"><i class="fa fa-remove"></i>
+											   class="btn btn-xs btn-danger"><i class="fa fa-remove"></i>
 											</a>
 										</td>
 									</tr>

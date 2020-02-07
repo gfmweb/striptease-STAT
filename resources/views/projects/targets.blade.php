@@ -10,7 +10,7 @@
 						<div class="form-row">
 							<div class="form-group mb-2 col-md-3">
 								<select name="user" class="form-control form-control-sm">
-									<option value="">Партнер</option>
+									<option value="">Выберите партнера</option>
 									@foreach ($users as $user_id => $user_name)
 										<option value="{{ $user_id }}" @if (Request::input('user') == $user_id) selected="selected" @endif>{{ $user_name }}</option>
 									@endforeach
@@ -18,7 +18,7 @@
 							</div>
 							<div class="form-group mb-2 col-md-3">
 								<select name="project" class="form-control form-control-sm">
-									<option value="">Проект</option>
+									<option value="">Выберите проект</option>
 									@foreach ($projects as $project_id => $project_name)
 										<option value="{{ $project_id }}" @if (Request::input('project') == $project_id) selected="selected" @endif>{{ $project_name }}</option>
 									@endforeach
@@ -26,7 +26,7 @@
 							</div>
 							<div class="form-group mb-2 col-md-3">
 								<select name="city" class="form-control form-control-sm">
-									<option value="">Город</option>
+									<option value="">Выберите город</option>
 									@foreach ($cities as $city_id => $city_name)
 										<option value="{{ $city_id }}" @if (Request::input('city') == $city_id) selected="selected" @endif>{{ $city_name }}</option>
 									@endforeach
@@ -34,7 +34,7 @@
 							</div>
 							<div class="form-group mb-2 col-md-3">
 								<select name="channel" class="form-control form-control-sm">
-									<option value="">Канал</option>
+									<option value="">Выберите канал</option>
 									@foreach ($channels as $channel)
 										<option value="{{ $channel->id }}" @if (Request::input('channel') == $channel->id) selected="selected" @endif>{{ $channel->name }}</option>
 									@endforeach
@@ -42,7 +42,7 @@
 							</div>
 							<div class="form-group mb-2 col-md-3">
 								<select name="status" class="form-control form-control-sm">
-									<option value="">Статус</option>
+									<option value="">Выберите статус</option>
 									@foreach ($statuses as $status_id => $status_name)
 										<option value="{{ $status_id }}" @if (Request::input('status') == $status_id) selected="selected" @endif>{{ $status_name }}</option>
 									@endforeach
