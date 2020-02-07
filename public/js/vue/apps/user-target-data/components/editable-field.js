@@ -32,6 +32,9 @@ Vue.component('editable-field', {
 			if (this.value != this.newValue && !this.invalid)
 				this.$emit('input', this.newValue);
 		},
+		focus() {
+			this.$refs.input.select();
+		},
 		back() {
 			this.newValue = this.value;
 		},
@@ -40,8 +43,8 @@ Vue.component('editable-field', {
 	template: `
         <div class="vue-editable-field">
             <div class=" input-append">
-                <input type="text" :class="{'input-mini':true, 'bg-danger': invalid}" v-model="newValue" 
-                @blur="change()" @focusout="change()" @keyup.enter="change()" @keyup.escape="back()">
+                <input type="text" ref="input" :class="{'input-mini':true, 'bg-danger': invalid}" v-model="newValue" 
+                @blur="change()" @focusin="focus()" @focusout="change()" @keyup.enter="change()" @keyup.escape="back()">
             </div>
         </div>`,
 });
