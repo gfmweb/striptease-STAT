@@ -174,30 +174,4 @@
 		}
 
 	</style>
-	{{-- <style>
-		 .data-block {
-			 display: flex;
-			 justify-content: center;
-			 flex-direction: column;
-			 align-items: center;
-			 align-content: space-around;
-		 }
-
-		 .data-filter-form {
-			 background-color: #f7f7f7;
-			 padding: 10px;
-			 border-radius: 10px;
-			 margin: auto;
-			 align-content: space-around;
-			 display: flex;
-			 justify-content: center;
-			 flex-direction: row;
-			 align-items: center;
-		 }
-
-		 .data-filter-form input,
-		 .data-filter-form select {
-			 margin-bottom: 0;
-		 }
-	 </style>--}}
 @endpush

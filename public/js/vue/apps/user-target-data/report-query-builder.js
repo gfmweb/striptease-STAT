@@ -155,6 +155,8 @@ const chat = new Vue({
 					format: 'dd.mm.yyyy',
 					language: 'ru',
 					calendarWeeks: true,
+					autoclose: true,
+					orientation: 'bottom',
 				});
 
 				function onDateChange(e) {
