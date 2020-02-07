@@ -21,7 +21,7 @@
 		</li>
 		<li class="nav-label">Справочники</li>
 		<li>
-			<a href="{{ route('projects.index') }}"><i class="mdi mdi-settings"></i> <span class="nav-text">Проекты</span></a>
+			<a href="{{ route('projects.index') }}"><i class="mdi mdi-settings"></i> <span class="nav-text">Настройка проектов</span></a>
 		</li>
 
 		<li>

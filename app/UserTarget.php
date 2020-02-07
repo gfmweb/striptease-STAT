@@ -15,6 +15,8 @@ use Illuminate\Support\Collection;
 class UserTarget extends Model
 {
 
+	protected $dates = ['started_at', 'moderated_at'];
+
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
 	 */

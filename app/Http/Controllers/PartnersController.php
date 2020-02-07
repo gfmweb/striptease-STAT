@@ -138,6 +138,10 @@ class PartnersController extends Controller
 	public function userTargetUpdate(Request $request) {
 		$target = UserTarget::where('id', $request->get('target_id'))->first();
 		$target->status_id = $request->get('target_status');
+		// статус "взят в работу" таргету проставляем только один раз
+		if ($request->get('target_status') == 2 && empty($target->started_at)) $target->started_at = now();
+		// статус "moderated_at" обновляется каждый раз при установке статуса "идут показы"
+		if ($request->get('target_status') == 4) $target->moderated_at = now();
 		$target->save();
 
 		// история смены статусов

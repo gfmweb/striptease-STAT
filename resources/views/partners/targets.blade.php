@@ -12,6 +12,7 @@
 								<tr>
 									<th>Проект</th>
 									<th>Подпроект</th>
+									<th>Город</th>
 									<th>Канал</th>
 									<th>Назначен</th>
 									<th>Статус</th>
@@ -23,6 +24,11 @@
 									<tr class="table-{{ $userTarget->status->class }}">
 										<td>{{ $userTarget->userSubProject->subProject->project->name }}</td>
 										<td>{{ $userTarget->userSubProject->subProject->name }}</td>
+										<td>
+											@if ($userTarget->userSubProject->subProject->city)
+												{{ $userTarget->userSubProject->subProject->city->name }}
+											@endif
+										</td>
 										<td>{{ $userTarget->channel->name }}</td>
 										<td>{{ $userTarget->created_at->format('d.m.Y') }}</td>
 										<td>

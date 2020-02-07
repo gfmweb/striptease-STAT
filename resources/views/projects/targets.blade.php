@@ -69,6 +69,7 @@
 									<th>Статус</th>
 									<th>Последний комментарий</th>
 									<th>Создан</th>
+									<th>В работе с</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -90,7 +91,12 @@
 												{{ $target->lastHistory->comment }}
 											@endif
 										</td>
-										<td>{{ $target->created_at }}</td>
+										<td>{{ $target->created_at->format('H:i d.m.y') }}</td>
+										<td>
+											@if ($target->started_at)
+												{{ $target->started_at->format('H:i d.m.y') }}
+											@endif
+										</td>
 									</tr>
 								@endforeach
 							</tbody>
