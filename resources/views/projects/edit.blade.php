@@ -23,7 +23,7 @@
 					@if (count($subProjects) > 0)
 						<hr>
 						<h5 class="mb-3">Подпроекты:</h5>
-						<table class="table">
+						<table class="table table-sm table-striped">
 							<thead>
 								<tr>
 									<th>#</th>
