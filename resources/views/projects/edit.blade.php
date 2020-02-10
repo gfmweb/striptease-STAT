@@ -85,7 +85,7 @@
 						</div>
 						<div class="form-group">
 							@csrf
-							<input type="submit" value="Добавить" class="btn btn-dark">
+							<input type="submit" value="Добавить подпроект" class="btn btn-primary">
 						</div>
 					</form>
 				</div>

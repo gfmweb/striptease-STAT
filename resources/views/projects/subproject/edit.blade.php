@@ -2,10 +2,10 @@
 
 @section('content')
 	<div class="row page-titles">
-		<div class="col p-0">
+		<div class="col col-3 p-0">
 			<h4>Редактирование подпроекта</h4>
 		</div>
-		<div class="col p-0">
+		<div class="col col-9 p-0">
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="/projects">Проекты</a></li>
 				<li class="breadcrumb-item"><a href="/projects/{{ $project->id }}/edit">Проект "{{ $project->name }}"</a></li>
@@ -42,7 +42,7 @@
 						</div>
 						<div class="form-group">
 							@csrf
-							<input type="submit" value="Изменить подпроект" class="btn btn-dark">
+							<input type="submit" value="Изменить подпроект" class="btn btn-primary">
 						</div>
 					</form>
 				</div>
