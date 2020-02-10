@@ -13,6 +13,8 @@ use Illuminate\Support\Collection;
  * @property User       user
  * @property Collection userTargets
  * @property int        id
+ * @property int        user_id
+ * @property int        sub_project_id
  */
 class UserSubProject extends Model
 {
