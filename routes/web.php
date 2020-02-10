@@ -49,10 +49,13 @@ Route::middleware('auth', 'admin')->group(function () {
 
 	// проекты
 	Route::get('projects/statuses', 'ProjectsController@targets')->name('projects.statuses');
-
 	Route::resource('projects', 'ProjectsController');
-	Route::post('projects/{id}/subproject/add', 'ProjectsController@addSubProject')->name('projects.addsubproject');
-	Route::post('projects/{id}/subproject/delete', 'ProjectsController@deleteSubProject');
+
+	// подпроекты
+	Route::post('projects/{project_id}/subproject/add', 'SubProjectsController@store')->name('projects.subproject.add');
+	Route::get('projects/{project_id}/subproject/{sub_project_id}/edit', 'SubProjectsController@edit')->name('projects.subproject.edit');
+	Route::post('projects/{project_id}/subproject/{sub_project_id}/update', 'SubProjectsController@update')->name('projects.subproject.update');
+	Route::get('projects/{project_id}/subproject/{sub_project_id}/delete', 'SubProjectsController@destroy')->name('projects.subproject.delete');
 
 	// партнеры
 	Route::get('partners/list', 'PartnersController@list')->name('partners.list');

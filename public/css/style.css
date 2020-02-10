@@ -50,3 +50,7 @@ table a {
 .nowrap {
 	white-space:nowrap;
 }
+
+.page-titles {
+	z-index: 0;
+}

@@ -26,7 +26,8 @@ class SubProject extends Model
 	protected $fillable = [
 		'name',
 		'project_id',
-		'url'
+		'url',
+		'city_id',
 	];
 
 	use SoftDeletes;
@@ -36,7 +37,6 @@ class SubProject extends Model
 	{
 		return $this->belongsTo('App\Project');
 	}
-
 
 	// город подпроекта
 	public function city()
