@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class User
  * @package App
- * @property int     id
- * @property string  name
- * @property int     group_id
+ * @property int          id
+ * @property string       name
+ * @property int          group_id
  * @property ChannelGroup group
  */
 class Channel extends Model

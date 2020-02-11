@@ -5,34 +5,29 @@
 		<div class="col-lg-12">
 			<div class="card">
 				<div class="card-body">
-					<div class="card-title mb-4">Мои проекты</div>
+					<div class="card-title mb-4">Каналы по проекту "{{ $userSubProject->subProject->fullname }}"</div>
 					<div class="table-responsive">
+						<a href="{{ route('my-projects.channels.edit',$userSubProject->subProject->id) }}" class="btn btn-success pull-right btn-sm">Добавить канал</a>
+						<ul>
+							<li><b>Проект:</b> {{ $userSubProject->subProject->project->name }}</li>
+							<li><b>Подпроект:</b> {{ $userSubProject->subProject->name }}</li>
+							<li><b>Город:</b> {{ $userSubProject->subProject->city ?  $userSubProject->subProject->city->name : '-' }}</li>
+							<li><b>Назначен:</b> {{ $userSubProject->created_at->format('d.m.Y H:i') }}</li>
+						</ul>
 						<table class="table table-sm">
 							<thead>
 								<tr>
-									<th>Проект</th>
-									<th>Подпроект</th>
-									<th>Город</th>
 									<th>Канал</th>
-									<th>Назначен</th>
 									<th>Статус</th>
 									<th>Последний комментарий</th>
 								</tr>
 							</thead>
 							<tbody>
-								@foreach($userTargets as $userTarget)
+								@foreach($userSubProject->userTargets as $userTarget)
 									<tr class="table-{{ $userTarget->status->class }}">
-										<td>{{ $userTarget->userSubProject->subProject->project->name }}</td>
-										<td>{{ $userTarget->userSubProject->subProject->name }}</td>
-										<td>
-											@if ($userTarget->userSubProject->subProject->city)
-												{{ $userTarget->userSubProject->subProject->city->name }}
-											@endif
-										</td>
 										<td>{{ $userTarget->channel->name }}</td>
-										<td>{{ $userTarget->created_at->format('d.m.Y') }}</td>
 										<td>
-											<form action="{{ route('user-targets.update') }}" method="POST" name="update_target" data-target="{{ $userTarget->id }}">
+											<form action="{{ route('my-projects.update') }}" method="POST" name="update_target" data-target="{{ $userTarget->id }}">
 												<div class="form-group mb-0">
 													<select name="target_status" class="form-control form-control-sm">
 														@foreach ($statuses as $status)
@@ -62,7 +57,6 @@
 							</tbody>
 						</table>
 					</div>
-					{{ $userTargets->links() }}
 				</div>
 			</div>
 		</div>
@@ -70,9 +64,9 @@
 @endsection
 @push('js')
 	<script>
-		$(function(){
+		$(function () {
 			// смена статуса и комментария у таргета
-			$('select[name=target_status]').on('change', function(){
+			$('select[name=target_status]').on('change', function () {
 				var status = this.value;
 				var $form = $(this).closest('form[data-target]');
 				var target = $form.data('target');

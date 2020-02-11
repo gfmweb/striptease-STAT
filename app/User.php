@@ -70,6 +70,11 @@ class User extends Authenticatable
 		return $this->belongsToMany(SubProject::class, 'user_sub_projects');
 	}
 
+	public function userSubProjects()
+	{
+		return $this->hasMany(UserSubProject::class);
+	}
+
 	public function userTargets()
 	{
 		return $this->hasManyThrough(UserTarget::class, UserSubProject::class, 'user_id', 'user_sub_project_id');
