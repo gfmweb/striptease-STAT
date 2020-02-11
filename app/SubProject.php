@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string  name
  * @property string  fullName
  * @property string  url
+ * @property string  fullUrl
  * @property Project project
  * @property City    city
  */
@@ -47,10 +48,17 @@ class SubProject extends Model
 		return $this->hasMany(UserSubProject::class);
 	}
 
-	public function userTarget()
+	public function userTargets()
 	{
-		return $this->hasMany(UserTarget::class);
+		return $this->hasManyThrough(UserTarget::class, UserSubProject::class, 'sub_project_id', 'user_sub_project_id');
 	}
+
+	// проект подпроекта
+	public function userSubProjects()
+	{
+		return $this->hasMany(UserSubProject::class);
+	}
+
 
 	public function fullName()
 	{
@@ -65,5 +73,10 @@ class SubProject extends Model
 	public function tags()
 	{
 		return $this->belongsToMany('App\Tag');
+	}
+
+	public function getFullUrlAttribute()
+	{
+		return preg_match('/^http/', $this->url) ? $this->url : 'http://' . $this->url;
 	}
 }

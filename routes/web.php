@@ -38,8 +38,12 @@ Route::middleware('auth')->group(function () {
 
 	Route::post('/reports/main', 'ReportsController@main')->name('reports.main');
 
-	Route::get('my-projects', 'PartnersController@userTargets')->name('user-targets');
-	Route::post('my-projects', 'PartnersController@userTargetUpdate')->name('user-targets.update');
+	Route::get('my-projects', 'ProjectsController@myProjects')->name('my-projects');
+	Route::post('my-projects/target-update', 'ProjectsController@myProjectTargetUpdate')->name('my-projects.update');
+	Route::get('my-projects/{subProjectId}/channels', 'ProjectsController@myProjectChannels')->name('my-projects.channels');
+	Route::get('my-projects/{subProjectId}/channels/edit', 'ProjectsController@myProjectChannelsEdit')->name('my-projects.channels.edit');
+	Route::post('my-projects/{subProjectId}/channels/update', 'ProjectsController@myProjectChannelsUpdate')->name('my-projects.channels.update');
+
 });
 
 // админы

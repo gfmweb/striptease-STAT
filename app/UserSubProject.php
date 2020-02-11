@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
@@ -15,6 +16,7 @@ use Illuminate\Support\Collection;
  * @property int        id
  * @property int        user_id
  * @property int        sub_project_id
+ * @property Carbon     created_at
  */
 class UserSubProject extends Model
 {
