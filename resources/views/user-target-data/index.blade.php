@@ -14,7 +14,7 @@
 							<form class="data-filter-form">
 								<div class="form-row">
 									<div class="form-group col-md-3">
-										<label for="subProject">Город</label>
+										<label for="city">Город</label>
 										<select name="city" id="city" class="form-control form-control-sm"
 												v-model="selectedCityId">
 											<option value="all" v-if="hasElements(cities.list)">Все</option>
