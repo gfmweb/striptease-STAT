@@ -111,7 +111,7 @@ class ProjectsController extends Controller
 		$targets = $targets->paginate(20);
 
 		$projects = Project::listForSelect();
-		$channels = Channel::whereNull('parent_id')->get();
+		$channels = Channel::all();
 		$users    = User::listForSelect();
 		$statuses = Status::listForSelect();
 		$cities   = City::listForSelect();
