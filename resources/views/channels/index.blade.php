@@ -17,7 +17,7 @@
 								<tr>
 									<th>#</th>
 									<th>Название</th>
-									<th>Вложен в</th>
+									<th>Группа каналов</th>
 									<th>Создан</th>
 									<th></th>
 								</tr>
@@ -27,15 +27,14 @@
 									<tr>
 										<td>{{ $channel->id }}</td>
 										<td>{{ $channel->name }}</td>
-										<td>{{ $channel->parentChannel ? $channel->parentChannel->name : '—'}}</td>
+										<td>{{ $channel->group ? $channel->group->name : '—'}}</td>
 										<td>{{ $channel->created_at->format('d.m.Y') }}</td>
 										<td class="text-right">
-											<a href="{{ route('channels.edit',$channel->id) }}"
+											<a href="{{ route('channels.edit', $channel->id) }}"
 											   class="btn btn-xs btn-outline-dark"><i class="fa fa-pencil"></i>
 											</a>
 											<a href="{{ route('channels.destroy',$channel->id) }}"
-											   class="btn btn-xs btn-danger"><i
-														class="fa fa-remove"></i>
+											   class="btn btn-xs btn-danger btn-destroy"><i class="fa fa-remove"></i>
 											</a>
 										</td>
 									</tr>

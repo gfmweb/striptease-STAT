@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Channel;
+use App\ChannelsGroup;
 use Illuminate\Http\Request;
 
 class ChannelsController extends Controller
@@ -23,25 +24,19 @@ class ChannelsController extends Controller
 	 */
 	public function edit($id)
 	{
-		/** @var Channel $channel */
 		$channel  = Channel::query()->findOrFail($id);
-		$channels = Channel::all()->pluck('name', 'id')->toArray();
-		$channels = ['' => 'Укажите канал'] + $channels;
+		$groups = ChannelsGroup::listForSelect();
 
-		return view('channels.edit')->with(['channel' => $channel, 'channels' => $channels]);
+		return view('channels.edit')->with(['channel' => $channel, 'groups' => $groups]);
 	}
 
-	/**
-	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-	 */
 	public function create()
 	{
 		/** @var Channel $channel */
 		$channel  = new Channel();
-		$channels = Channel::all()->pluck('name', 'id')->toArray();
-		$channels = ['' => 'Укажите канал'] + $channels;
+		$groups = ChannelsGroup::listForSelect();
 
-		return view('channels.create')->with(['channel' => $channel, 'channels' => $channels]);
+		return view('channels.create')->with(['channel' => $channel, 'groups' => $groups]);
 	}
 
 	/**
@@ -82,7 +77,6 @@ class ChannelsController extends Controller
 	 */
 	public function destroy($id)
 	{
-		/** @var Channel $channel */
 		$channel = Channel::query()->findOrFail($id);
 		$channel->delete();
 

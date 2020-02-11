@@ -2,20 +2,24 @@
 <div class="form-group row">
 	{!! Form::label('name', 'Название', ['class' => 'col-sm-2 col-form-label']) !!}
 	<div class="col-sm-10">
-		{!! Form::text('name',null, ['class' => 'form-control', 'required' => "true"] )!!}
+		{!! Form::text('name', null, ['class' => 'form-control', 'required' => "true"] )!!}
 	</div>
 </div>
-<fieldset @if($channel->hasSubChannels()) disabled="disabled" @endif >
-	<div class="form-group row">
-		{!! Form::label('parent_id', 'Вложен в (другой канал)', ['class' => 'col-sm-2 col-form-label']) !!}
-		<div class="col-sm-10">
-			{!! Form::select('parent_id', $channels, $channel->parent_id, ['class' => 'form-control'] + ($channel->hasSubChannels() ? ['readonly' => 'readonly']: [] )) !!}
-		</div>
+
+<div class="form-group row">
+	{!! Form::label('channel_group_id', 'Группа каналов', ['class' => 'col-sm-2 col-form-label']) !!}
+	<div class="col-sm-10">
+		<select class="form-control" id="channel_group_id" name="group_id">
+			<option value="">Не указана</option>
+			@foreach ($groups as $group_id => $group_name)
+				<option value="{{ $group_id }}" @if ($group_id == $channel->group_id) selected="selected" @endif>{{ $group_name }}</option>
+			@endforeach
+		</select>
 	</div>
-</fieldset>
+</div>
 
 <div class="form-group row">
 	<div class="col-sm-10">
-		{!! \Form::submit('Сохранить',['class'=> 'btn btn-dark']) !!}
+		{!! \Form::submit('Сохранить',['class'=> 'btn btn-primary']) !!}
 	</div>
 </div>
