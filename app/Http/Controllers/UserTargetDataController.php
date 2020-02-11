@@ -6,6 +6,7 @@ use App\SubProject;
 use App\UserSubProject;
 use App\UserTarget;
 use App\UserTargetData;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -83,6 +84,12 @@ class UserTargetDataController extends Controller
 		$changedList = $request->get('changed', []);
 		$dateFrom    = $request->get('dateFrom', '2020-01-13');
 		$dateTo      = $request->get('dateTo', '2020-01-19');
+		$startDate   = (new Carbon())->subDay(3)->startOfWeek();
+
+		// Проверка на 3 дня (предыдущую неделю можно редактировать лишь спустя еще 3 дня после)
+		if (Carbon::parse($dateFrom) < $startDate) {
+			response()->json(['status' => 'error', 'error' => 'На эту неделю нельзя заполнять данные. Прошли сроки']);
+		}
 
 		foreach ($changedList as $changed) {
 			$values         = $changed['values'];

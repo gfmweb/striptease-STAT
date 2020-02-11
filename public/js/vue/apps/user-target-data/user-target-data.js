@@ -36,6 +36,12 @@ const chat = new Vue({
 				}
 			});
 
+			moment.updateLocale("en", {
+				week: {
+					dow: 1, // First day of week is Monday
+				}
+			});
+
 			this.datePickerInit();
 		},
 		methods: {
@@ -57,6 +63,7 @@ const chat = new Vue({
 				weekPicker.datepicker({
 					format: 'dd.mm.yyyy',
 					language: 'ru',
+					startDate: moment().subtract(3, 'day').startOf('week').format('DD.MM.Y'),
 					calendarWeeks: true,
 					autoclose: true,
 					orientation: 'bottom',
