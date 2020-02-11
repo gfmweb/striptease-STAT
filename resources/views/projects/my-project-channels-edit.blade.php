@@ -8,7 +8,7 @@
 		<div class="col p-0">
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="/my-projects">Мои проекты</a></li>
-				<li class="breadcrumb-item"><a href="{{ route('my-projects',$subProject->id) }}">{{ $subProject->fullname }}</a></li>
+				<li class="breadcrumb-item"><a href="/my-projects/{{ $subProject->id }}/channels">{{ $subProject->fullname }}</a></li>
 				<li class="breadcrumb-item active">Добавление каналов</li>
 			</ol>
 		</div>
@@ -39,7 +39,7 @@
 						@endforeach
 					</tbody>
 				</table>
-				<a href="{{ route('my-projects',$subProject->id) }}" class="pull-left btn btn-outline-dark">Назад</a>
+				<a href="/my-projects/{{ $subProject->id }}/channels" class="pull-left btn btn-outline-dark">Назад</a>
 				{!! \Form::submit('Добавить',['class'=>'btn btn-success ml-3']) !!}
 
 				{!! \Form::close() !!}
