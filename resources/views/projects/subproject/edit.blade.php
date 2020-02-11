@@ -9,7 +9,7 @@
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="/projects">Проекты</a></li>
 				<li class="breadcrumb-item"><a href="/projects/{{ $project->id }}/edit">Проект "{{ $project->name }}"</a></li>
-				<li class="breadcrumb-item active">Подпроект "{{ $subProject->name }}" @if ($subProject->city) ({{ $subProject->city->name }})@endif</li>
+				<li class="breadcrumb-item active">{{ $subProject->name }} @if ($subProject->city) ({{ $subProject->city->name }})@endif</li>
 			</ol>
 		</div>
 	</div>
@@ -40,6 +40,25 @@
 								</select>
 							</div>
 						</div>
+
+						<div class="form-group row">
+							<label for="tags" class="col-sm-2 col-form-label">Тип аудитории</label>
+							<div class="col-sm-4">
+								<select id="tags" name="tags[]" class="form-control" multiple>
+									@php
+										$subProjectTags = [];
+										if ($subProject->tags) {
+											foreach ($subProject->tags as $subProjectTag) $subProjectTags[] = $subProjectTag->id;
+										}
+									@endphp
+									@foreach ($tags as $tag_id => $tag_name)
+										<option value="{{ $tag_id }}" @if (in_array($tag_id, $subProjectTags)) selected="selected" @endif>{{ $tag_name }}</option>
+									@endforeach
+								</select>
+							</div>
+						</div>
+
+
 						<div class="form-group">
 							@csrf
 							<input type="submit" value="Изменить подпроект" class="btn btn-primary">
@@ -50,3 +69,16 @@
 		</div>
 	</div>
 @endsection
+
+@push('js')
+	<script type="text/javascript" src="{{ asset('/vendor/select2/select2.full.min.js') }}"></script>
+	<script>
+		$('#tags').select2({
+			placeholder: "Выберите тэги",
+		});
+	</script>
+@endpush
+
+@push('css')
+	<link rel="stylesheet" type="text/css" href="{{ asset('/vendor/select2/select2.min.css') }}">
+@endpush

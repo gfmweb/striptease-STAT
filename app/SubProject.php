@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class SubProject extends Model
 {
 
-	use ListForSelectTrait;
+	use ListForSelectTrait, SoftDeletes;
 
 	protected $table = 'sub_projects';
 
@@ -30,8 +30,6 @@ class SubProject extends Model
 		'url',
 		'city_id',
 	];
-
-	use SoftDeletes;
 
 	// проект подпроекта
 	public function project()
@@ -65,6 +63,11 @@ class SubProject extends Model
 	public function getFullNameAttribute()
 	{
 		return $this->fullName();
+	}
+
+	public function tags()
+	{
+		return $this->belongsToMany('App\Tag');
 	}
 
 	public function getFullUrlAttribute()

@@ -1,9 +1,21 @@
 @extends('layouts.private')
 
 @section('content')
+
+	<div class="row page-titles">
+		<div class="col p-0">
+			<h4>Редактирование пользователя {{ $partner->name }}</h4>
+		</div>
+		<div class="col p-0">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="/partners">Пользователи</a></li>
+				<li class="breadcrumb-item active">{{ $partner->name }}</li>
+			</ol>
+		</div>
+	</div>
+
 	<div class="card">
 		<div class="card-body">
-			<div class="card-title mb-4">Редактирование партнера {{ $partner->name }}</div>
 			{!! Form::model($partner, ['route' => ['partners.update', $partner->id], 'method' => 'PUT']) !!}
 				@include('partners.partials.form')
 			{!! \Form::close(); !!}
@@ -70,7 +82,7 @@
 						</select>
 					</div>
 					{{ csrf_field() }}
-					<input type="submit" value="Добавить" class="btn btn-dark">
+					<input type="submit" value="Добавить" class="btn btn-primary">
 				</div>
 			</form>
 		</div>

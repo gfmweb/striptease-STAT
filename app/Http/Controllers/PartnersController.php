@@ -110,7 +110,7 @@ class PartnersController extends Controller
 		Mail::to($user)->send(new NewSubProjectForPartnerMail($subProject));
 
 		// добавим юзеру все таргеты по каналам с дефолтным комментарием
-		$channels = Channel::whereNull('parent_id')->get();
+		$channels = Channel::all();
 		foreach ($channels as $channel) {
 			$userTarget                      = new UserTarget;
 			$userTarget->user_sub_project_id = $userSubProject->id;

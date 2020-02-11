@@ -32,7 +32,11 @@ class ProjectsController extends Controller
 		$subProjects = $project->subProjects;
 		$cities      = City::all();
 
-		return view('projects.edit')->with(['project' => $project, 'subProjects' => $subProjects, 'cities' => $cities]);
+		return view('projects.edit')->with([
+			'project'     => $project,
+			'subProjects' => $subProjects,
+			'cities'      => $cities,
+		]);
 	}
 
 	public function create()
