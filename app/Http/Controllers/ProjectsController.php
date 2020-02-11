@@ -146,7 +146,7 @@ class ProjectsController extends Controller
 				'city'          => $userSubProject->subProject->city,
 				'id'            => $userSubProject->subProject->id,
 				'url'           => $userSubProject->subProject->url,
-				'fullUrl'           => $userSubProject->subProject->fullUrl,
+				'fullUrl'       => $userSubProject->subProject->fullUrl,
 				'appointedAt'   => $userSubProject->created_at,
 				'channelsCount' => $userSubProject->user_targets_count,
 			];
@@ -175,7 +175,7 @@ class ProjectsController extends Controller
 
 	public function myProjectChannelsEdit(Request $request, $subProjectId)
 	{
-		$userSubProject = UserSubProject::with(['userTargets:channel_id', 'subProject'])
+		$userSubProject = UserSubProject::with(['userTargets', 'subProject'])
 			->where('sub_project_id', $subProjectId)
 			->where('user_id', Auth::id())
 			->first();

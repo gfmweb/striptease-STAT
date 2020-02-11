@@ -23,22 +23,14 @@
 					<li><b>Город:</b> {{ $subProject->city ?  $subProject->city->name : '-' }}</li>
 				</ul>
 				{!! \Form::open(['route' => ['my-projects.channels.update',$subProject->id],'method'=>'POST']) !!}
-				<table class="table table-sm">
-					<thead>
-						<tr>
-							<th style="width: 30px"></th>
-							<th>Канал</th>
-						</tr>
-					</thead>
-					<tbody>
-						@foreach($channels as $id => $name)
-							<tr>
-								<td>{!! \Form::checkbox('channels[]', $id,null, ['id'=> 'channel_' . $id]) !!}</td>
-								<td><label for="channel_{{$id}}" class="cursor-pointer mb-0">{{ $name }}</label></td>
-							</tr>
-						@endforeach
-					</tbody>
-				</table>
+				<ul>
+					@foreach($channels as $id => $name)
+						<li>
+							{!! \Form::checkbox('channels[]', $id,null, ['id'=> 'channel_' . $id]) !!}
+							<label for="channel_{{$id}}" class="cursor-pointer mb-0">{{ $name }}</label>
+						</li>
+					@endforeach
+				</ul>
 				<a href="/my-projects/{{ $subProject->id }}/channels" class="pull-left btn btn-outline-dark">Назад</a>
 				{!! \Form::submit('Добавить',['class'=>'btn btn-success ml-3']) !!}
 
