@@ -6,6 +6,11 @@ use App\Traits\ListForSelectTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * Class Project
+ * @package App
+ * @property  string name
+ */
 class Project extends Model
 {
 

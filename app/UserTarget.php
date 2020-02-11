@@ -10,10 +10,17 @@ use Illuminate\Support\Collection;
  * @package App
  * @property int                         id
  * @property Channel                     channel
+ * @property int                         channel_id
  * @property Collection | UserTargetData data
  */
 class UserTarget extends Model
 {
+
+	protected $fillable = [
+		'user_sub_project_id',
+		'channel_id',
+		'status_id',
+	];
 
 	protected $dates = ['started_at', 'moderated_at'];
 
@@ -49,7 +56,8 @@ class UserTarget extends Model
 		return $this->hasMany(UserTargetData::class);
 	}
 
-	public function lastHistory() {
+	public function lastHistory()
+	{
 		return $this->hasOne('App\StatusHistory')->latest();
 	}
 }

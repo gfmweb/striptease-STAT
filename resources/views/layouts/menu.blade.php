@@ -5,7 +5,7 @@
 	</li>
 	<li class="nav-label">Проекты</li>
 	<li>
-		<a href="{{ route('user-targets') }}"><i class="mdi mdi-view-dashboard"></i> <span class="nav-text">Мои проекты</span></a>
+		<a href="{{ route('my-projects') }}"><i class="mdi mdi-view-dashboard"></i> <span class="nav-text">Мои проекты</span></a>
 	</li>
 	@if (Auth::user()->isAdmin() || Auth::user()->isSuperAdmin())
 		<li>

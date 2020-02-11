@@ -5,13 +5,10 @@ namespace App\Http\Controllers;
 use App\Channel;
 use App\Mail\NewSubProjectForPartnerMail;
 use App\Project;
-use App\Status;
-use App\StatusHistory;
 use App\SubProject;
 use App\User;
 use App\UserSubProject;
 use App\UserTarget;
-use Auth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -126,47 +123,6 @@ class PartnersController extends Controller
 		return redirect()->route('partners.edit', $id);
 	}
 
-	// проекты пользователя
-	public function userTargets()
-	{
-		// подпроекты юзера
-		$userSubProjects    = UserSubProject::where('user_id', Auth::user()->id)->get();
-		$userSubProjectsIds = [];
-		foreach ($userSubProjects as $userSubProject) $userSubProjectsIds[] = $userSubProject->id;
-
-		// таргеты юзера
-		$userTargets = UserTarget::whereIn('user_sub_project_id', $userSubProjectsIds)->paginate(40);
-
-		$statuses = Status::all();
-
-		return view('partners.targets')->with([
-			'userTargets' => $userTargets,
-			'statuses'    => $statuses,
-		]);
-	}
-
-	// обновление таргета пользователя
-	public function userTargetUpdate(Request $request)
-	{
-		$target            = UserTarget::where('id', $request->get('target_id'))->first();
-		$target->status_id = $request->get('target_status');
-		// статус "взят в работу" таргету проставляем только один раз
-		if ($request->get('target_status') == 2 && empty($target->started_at)) $target->started_at = now();
-		// статус "moderated_at" обновляется каждый раз при установке статуса "идут показы"
-		if ($request->get('target_status') == 4) $target->moderated_at = now();
-		$target->save();
-
-		// история смены статусов
-		$history                 = new StatusHistory();
-		$history->status_id      = $request->get('target_status');
-		$history->user_target_id = $request->get('target_id');
-		$history->comment        = $request->get('target_comment');
-		$history->save();
-
-		\Flash::success('Статус проекта обновлен');
-
-		return redirect()->back();
-	}
 
 	public function list(Request $request)
 	{
