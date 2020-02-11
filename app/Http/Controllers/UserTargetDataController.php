@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\SubProject;
 use App\UserSubProject;
+use App\City;
 use App\UserTarget;
 use App\UserTargetData;
 use Carbon\Carbon;
@@ -43,6 +44,7 @@ class UserTargetDataController extends Controller
 		$dateFrom     = $request->get('dateFrom');
 		$dateTo       = $request->get('dateTo');
 		$subProjectId = $request->get('subProjectId');
+		$city         = $request->get('city');
 
 		$list = UserSubProject::with(
 			[

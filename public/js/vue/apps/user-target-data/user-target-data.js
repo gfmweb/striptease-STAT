@@ -3,7 +3,9 @@ const chat = new Vue({
 		data: {
 			urls: {
 				get: '/user-target-data/list',
-				save: '/user-target-data/save'
+				save: '/user-target-data/save',
+				cities: '/cities/list',
+				subProjects: '/sub-projects/list',
 			},
 			loading: false,
 			loaded: false,
@@ -16,19 +18,51 @@ const chat = new Vue({
 				dateTo: null,
 				subProjectId: null,
 			},
+			cities: {
+				list: [],
+				selectedId: null,
+			},
 			subProjects: {
 				list: [],
-				selected: null
+				selected: null,
 			},
 			userTargetData: [],
 		},
 		computed: {
+			selectedCityIds: {
+				set: function (id) {
+					this.selectedCitiesId = id;
+					if (id === '') this.selectedSubProjectIds = '';
+				},
+				get: function () {
+					return this.getSelectedIds(this.cities);
+				}
+			},
+			selectedCityId: {
+				set: function (id) {
+					this.cities.selectedId = id;
+					if (id === '' || id === undefined) {
+						this.subProjects.list = [];
+					} else {
+						this.loadSubProjects();
+					}
+
+				},
+				get: function () {
+					return this.cities.selectedId;
+				}
+			},
 			filterSettled() {
-				return !!(this.filters.dateFrom && this.filters.dateTo && this.subProjects.selected);
+				return !!(
+					this.filters.dateFrom
+					&& this.filters.dateTo
+					&& this.subProjects.selected
+				);
 			},
 		},
 		mounted: function () {
-			this.subProjects.list = dataSubProjects;
+			this.loadCities();
+			// this.subProjects.list = dataSubProjects;
 
 			$.ajaxSetup({
 				headers: {
@@ -45,6 +79,22 @@ const chat = new Vue({
 			this.datePickerInit();
 		},
 		methods: {
+			getSelectedIds(list) {
+				let result = [];
+
+				if (list.selectedId === '') return result;
+
+				if (list.selectedId === 'all') {
+					for (let id in list.list) result.push(id);
+				} else {
+					result.push(list.selectedId);
+				}
+
+				return result;
+			},
+			hasElements(obj) {
+				return !!Object.values(obj).length;
+			},
 			haveChanges() {
 				let changed = this.getChangedChannels();
 				return changed && changed.length;
@@ -55,6 +105,47 @@ const chat = new Vue({
 			clearChangedList() {
 				const changed = this.getChangedChannels();
 				changed && changed.forEach(row => row.changed = false);
+			},
+			loadCities() {
+				this.loading = true;
+
+				$.ajax({
+					url: this.urls.cities,
+					type: "GET",
+					data: {},
+				}).done(data => {
+					this.loading = false;
+					this.cities.list = data;
+					/*if (!this.cities.list.length) {
+						this.subProjects.list = [];
+					}*/
+					this.selectedCityIds = '';
+
+				}).fail(error => {
+					this.loading = false;
+					console.error('LOAD Cities error', error);
+				});
+			},
+			loadSubProjects() {
+				this.loading = true;
+				const filters = {};
+
+				if (this.selectedCityIds.length) {
+					filters.cityIds = this.selectedCityIds;
+				}
+
+				$.ajax({
+					url: this.urls.subProjects,
+					type: "GET",
+					data: filters,
+				}).done(data => {
+					this.loading = false;
+					this.subProjects.list = data;
+					this.selectedSubProjectIds = '';
+				}).fail(error => {
+					this.loading = false;
+					console.error('LOAD subProjects error', error);
+				});
 			},
 			datePickerInit() {
 				const weekPicker = $("#date-range");

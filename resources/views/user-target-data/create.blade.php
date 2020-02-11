@@ -18,6 +18,15 @@
 										   readonly/>
 								</div>
 								<div class="form-group m-1">
+									<label for="city">Город</label>
+									<select name="city" id="city" class="custom-select" v-model="selectedCityId">
+										<option value="all" v-if="hasElements(cities.list)">Все</option>
+										<option v-for="(city,id) of cities.list" :value="id">
+											@{{ city }}
+										</option>
+									</select>
+								</div>
+								{{-- <div class="form-group m-1">
 									<label for="subProject">Проект</label><br>
 									<select name="subProject" id="subProject" class="custom-select"
 											v-model="subProjects.selected">
@@ -25,7 +34,29 @@
 											@{{subProject.name }}
 										</option>
 									</select>
+								</div> --}}
+
+								<div class="form-group m-1">
+									<label for="subProject">Проект</label><br>
+									<select name="subProject" id="subProject" class="custom-select"
+											v-model="subProjects.selected">
+										<option v-for="(subProject,id) of subProjects.list" :value="id">
+											@{{subProject }}
+										</option>
+									</select>
 								</div>
+
+								<!-- <div class="form-group col-md-3">
+									<label for="subProject">Проект</label>
+									<select name="subProject" id="subProject" class="form-control form-control-sm"
+											v-model="selectedSubProjectId">
+										<option value="all" v-if="hasElements(subProjects.list)">Все</option>
+										<option v-for="(subProject,id) of subProjects.list" :value="id">
+											@{{ subProject }}
+										</option>
+									</select>
+								</div>
+								 -->
 								<div class="form-group m-1">
 									<div class="btn btn-success ml-4 mt-3" v-if="filterSettled" @click="load()">
 										Показать
