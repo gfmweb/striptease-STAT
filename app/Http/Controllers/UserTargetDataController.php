@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\SubProject;
 use App\UserSubProject;
-use App\City;
 use App\UserTarget;
 use App\UserTargetData;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 
 class UserTargetDataController extends Controller
 {
@@ -21,22 +18,7 @@ class UserTargetDataController extends Controller
 
 	public function create()
 	{
-
-		/** @var Collection $dataSubProjects */
-		$dataSubProjects = \Auth::user()
-			->subProjects()
-			->with('project')
-			->get()
-			->map(function (SubProject $el) {
-				return [
-					'id'   => $el->id,
-					'name' => $el->fullName
-				];
-			});
-
-		return view('user-target-data.create', [
-			'dataSubProjects' => $dataSubProjects->toJson(),
-		]);
+		return view('user-target-data.create');
 	}
 
 	public function list(Request $request)

@@ -10,14 +10,14 @@
 					{{--VUE--}}
 					<div id="vue-user-target-data" class="data-block">
 						<div class="data-filter">
-							<form class="data-filter-form m-3 form-inline">
-								<div class="form-group m-1">
+							<form class="data-filter-form form-row">
+								<div class="form-group col-lg-3 col-md-6">
 									<label for="date-range">Неделя</label><br>
 									<input type="text" class="custom-select" name="date-range" id="date-range" value=""
 										   placeholder="Неделя"
 										   readonly/>
 								</div>
-								<div class="form-group m-1">
+								<div class="form-group col-lg-3 col-md-6">
 									<label for="city">Город</label>
 									<select name="city" id="city" class="custom-select" v-model="selectedCityId">
 										<option value="all" v-if="hasElements(cities.list)">Все</option>
@@ -26,17 +26,7 @@
 										</option>
 									</select>
 								</div>
-								{{-- <div class="form-group m-1">
-									<label for="subProject">Проект</label><br>
-									<select name="subProject" id="subProject" class="custom-select"
-											v-model="subProjects.selected">
-										<option v-for="subProject in subProjects.list" :value="subProject.id">
-											@{{subProject.name }}
-										</option>
-									</select>
-								</div> --}}
-
-								<div class="form-group m-1">
+								<div class="form-group col-lg-3 col-md-6">
 									<label for="subProject">Проект</label><br>
 									<select name="subProject" id="subProject" class="custom-select"
 											v-model="subProjects.selected">
@@ -45,23 +35,11 @@
 										</option>
 									</select>
 								</div>
-
-								<!-- <div class="form-group col-md-3">
-									<label for="subProject">Проект</label>
-									<select name="subProject" id="subProject" class="form-control form-control-sm"
-											v-model="selectedSubProjectId">
-										<option value="all" v-if="hasElements(subProjects.list)">Все</option>
-										<option v-for="(subProject,id) of subProjects.list" :value="id">
-											@{{ subProject }}
-										</option>
-									</select>
-								</div>
-								 -->
-								<div class="form-group m-1">
-									<div class="btn btn-success ml-4 mt-3" v-if="filterSettled" @click="load()">
+								<div class="form-group col-lg-3 col-md-4 filter-buttons flex-bottom-space">
+									<div class="btn btn-vimeo" v-if="filterSettled" @click="load()">
 										Показать
 									</div>
-									<div class="btn btn-success ml-4 mt-3" v-if="haveChanges() && filterSettled"
+									<div class="btn btn-success" v-if="haveChanges() && filterSettled"
 										 @click="save()">Сохранить
 									</div>
 								</div>
@@ -90,42 +68,43 @@
 										:class="{'project-row-edited':row.changed}">
 										<th>@{{ row.targetChannelName }}</th>
 										<td>
-											<editable-field v-model="row.values.coverage"
-															@input="row.changed = true"></editable-field>
+											<editable-field v-model="row.values.coverage" @input="row.changed = true" v-if="canEdit"></editable-field>
+											<span v-else>@{{ row.values.coverage }}</span>
 										</td>
 										<td>
-											<editable-field v-model="row.values.transition"
-															@input="row.changed = true"></editable-field>
+											<editable-field v-model="row.values.transition" @input="row.changed = true" v-if="canEdit"></editable-field>
+											<span v-else>@{{ row.values.transition }}</span>
 										</td>
 										<td>
-											<editable-field v-model="row.values.clicks"
-															@input="row.changed = true"></editable-field>
+											<editable-field v-model="row.values.clicks" @input="row.changed = true" v-if="canEdit"></editable-field>
+											<span v-else>@{{ row.values.clicks }}</span>
 										</td>
 										<td>
-											<editable-field v-model="row.values.leads"
-															@input="row.changed = true"></editable-field>
+											<editable-field v-model="row.values.leads" @input="row.changed = true" v-if="canEdit"></editable-field>
+											<span v-else>@{{ row.values.leads }}</span>
 										</td>
 										<td>
-											<editable-field v-model="row.values.activations"
-															@input="row.changed = true"></editable-field>
+											<editable-field v-model="row.values.activations" @input="row.changed = true" v-if="canEdit"></editable-field>
+											<span v-else>@{{ row.values.activations }}</span>
 										</td>
 										<td>
-											<editable-field v-model="row.values.cost"
-															@input="row.changed = true"></editable-field>
+											<editable-field v-model="row.values.cost" @input="row.changed = true" v-if="canEdit"></editable-field>
+											<span v-else>@{{ row.values.cost }}</span>
 										</td>
 										<td class="text-right">
 											@{{ (row.values.leads ? row.values.cost / row.values.leads : 0).toFixed(2) }}
 										</td>
 										<td>
-											<editable-field v-model="row.values.price"
-															@input="row.changed = true" def="0.00"></editable-field>
+											<editable-field v-model="row.values.price" @input="row.changed = true" def="0.00" v-if="canEdit"></editable-field>
+											<span v-else>@{{ row.values.price }}</span>
 										</td>
 										<td class="text-right">
-											@{{ (row.values.leads ? row.values.activations / row.values.leads * 100 : 0).toFixed(2)  }}%
+											@{{ (row.values.leads ? row.values.activations / row.values.leads * 100 : 0).toFixed(2) }}%
 										</td>
 									</tr>
 								</tbody>
 							</table>
+							<p v-if="!canEdit" class="text-danger">Данные внести невозможно. Прошли допустимые сроки на редактирование данной недели.</p>
 						</div>
 					</div>
 					{{--/VUE--}}
@@ -136,10 +115,6 @@
 @endsection
 
 @push('js')
-	<script type="text/javascript">
-		// For Vue mount
-		const dataSubProjects = false || {!! $dataSubProjects !!};
-	</script>
 	<script type="text/javascript" src="/vendor/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
 	<script type="text/javascript" src="/vendor/bootstrap-datepicker/bootstrap-datepicker.ru.min.js"></script>
 	<script type="text/javascript" src="/vendor/moment/moment.js"></script>

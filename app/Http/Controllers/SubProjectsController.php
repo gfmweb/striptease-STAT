@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\SubProject;
 use App\City;
+use App\SubProject;
 use App\Tag;
+use Auth;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
@@ -13,13 +14,21 @@ class SubProjectsController extends Controller
 	public function list(Request $request)
 	{
 		$cityIds = $request->get('cityIds');
+		$onlyMy  = !!$request->get('my', false);
 
 		SubProject::$listForSelectField = 'fullName';
 
-		$list = SubProject::listForSelect(function (Builder $query) use ($cityIds) {
+		$list = SubProject::listForSelect(function (Builder $query) use ($cityIds, $onlyMy) {
 			$query->with('project');
+			// Фильтр по городу
 			if ($cityIds) {
 				$query->whereIn('city_id', $cityIds);
+			}
+			// Фильтр по своим подпроектам
+			if ($onlyMy) {
+				$query->whereHas('userSubProject', function (Builder $builder) {
+					$builder->where('user_id', Auth::id());
+				});
 			}
 		});
 
@@ -28,7 +37,7 @@ class SubProjectsController extends Controller
 
 	public function store(Request $request, $project_id)
 	{
-		$subProject = new SubProject();
+		$subProject             = new SubProject();
 		$subProject->project_id = $project_id;
 		$subProject->fill($request->all());
 		$subProject->save();
@@ -55,7 +64,7 @@ class SubProjectsController extends Controller
 
 	public function update(Request $request, $project_id, $sub_project_id)
 	{
-		$subProject = SubProject::query()->findOrFail($sub_project_id);
+		$subProject             = SubProject::query()->findOrFail($sub_project_id);
 		$subProject->project_id = $project_id;
 		$subProject->fill($request->all());
 		$subProject->tags()->sync($request->tags);

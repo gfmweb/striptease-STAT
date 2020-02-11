@@ -69,3 +69,10 @@ table a {
 	background: #F1F4F5;
 	color: #000;
 }
+
+.filter-buttons.flex-bottom-space {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: flex-end;
+}

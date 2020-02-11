@@ -42,6 +42,11 @@ class SubProject extends Model
 		return $this->belongsTo('App\City', 'city_id');
 	}
 
+	public function userSubProject()
+	{
+		return $this->hasMany(UserSubProject::class);
+	}
+
 	public function userTarget()
 	{
 		return $this->hasMany(UserTarget::class);
