@@ -61,3 +61,11 @@ table a {
 .page-titles {
 	z-index: 0;
 }
+
+/* select2 */
+.select2-container--default .select2-selection--multiple {
+	border: 1px solid rgba(120, 130, 140, 0.13);
+	border-radius: 0;
+	background: #F1F4F5;
+	color: #000;
+}

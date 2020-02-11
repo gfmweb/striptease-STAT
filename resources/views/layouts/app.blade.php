@@ -22,10 +22,10 @@
 	<meta name="theme-color" content="#ffffff">
 
 	<link href="{{ asset('/vendor/ule/css/style.css') }}" rel="stylesheet">
-	@css('css/style.css')
 	<script src="{{ asset('/vendor/ule/js/modernizr-3.6.0.min.js') }}"></script>
 	<script type="text/javascript"> const _token = '{{ csrf_token() }}';</script>
 	@stack('css')
+	@css('css/style.css')
 	@yield('css')
 </head>
 

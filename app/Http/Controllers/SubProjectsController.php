@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\SubProject;
 use App\City;
+use App\Tag;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
@@ -42,11 +43,13 @@ class SubProjectsController extends Controller
 		$subProject = SubProject::query()->findOrFail($sub_project_id);
 		$project    = $subProject->project;
 		$cities     = City::listForSelect();
+		$tags       = Tag::listForSelect();
 
 		return view('projects.subproject.edit')->with([
-			'project'     => $project,
+			'project'    => $project,
 			'subProject' => $subProject,
-			'cities'      => $cities,
+			'cities'     => $cities,
+			'tags'       => $tags,
 		]);
 	}
 
@@ -55,6 +58,7 @@ class SubProjectsController extends Controller
 		$subProject = SubProject::query()->findOrFail($sub_project_id);
 		$subProject->project_id = $project_id;
 		$subProject->fill($request->all());
+		$subProject->tags()->sync($request->tags);
 		$subProject->save();
 
 		\Flash::success('Подпроект изменен');
