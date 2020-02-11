@@ -22,7 +22,7 @@
 							<tbody>
 								@foreach($subProjects as $subProject)
 									<tr>
-										<td><a href="{{ route('my-projects.channels',$subProject['project']->id) }}">{{ $subProject['project']->name }}</a></td>
+										<td><a href="{{ route('my-projects.channels',$subProject['id']) }}">{{ $subProject['project']->name }}</a></td>
 										<td>{{ $subProject['name'] }}</td>
 										<td>{{ $subProject['city'] ? $subProject['city']->name : '-' }}</td>
 										<td>{{ $subProject['appointedAt']->format('d.m.Y') }}</td>
@@ -34,7 +34,7 @@
 										</td>
 										<td>
 											@if ($subProject['channelsCount'] > 0)
-												<a href="{{ route('my-projects.channels',$subProject['project']->id) }}">{{ $subProject['channelsCount'] }}</a>
+												<a href="{{ route('my-projects.channels',$subProject['id']) }}">{{ $subProject['channelsCount'] }}</a>
 											@else
 												{{$subProject['channelsCount']}}
 											@endif
