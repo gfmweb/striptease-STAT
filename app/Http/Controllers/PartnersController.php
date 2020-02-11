@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Channel;
 use App\Mail\NewSubProjectForPartnerMail;
 use App\Project;
 use App\SubProject;
 use App\User;
 use App\UserSubProject;
-use App\UserTarget;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -108,15 +106,6 @@ class PartnersController extends Controller
 
 		// Отправка письма
 		Mail::to($user)->send(new NewSubProjectForPartnerMail($subProject));
-
-		// добавим юзеру все таргеты по каналам с дефолтным комментарием
-		$channels = Channel::all();
-		foreach ($channels as $channel) {
-			$userTarget                      = new UserTarget;
-			$userTarget->user_sub_project_id = $userSubProject->id;
-			$userTarget->channel_id          = $channel->id;
-			$userTarget->save();
-		}
 
 		\Flash::success('Проект добавлен партнеру');
 

@@ -5,7 +5,9 @@
 	<title>BVCRM</title>
 </head>
 <body>
-<div class="logo">BVCRM / STAT</div>
+<div class="logo">
+	<img src="/img/logo_big.jpg" style="">
+</div>
 <a class="login" href="{{ route('home') }}">вход</a>
 <style type="text/css">
 	body {
@@ -15,7 +17,7 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		background: linear-gradient(97deg, #949494, #e8e8e8);
+		background: linear-gradient(105deg, #ffffff, #5d3b75);
 	}
 
 	.logo {
@@ -25,6 +27,11 @@
 		font-family: "PT SANS", Arial, serif;
 		text-shadow: 0px -53px 0px rgba(128, 128, 128, 0.38);
 		transition: all 1s ease;
+	}
+
+	.logo img {
+		box-shadow: 4px 3px 4px rgba(0, 0, 0, 0.46);
+		border-radius: 10px;
 	}
 
 	.login {

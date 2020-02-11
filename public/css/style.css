@@ -3,6 +3,7 @@
 	border-radius: 5px;
 	padding: 5px 6px;
 	margin-top: 0;
+	box-shadow: 3px 4px 5px rgba(0, 0, 0, 0.18);
 }
 
 table.table td {
