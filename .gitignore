@@ -13,3 +13,7 @@ yarn-error.log
 .env
 sftp-config.json
 .phpunit.result.cache
+
+_ide_helper.php
+
+.phpstorm.meta.php

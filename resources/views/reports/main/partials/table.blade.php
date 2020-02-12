@@ -17,7 +17,7 @@
 			<td colspan="5">Суммарно:</td>
 			<td>{{ $report->sum('leads') }}</td>
 			<td>{{ $report->sum('activations') }}</td>
-			<td>{{ $report->sum('cost') }}</td>
+			<td>{{ App\Helpers\TextHelper::numberFormat($report->sum('cost')) }}</td>
 			<td title="[сумма Затраты] / [сумма Кол. лидов]">{{ App\Helpers\TextHelper::numberFormat($report->cplSum(),2) }}</td>
 			<td title="[сумма Затраты] / [сумма Кол. активаций]">{{ App\Helpers\TextHelper::numberFormat($report->activationPriceSum(),2) }}</td>
 			<td title="[сумма Кол. активаций] / [сумма Кол. лидов] * 100">{{ App\Helpers\TextHelper::numberFormat($report->conversionSum(),2) }} %</td>
@@ -39,7 +39,7 @@
 			</td>
 			<td class="text-right">{{ $item['leads'] }}</td>
 			<td class="text-right">{{ $item['activations'] }}</td>
-			<td class="text-right">{{ $item['cost'] }}</td>
+			<td class="text-right">{{ App\Helpers\TextHelper::numberFormat($item['cost']) }}</td>
 
 			<td class="text-right nowrap">{{ App\Helpers\TextHelper::numberFormat($item['cpl'],2) }}</td>
 			<td class="text-right">{{ App\Helpers\TextHelper::numberFormat($item['activationPrice'],2) }}</td>
