@@ -95,8 +95,7 @@
 											@{{ (row.values.leads ? row.values.cost / row.values.leads : 0).toFixed(2) }}
 										</td>
 										<td>
-											<editable-field v-model="row.values.price" @input="row.changed = true" def="0.00" v-if="canEdit"></editable-field>
-											<span v-else>@{{ row.values.price }}</span>
+											@{{ (row.values.activations ? row.values.cost / row.values.activations : 0).toFixed(2) }}
 										</td>
 										<td class="text-right">
 											@{{ (row.values.leads ? row.values.activations / row.values.leads * 100 : 0).toFixed(2) }}%

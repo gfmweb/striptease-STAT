@@ -122,9 +122,6 @@ const userTargetData = new Vue({
 			}).done(data => {
 				this.loading = false;
 				this.cities.list = data;
-				/*if (!this.cities.list.length) {
-					this.subProjects.list = [];
-				}*/
 				this.selectedCityIds = '';
 
 			}).fail(error => {

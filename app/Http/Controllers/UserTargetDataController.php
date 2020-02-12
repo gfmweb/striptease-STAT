@@ -85,14 +85,9 @@ class UserTargetDataController extends Controller
 				$userTargetData->date_to        = $dateTo;
 			}
 
-			$userTargetData->coverage    = $values['coverage'];
-			$userTargetData->transition  = $values['transition'];
-			$userTargetData->clicks      = $values['clicks'];
-			$userTargetData->leads       = $values['leads'];
-			$userTargetData->activations = $values['activations'];
-			$userTargetData->price       = $values['price'];
-			$userTargetData->cost        = $values['cost'];
-
+			foreach (UserTargetData::$values as $field) {
+				$userTargetData->{$field} = $values[$field];
+			}
 
 			$userTargetData->save();
 		}
