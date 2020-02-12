@@ -1,4 +1,4 @@
-<table class="table table-striped table-sm">
+<table class="table table-striped table-sm f-s-13">
 	<thead>
 		<tr>
 			<th>Город</th>
@@ -17,16 +17,16 @@
 	@forelse($report as $row)
 		<tr>
 			<td>{{ $row['city'] }}</td>
-			<td class="nowrap" >
+			<td class="f-s-12">
 				{{ $row['subProject'] }}
 				<br>
 				{{ $row['url'] }}
 			</td>
 			<td>{{ $row['partner'] }}</td>
 			<td>{{ $row['channel'] }}</td>
-			<td style="white-space:nowrap">
-				{{ $row['dateFrom']->format('d.m.Y') }}
-				- {{ $row['dateTo']->format('d.m.Y')}}
+			<td class="text-right nowrap">
+				с {{ $row['dateFrom']->format('d.m.Y') }}<br>
+				по {{ $row['dateTo']->format('d.m.Y')}}
 			</td>
 			<td class="text-right">{{ $row['leads'] }}</td>
 			<td class="text-right">{{ $row['activations'] }}</td>

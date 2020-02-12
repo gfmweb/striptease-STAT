@@ -32,10 +32,25 @@
 					@endforeach
 				</ul>
 				<a href="/my-projects/{{ $subProject->id }}/channels" class="pull-left btn btn-outline-dark">Назад</a>
-				{!! \Form::submit('Добавить',['class'=>'btn btn-success ml-3']) !!}
+				{!! \Form::submit('Добавить',['class'=>'btn btn-success ml-3','id'=>'add-channels-submit', 'style'=>'display:none']) !!}
 
 				{!! \Form::close() !!}
 			</div>
 		</div>
 	</div>
 @endsection
+@push('js')
+	<script>
+		$(() => {
+			const checkboxList = $('input[name="channels[]"]');
+			const submitButton = $('#add-channels-submit');
+			checkboxList.change(() => {
+				if (checkboxList.filter(':checked').length > 0) {
+					submitButton.show();
+				} else {
+					submitButton.hide();
+				}
+			});
+		});
+	</script>
+@endpush

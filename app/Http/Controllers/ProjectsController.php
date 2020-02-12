@@ -198,18 +198,22 @@ class ProjectsController extends Controller
 
 	public function myProjectChannelsUpdate(Request $request, $subProjectId)
 	{
-		$channelIds     = $request->get('channels');
-		$userSubProject = UserSubProject::query()
-			->where('sub_project_id', $subProjectId)
-			->where('user_id', Auth::id())
-			->first();
+		$channelIds = $request->get('channels');
+		if (!empty($channelIds)) {
+			$userSubProject = UserSubProject::query()
+				->where('sub_project_id', $subProjectId)
+				->where('user_id', Auth::id())
+				->first();
 
-		$newUserTargets = [];
-		foreach ($channelIds as $channelId) {
-			UserTarget::query()->create([
-				'user_sub_project_id' => $userSubProject->id,
-				'channel_id'          => $channelId
-			]);
+			$newUserTargets = [];
+			foreach ($channelIds as $channelId) {
+				UserTarget::query()->create([
+					'user_sub_project_id' => $userSubProject->id,
+					'channel_id'          => $channelId
+				]);
+			}
+
+			\Flash::success('Каналы успешно добавлены');
 		}
 
 		return response()->redirectToRoute('my-projects.channels', $subProjectId);

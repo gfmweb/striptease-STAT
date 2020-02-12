@@ -52,9 +52,9 @@
 								<thead>
 									<tr>
 										<th style="width: 200px;">Канал</th>
-										<th>Охват</th>
+										<th style="min-width: 80px;">Охват</th>
 										<th>Переходы/просмотры</th>
-										<th>Клики</th>
+										<th style="min-width: 70px;">Клики</th>
 										<th>Кол-во лидов</th>
 										<th>Кол-во активациий</th>
 										<th>Затраты, руб.</th>
