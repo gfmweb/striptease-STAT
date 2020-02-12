@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\UserSubProject;
-use App\UserTarget;
-use App\UserTargetData;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Reports\MainReport\MainReport;
 use Illuminate\Http\Request;
 
 class ReportsController extends Controller
@@ -25,53 +22,18 @@ class ReportsController extends Controller
 	 */
 	public function mainReportData(Request $request)
 	{
-		$channelIds    = $request->get('channelIds', []);
-		$subProjectIds = $request->get('subProjectIds', []);
-		$partnersIds   = $request->get('partnerIds', []);
-		$dateFrom      = $request->get('dateFrom');
-		$dateTo        = $request->get('dateTo');
+		$params = [
+			'channelIds'    => $request->get('channelIds', []),
+			'subProjectIds' => $request->get('subProjectIds', []),
+			'partnerIds'    => $request->get('partnerIds', []),
+			'dateFrom'      => $request->get('dateFrom'),
+			'dateTo'        => $request->get('dateTo'),
+		];
 
-		$report = collect();
+		$report = new MainReport($params);
+		$report->sortBy('dateFrom');
 
-		// Запрос
-		$data = UserSubProject::with(
-			[
-				'userTargets' => function (HasMany $query) use ($channelIds) {
-					$query->whereIn('channel_id', $channelIds);
-				},
-
-				'userTargets.data' => function (HasMany $query) use ($dateFrom, $dateTo) {
-					$query
-						->whereBetween('date_from', [$dateFrom, $dateTo])
-						->orWhereBetween('date_to', [$dateFrom, $dateTo]);
-				},
-				'userTargets.channel',
-				'subProject',
-				'subProject.project',
-				'subProject.city',
-				'user',
-			])
-			->whereIn('user_id', $partnersIds)
-			->whereIn('sub_project_id', $subProjectIds)
-			->get();
-		// Обработка результата
-		$data->each(function (UserSubProject $userSubProject) use ($report) {
-			$userSubProject->userTargets->each(function (UserTarget $userTarget) use ($report, $userSubProject) {
-				$userTarget->data->each(function (UserTargetData $userTargetData) use ($report, $userTarget, $userSubProject) {
-					$report->push([
-							'city'       => $userSubProject->subProject->city->name,
-							'subProject' => $userSubProject->subProject->fullName,
-							'url'        => $userSubProject->subProject->url,
-							'partner'    => $userSubProject->user->name,
-							'channel'    => $userTarget->channel->name,
-							'dateFrom'   => $userTargetData->date_from,
-							'dateTo'     => $userTargetData->date_to,
-						] + $userTargetData->onlyValues());
-				});
-			});
-		});
-
-		return view('reports.main.partials.table')->with(['report' => $report->sortBy('dateFrom')]);
+		return view('reports.main.partials.table')->with(['report' => $report]);
 	}
 
 }

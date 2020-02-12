@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string  fullName
  * @property string  url
  * @property string  fullUrl
+ * @property string  shortUrl
  * @property Project project
  * @property City    city
  */
@@ -73,6 +74,11 @@ class SubProject extends Model
 	public function tags()
 	{
 		return $this->belongsToMany('App\Tag');
+	}
+
+	public function getShortUrlAttribute()
+	{
+		return preg_replace('/(^http:\/\/|^https:\/\/|\/$)/', '', $this->url);
 	}
 
 	public function getFullUrlAttribute()

@@ -77,3 +77,18 @@ table a {
 	justify-content: space-around;
 	align-items: flex-end;
 }
+
+/* Для отчетов */
+
+.font-family-arial {
+	font-family: arial, sans-serif;
+}
+.line-height-2 {
+	line-height: 1.5em;
+}
+
+.bg-grey {
+	background-color: #acaabb !important;
+	color: #fff !important;
+	fill: #978DED !important;
+}

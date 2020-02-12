@@ -1,8 +1,8 @@
-<table class="table table-striped table-sm f-s-13">
+<table class="f-s-13 font-family-arial table table-bordered table-sm table-striped">
 	<thead>
 		<tr>
 			<th>Город</th>
-			<th>Подпроект<br>Сайт</th>
+			<th>Подпроект / Сайт</th>
 			<th>Партнер</th>
 			<th>Канал</th>
 			<th>Неделя</th>
@@ -13,28 +13,37 @@
 			<th title="[Затраты] / [Кол. активаций]">Стоимость активации</th>
 			<th title="[Кол. активаций] / [Кол. лидов] * 100">Конверсия, %</th>
 		</tr>
+		<tr class="text-right bg-grey">
+			<td colspan="5">Суммарно:</td>
+			<td>{{ $report->sum('leads') }}</td>
+			<td>{{ $report->sum('activations') }}</td>
+			<td>{{ $report->sum('cost') }}</td>
+			<td title="[сумма Затраты] / [сумма Кол. лидов]">{{ App\Helpers\TextHelper::numberFormat($report->cplSum(),2) }}</td>
+			<td title="[сумма Затраты] / [сумма Кол. активаций]">{{ App\Helpers\TextHelper::numberFormat($report->activationPriceSum(),2) }}</td>
+			<td title="[сумма Кол. активаций] / [сумма Кол. лидов] * 100">{{ App\Helpers\TextHelper::numberFormat($report->conversionSum(),2) }} %</td>
+		</tr>
 	</thead>
-	@forelse($report as $row)
+	@forelse($report->items as $item)
 		<tr>
-			<td>{{ $row['city'] }}</td>
+			<td>{{ $item['city'] }}</td>
 			<td class="f-s-12">
-				{{ $row['subProject'] }}
-				<br>
-				{{ $row['url'] }}
+				<b>{{ $item['projectName'] }}</b><br>
+				{{ $item['subProjectName'] }}<br>
+				<a href="{{ $item['url'] }}">{{ $item['shortUrl'] }}</a>
 			</td>
-			<td>{{ $row['partner'] }}</td>
-			<td>{{ $row['channel'] }}</td>
-			<td class="text-right nowrap">
-				с {{ $row['dateFrom']->format('d.m.Y') }}<br>
-				по {{ $row['dateTo']->format('d.m.Y')}}
+			<td>{{ $item['partner'] }}</td>
+			<td>{{ $item['channel'] }}</td>
+			<td class="text-right nowrap line-height-2">
+				с {{ $item['dateFrom']->format('d.m.Y') }}<br>
+				по {{ $item['dateTo']->format('d.m.Y')}}
 			</td>
-			<td class="text-right">{{ $row['leads'] }}</td>
-			<td class="text-right">{{ $row['activations'] }}</td>
-			<td class="text-right">{{ $row['cost'] }}</td>
+			<td class="text-right">{{ $item['leads'] }}</td>
+			<td class="text-right">{{ $item['activations'] }}</td>
+			<td class="text-right">{{ $item['cost'] }}</td>
 
-			<td class="text-right nowrap">{{ App\Helpers\TextHelper::numberFormat(App\Helpers\CalcHelper::cpl($row['leads'], $row['cost']),2) }}</td>
-			<td class="text-right">{{ App\Helpers\TextHelper::numberFormat(App\Helpers\CalcHelper::cpl($row['activations'], $row['cost']),2) }}</td>
-			<td class="text-right">{{ App\Helpers\TextHelper::numberFormat(App\Helpers\CalcHelper::percent($row['activations'], $row['leads']),2) }}%</td>
+			<td class="text-right nowrap">{{ App\Helpers\TextHelper::numberFormat($item['cpl'],2) }}</td>
+			<td class="text-right">{{ App\Helpers\TextHelper::numberFormat($item['activationPrice'],2) }}</td>
+			<td class="text-right">{{ App\Helpers\TextHelper::numberFormat($item['conversionSum'],2) }}%</td>
 		</tr>
 	@empty
 		<tr>
