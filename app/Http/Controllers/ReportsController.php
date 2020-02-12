@@ -14,7 +14,16 @@ class ReportsController extends Controller
 	 * @param Request $request
 	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
 	 */
-	public function main(Request $request)
+	public function mainReport(Request $request)
+	{
+		return response()->view('reports.main.index');
+	}
+
+	/**
+	 * @param Request $request
+	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 */
+	public function mainReportData(Request $request)
 	{
 		$channelIds    = $request->get('channelIds', []);
 		$subProjectIds = $request->get('subProjectIds', []);
@@ -62,7 +71,7 @@ class ReportsController extends Controller
 			});
 		});
 
-		return view('reports.main')->with(['report' => $report->sortBy('dateFrom')]);
+		return view('reports.main.partials.table')->with(['report' => $report->sortBy('dateFrom')]);
 	}
 
 }

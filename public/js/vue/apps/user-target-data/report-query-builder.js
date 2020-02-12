@@ -6,7 +6,7 @@ const chat = new Vue({
 				subProjects: '/sub-projects/list',
 				partners: '/partners/list',
 				channels: '/channels/list',
-				report: '/reports/main',
+				report: '/reports/main/data',
 			},
 			loadingCount: 0,
 			loaded: false,
@@ -46,8 +46,7 @@ const chat = new Vue({
 					&& this.subProjects.selectedId
 					&& this.partners.selectedId
 					&& this.channels.selectedId
-					&& this.dateFrom
-					&& this.dateTo
+					&& (this.dateFrom || this.dateTo)
 				);
 			},
 			selectedCityIds: {
@@ -145,27 +144,41 @@ const chat = new Vue({
 
 				return result;
 			},
-			dateSqlFormat(dateString) {
+			dateSqlFormat(dateString, def = '0000-00-00') {
+				if (!dateString || !dateString.match(/(\d{2}).(\d{2}).(\d{4})/)) return def;
 				return dateString.replace(/(\d{2}).(\d{2}).(\d{4})/, '$3-$2-$1');
 			},
 			datePickerInit() {
-				const picker = $("#date-range");
-				const that = this;
-				picker.datepicker({
+				const pickerDateFrom = $('input[name="dateFrom"]');
+				const pickerDateTo = $('input[name="dateTo"]');
+
+				pickerDateFrom.datepicker({
 					format: 'dd.mm.yyyy',
 					language: 'ru',
 					calendarWeeks: true,
 					autoclose: true,
 					orientation: 'bottom',
 				});
+				pickerDateFrom.on('changeDate', () => {
+					this.dateFrom = pickerDateFrom.val()
+				});
+				pickerDateFrom.on('hide', () => {
+					this.dateFrom = pickerDateFrom.val()
+				});
 
-				function onDateChange(e) {
-					that.dateFrom = picker.find('input[name="dateFrom"]').val();
-					that.dateTo = picker.find('input[name="dateTo"]').val();
-				}
-
-				picker.on('changeDate', onDateChange);
-				picker.on('hide', onDateChange);
+				pickerDateTo.datepicker({
+					format: 'dd.mm.yyyy',
+					language: 'ru',
+					calendarWeeks: true,
+					autoclose: true,
+					orientation: 'bottom',
+				});
+				pickerDateTo.on('changeDate', () => {
+					this.dateTo = pickerDateTo.val()
+				});
+				pickerDateTo.on('hide', () => {
+					this.dateTo = pickerDateTo.val()
+				});
 			},
 			loadCities() {
 				this.loading = true;
@@ -261,7 +274,7 @@ const chat = new Vue({
 					partnerIds: this.selectedPartnerIds,
 					channelIds: this.selectedChannelIds,
 					dateFrom: this.dateSqlFormat(this.dateFrom),
-					dateTo: this.dateSqlFormat(this.dateTo),
+					dateTo: this.dateSqlFormat(this.dateTo, moment().format('Y-MM-DD')),
 				};
 
 				$.ajax({

@@ -57,7 +57,7 @@
 
 								<div class="form-row">
 									<div class="form-group col-md-6">
-										<div class="input-group input-daterange" name="date-range" id="date-range">
+										<div class="input-group input-daterange" name="date-range">
 											<div class="mx-2 mt-2">Период с</div>
 											<input type="text" class="form-control form-control-sm datepicker-input" name="dateFrom" :value="dateFrom" @input="changeDates($emit)">
 											<div class="mx-2 mt-2">по</div>
@@ -90,6 +90,7 @@
 	</script>
 	<script type="text/javascript" src="/vendor/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
 	<script type="text/javascript" src="/vendor/bootstrap-datepicker/bootstrap-datepicker.ru.min.js"></script>
+	<script type="text/javascript" src="/vendor/moment/moment.js"></script>
 	<script type="text/javascript" src="/vendor/vue/vue.js"></script>
 	@js('/js/vue/components/loading-block.js')
 	@js('/js/vue/apps/user-target-data/report-query-builder.js')

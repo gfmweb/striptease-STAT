@@ -11,11 +11,6 @@ use Illuminate\Http\Request;
 
 class UserTargetDataController extends Controller
 {
-	public function index()
-	{
-		return response()->view('user-target-data.index');
-	}
-
 	public function create()
 	{
 		return view('user-target-data.create');

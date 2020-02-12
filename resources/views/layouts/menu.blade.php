@@ -17,7 +17,7 @@
 		</li>
 		<li class="nav-label">Отчеты</li>
 		<li>
-			<a href="{{ route('user-target-data.index') }}"><i class="ion-android-list"></i><span class="nav-text">Отчет по партнерам</span></a>
+			<a href="{{ route('reports.main') }}"><i class="ion-android-list"></i><span class="nav-text">Отчет по партнерам</span></a>
 		</li>
 		<li class="nav-label">Справочники</li>
 		<li>

@@ -27,7 +27,6 @@ Route::match(['post', 'get'], 'register', function () {
 // партнеры
 Route::middleware('auth')->group(function () {
 	Route::get('home', 'HomeController@index')->name('home');
-	Route::get('user-target-data/index', 'UserTargetDataController@index')->name('user-target-data.index');
 	Route::get('user-target-data/create', 'UserTargetDataController@create')->name('user-target-data.create');
 	Route::get('user-target-data/list', 'UserTargetDataController@list')->name('user-target-data.list');
 	Route::post('user-target-data/save', 'UserTargetDataController@save')->name('user-target-data.save');
@@ -36,7 +35,8 @@ Route::middleware('auth')->group(function () {
 	Route::get('/sub-projects/list', 'SubProjectsController@list')->name('sub-projects.list');
 	Route::get('/channels/list', 'ChannelsController@list')->name('channels.list');
 
-	Route::post('/reports/main', 'ReportsController@main')->name('reports.main');
+	Route::get('/reports/main', 'ReportsController@mainReport')->name('reports.main');
+	Route::post('/reports/main/data', 'ReportsController@mainReportData')->name('reports.main.data');
 
 	Route::get('my-projects', 'ProjectsController@myProjects')->name('my-projects');
 	Route::post('my-projects/target-update', 'ProjectsController@myProjectTargetUpdate')->name('my-projects.update');
