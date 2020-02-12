@@ -134,11 +134,12 @@ const userTargetData = new Vue({
 		},
 		loadSubProjects() {
 			this.loading = true;
-			const filters = {};
+			const filters = {
+				my: true
+			};
 
 			if (this.selectedCityIds.length && this.selectedCityIds[0] !== null) {
 				filters.cityIds = this.selectedCityIds;
-				filters.my = true;
 			}
 
 			$.ajax({
