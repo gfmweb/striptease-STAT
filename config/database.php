@@ -51,7 +51,7 @@ return [
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => env('DB_PREFIX', 'cc71924_'),
             'strict' => true,
-            'engine' => null,
+            'engine' => 'InnoDB',
         ],
 
         'pgsql' => [
