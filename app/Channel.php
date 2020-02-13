@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Channel extends Model
 {
-	use ListForSelectTrait;
+	use ListForSelectTrait, SoftDeletes;
 
 	protected $table = 'channels';
 

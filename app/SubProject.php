@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class SubProject extends Model
 {
 
-	use ListForSelectTrait;
+	use ListForSelectTrait, SoftDeletes;
 
 	protected $table = 'sub_projects';
 
