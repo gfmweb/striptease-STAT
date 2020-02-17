@@ -68,13 +68,18 @@ table a {
 	border: 1px solid rgba(120, 130, 140, 0.13);
 	border-radius: 0;
 	background: #F1F4F5;
+	height: 40px;
 	color: #000;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+	padding-top: 2px;
+	padding-bottom: 2px;
 }
 
 .filter-buttons.flex-bottom-space {
 	display: flex;
 	flex-direction: row;
-	justify-content: space-around;
 	align-items: flex-end;
 }
 
@@ -91,4 +96,8 @@ table a {
 	background-color: #acaabb !important;
 	color: #fff !important;
 	fill: #978DED !important;
+}
+
+.form-control-sm {
+	height: 40px;
 }

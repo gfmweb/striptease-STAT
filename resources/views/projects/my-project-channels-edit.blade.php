@@ -15,24 +15,27 @@
 	</div>
 	<div class="card">
 		<div class="card-body">
-			<div class="card-title mb-4">Укажите необходимые каналы из доступных</div>
-			<div class="table-responsive">
-				<ul>
+			<div class="clearfix">
+				<ul class="pull-right text-right">
 					<li><b>Проект:</b> {{ $subProject->project->name }}</li>
 					<li><b>Подпроект:</b> {{ $subProject->name }}</li>
 					<li><b>Город:</b> {{ $subProject->city ?  $subProject->city->name : '-' }}</li>
 				</ul>
+				<div class="card-title mb-4">Укажите необходимые каналы из доступных</div>
+			</div>
+			<div>
+
 				{!! \Form::open(['route' => ['my-projects.channels.update',$subProject->id],'method'=>'POST']) !!}
 				<ul>
 					@foreach($channels as $id => $name)
-						<li>
+						<li class="list-group-item">
 							{!! \Form::checkbox('channels[]', $id,null, ['id'=> 'channel_' . $id]) !!}
 							<label for="channel_{{$id}}" class="cursor-pointer mb-0">{{ $name }}</label>
 						</li>
 					@endforeach
 				</ul>
-				<a href="/my-projects/{{ $subProject->id }}/channels" class="pull-left btn btn-outline-dark">Назад</a>
-				{!! \Form::submit('Добавить',['class'=>'btn btn-success ml-3','id'=>'add-channels-submit', 'style'=>'display:none']) !!}
+				<a href="/my-projects/{{ $subProject->id }}/channels" class="btn btn-outline-secondary">Назад</a>
+				{!! \Form::submit('Добавить',['class'=>'btn btn-primary ml-2','id'=>'add-channels-submit', 'style'=>'display:none']) !!}
 
 				{!! \Form::close() !!}
 			</div>

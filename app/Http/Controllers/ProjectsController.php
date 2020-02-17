@@ -137,6 +137,7 @@ class ProjectsController extends Controller
 			->userSubProjects()
 			->with(['subProject', 'subProject.project', 'subProject.city'])
 			->withCount('userTargets')
+			->orderBy('created_at', 'desc')
 			->get();
 
 		$subProjects = $userSubProjects->map(function (UserSubProject $userSubProject) {
