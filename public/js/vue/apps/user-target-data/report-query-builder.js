@@ -180,6 +180,43 @@ const chat = new Vue({
 					this.dateTo = pickerDateTo.val()
 				});
 			},
+			dataTableInit() {
+				$('.report-table').DataTable({
+					// order: [[2, "asc"]],
+					fixedHeader: {
+						header: true,
+						headerOffset: 45,
+					},
+					orderCellsTop: true,
+					columnDefs: [
+						{targets: [0, 1, 2, 3], type: "string"},
+						{targets: [4], type: 'reportWeek'},
+						{targets: [5, 6, 7, 8, 9, 10], type: 'reportNumeric'}
+					],
+					language: {
+						"processing": "Подождите...",
+						"search": "Поиск:",
+						"lengthMenu": "Показать _MENU_ записей",
+						"info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+						"infoEmpty": "Записи с 0 до 0 из 0 записей",
+						"infoFiltered": "(отфильтровано из _MAX_ записей)",
+						"infoPostFix": "",
+						"loadingRecords": "Загрузка записей...",
+						"zeroRecords": "Записи отсутствуют.",
+						"emptyTable": "В таблице отсутствуют данные",
+						"paginate": {
+							"first": "Первая",
+							"previous": "Предыдущая",
+							"next": "Следующая",
+							"last": "Последняя"
+						},
+						"aria": {
+							"sortAscending": ": активировать для сортировки столбца по возрастанию",
+							"sortDescending": ": активировать для сортировки столбца по убыванию"
+						}
+					}
+				});
+			},
 			loadCities() {
 				this.loading = true;
 
@@ -284,7 +321,15 @@ const chat = new Vue({
 				}).done(data => {
 					this.loading = false;
 					this.loaded = true;
+					const changed = this.report != data;
 					this.report = data;
+					if (changed) {
+						// Применяем только если изменялись данные
+						// Когда DOM не меняется, то все живое остается и так
+						setTimeout(() => {
+							this.dataTableInit();
+						}, 100);
+					}
 				}).fail(error => {
 					this.loading = false;
 					console.error('LOAD report error', error);

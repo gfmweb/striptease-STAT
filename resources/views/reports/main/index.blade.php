@@ -94,7 +94,9 @@
 	<script type="text/javascript" src="/vendor/vue/vue.js"></script>
 	@js('/js/vue/components/loading-block.js')
 	@js('/js/vue/apps/user-target-data/report-query-builder.js')
-
+	<script type="text/javascript" src="/vendor/tables/css/datatable/dataTables.bootstrap4.min.css"></script>
+	<script type="text/javascript" src="/vendor/tables/js/jquery.dataTables.min.js"></script>
+	@js('/js/helpers/dataTables/order-functions.js')
 @endpush
 @push('css')
 	<link type="text/css" rel="stylesheet" href="/vendor/bootstrap-datepicker/bootstrap-datepicker.min.css">
