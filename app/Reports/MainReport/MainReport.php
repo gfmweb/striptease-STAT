@@ -106,6 +106,7 @@ class MainReport
 							'city'           => $userSubProject->subProject->city->name,
 							'projectName'    => $userSubProject->subProject->project->name,
 							'subProjectName' => $userSubProject->subProject->name,
+							'subProjectTags' => $userSubProject->subProject->tagsForLabel(),
 							'url'            => $userSubProject->subProject->fullUrl,
 							'shortUrl'       => $userSubProject->subProject->shortUrl,
 							'partner'        => $userSubProject->user->name,

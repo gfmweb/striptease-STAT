@@ -4,7 +4,6 @@ namespace App;
 
 use App\Traits\ListForSelectTrait;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class User
@@ -17,6 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string  shortUrl
  * @property Project project
  * @property City    city
+ * @property Tag     tags
  */
 class SubProject extends Model
 {
@@ -84,5 +84,22 @@ class SubProject extends Model
 	public function getFullUrlAttribute()
 	{
 		return preg_match('/^http/', $this->url) ? $this->url : 'http://' . $this->url;
+	}
+
+	/** Возвращает теги в подготовленной форме массива
+	 * @return array
+	 */
+	public function tagsForLabel()
+	{
+		$tags = [];
+		/** @var Tag $tag */
+		foreach ($this->tags as $tag) {
+			$tags[] = [
+				'name'  => $tag->name,
+				'class' => 'badge-warning',
+				'short' => substr($tag->name, 0, 2),
+			];
+		}
+		return $tags;
 	}
 }

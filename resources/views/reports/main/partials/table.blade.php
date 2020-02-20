@@ -33,6 +33,10 @@
 					<b>{{ $item['projectName'] }}</b><br>
 					{{ $item['subProjectName'] }}<br>
 					<a href="{{ $item['url'] }}">{{ $item['shortUrl'] }}</a>
+					@if(!empty($item['subProjectTags'])) <br> @endif
+					@foreach($item['subProjectTags'] as $tag)
+						<span class="badge {{ $tag['class'] }} badge-sx" title="тег: {{ $tag['name']  }}">{{ $tag['name'] }}</span>
+					@endforeach
 				</td>
 				<td>{{ $item['partner'] }}</td>
 				<td>{{ $item['channel'] }}</td>
