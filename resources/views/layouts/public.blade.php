@@ -14,7 +14,7 @@
 			<div class="nav-header">
 				<div class="brand-logo">
 					<a href="{{ route('home') }}">
-						<img src="{{ asset('/img/logo_icon.png?v2') }}" alt="ЦУП статистика">
+						<img src="{{ asset('/img/logo_icon.png?v3') }}" alt="ЦУП статистика">
 					</a>
 				</div>
 			</div>
