@@ -26,6 +26,7 @@ class ReportsController extends Controller
 			'channelIds'    => $request->get('channelIds', []),
 			'subProjectIds' => $request->get('subProjectIds', []),
 			'partnerIds'    => $request->get('partnerIds', []),
+			'tagIds'        => $request->get('tagIds', []),
 			'dateFrom'      => $request->get('dateFrom'),
 			'dateTo'        => $request->get('dateTo'),
 		];

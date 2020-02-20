@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function () {
 	Route::post('user-target-data/save', 'UserTargetDataController@save')->name('user-target-data.save');
 
 	Route::get('/cities/list', 'CitiesController@list')->name('cities.list');
+	Route::get('/tags/list', 'TagsController@list')->name('tags.list');
 	Route::get('/sub-projects/list', 'SubProjectsController@list')->name('sub-projects.list');
 	Route::get('/projects/list', 'ProjectsController@list')->name('projects.list');
 	Route::get('/channels/list', 'ChannelsController@list')->name('channels.list');

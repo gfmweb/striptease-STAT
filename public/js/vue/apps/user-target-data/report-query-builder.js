@@ -6,6 +6,7 @@ const chat = new Vue({
 				subProjects: '/sub-projects/list',
 				partners: '/partners/list',
 				channels: '/channels/list',
+				tags: '/tags/list',
 				report: '/reports/main/data',
 			},
 			loadingCount: 0,
@@ -26,7 +27,11 @@ const chat = new Vue({
 			},
 			channels: {
 				list: [],
-				selectedId: null,
+				selectedId: 'all',
+			},
+			tags: {
+				list: [],
+				selectedId: '',
 			},
 			report: null,
 		},
@@ -114,6 +119,9 @@ const chat = new Vue({
 			selectedChannelIds: function () {
 				return this.getSelectedIds(this.channels);
 			},
+			selectedTagsIds: function () {
+				return this.getSelectedIds(this.tags);
+			},
 
 		},
 		mounted: function () {
@@ -125,6 +133,7 @@ const chat = new Vue({
 
 			this.loadCities();
 			this.loadChannels();
+			this.loadTags();
 			this.datePickerInit();
 		},
 		methods: {
@@ -290,7 +299,6 @@ const chat = new Vue({
 					console.error('LOAD partner error', error);
 				});
 			},
-
 			loadChannels() {
 				this.loading = true;
 
@@ -305,6 +313,20 @@ const chat = new Vue({
 					console.error('LOAD channels error', error);
 				});
 			},
+			loadTags() {
+				this.loading = true;
+
+				$.ajax({
+					url: this.urls.tags,
+					type: "GET",
+				}).done(data => {
+					this.loading = false;
+					this.tags.list = data;
+				}).fail(error => {
+					this.loading = false;
+					console.error('LOAD tags error', error);
+				});
+			},
 			loadReport() {
 				this.loading = true;
 
@@ -312,6 +334,7 @@ const chat = new Vue({
 					subProjectIds: this.selectedSubProjectIds,
 					partnerIds: this.selectedPartnerIds,
 					channelIds: this.selectedChannelIds,
+					tagIds: this.selectedTagsIds,
 					dateFrom: this.dateSqlFormat(this.dateFrom),
 					dateTo: this.dateSqlFormat(this.dateTo, moment().format('Y-MM-DD')),
 				};

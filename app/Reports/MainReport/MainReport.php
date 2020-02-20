@@ -9,6 +9,7 @@ use App\UserSubProject;
 use App\UserTarget;
 use App\UserTargetData;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 
@@ -51,6 +52,7 @@ class MainReport
 			'channelIds'    => $params['channelIds'] ?? [],
 			'subProjectIds' => $params['subProjectIds'] ?? [],
 			'partnerIds'    => $params['partnerIds'] ?? [],
+			'tagIds'        => $params['tagIds'] ?? [],
 
 		];
 
@@ -66,12 +68,11 @@ class MainReport
 		$this->items = collect();
 
 		// Запрос
-		$data = UserSubProject::with(
+		$dataQuery = UserSubProject::with(
 			[
-				'userTargets' => function (HasMany $query) {
+				'userTargets'      => function (HasMany $query) {
 					$query->whereIn('channel_id', $this->params['channelIds']);
 				},
-
 				'userTargets.data' => function (HasMany $query) {
 					$query
 						->whereBetween('date_from', [$this->params['dateFrom'], $this->params['dateTo']])
@@ -80,12 +81,22 @@ class MainReport
 				'userTargets.channel',
 				'subProject',
 				'subProject.project',
+				'subProject.tags',
 				'subProject.city',
 				'user',
 			])
 			->whereIn('user_id', $this->params['partnerIds'])
-			->whereIn('sub_project_id', $this->params['subProjectIds'])
-			->get();
+			->whereIn('sub_project_id', $this->params['subProjectIds']);
+
+		// Если указан фильтр по тегам то дополняем условием
+		if (!empty($this->params['tagIds'])) {
+			$dataQuery->whereHas('subProject.tags', function (Builder $query) {
+				$query->whereIn('tag_id', $this->params['tagIds']);
+			});
+		}
+
+		// выборка
+		$data = $dataQuery->get();
 
 		// Обработка результата
 		$data->each(function (UserSubProject $userSubProject) {

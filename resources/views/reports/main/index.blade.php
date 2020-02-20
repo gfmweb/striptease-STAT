@@ -13,8 +13,8 @@
 						<div class="data-filter">
 							<form class="data-filter-form">
 								<div class="form-row">
-									<div class="form-group col-md-3">
-										<label for="city">Город</label>
+									<div class="form-group col-lg-2 col-md-4">
+										<label for="city">Город<span class="text-danger">*</span></label>
 										<select name="city" id="city" class="form-control form-control-sm"
 												v-model="selectedCityId">
 											<option value="all" v-if="hasElements(cities.list)">Все</option>
@@ -23,8 +23,8 @@
 											</option>
 										</select>
 									</div>
-									<div class="form-group col-md-3">
-										<label for="subProject">Проект</label>
+									<div class="form-group col-lg-3 col-md-4">
+										<label for="subProject">Проект<span class="text-danger">*</span></label>
 										<select name="subProject" id="subProject" class="form-control form-control-sm"
 												v-model="selectedSubProjectId">
 											<option value="all" v-if="hasElements(subProjects.list)">Все</option>
@@ -33,8 +33,8 @@
 											</option>
 										</select>
 									</div>
-									<div class="form-group col-md-3">
-										<label for="subProject">Исполнитель</label>
+									<div class="form-group col-lg-3 col-md-4">
+										<label for="subProject">Исполнитель<span class="text-danger">*</span></label>
 										<select name="partner" id="partner" class="form-control form-control-sm"
 												v-model="selectedPartnerId">
 											<option value="all" v-if="hasElements(partners.list)">Все</option>
@@ -43,7 +43,7 @@
 											</option>
 										</select>
 									</div>
-									<div class="form-group col-md-3">
+									<div class="form-group col-lg-2 col-md-4">
 										<label for="subProject">Канал</label>
 										<select name="channel" id="channel" class="form-control form-control-sm"
 												v-model="channels.selectedId">
@@ -53,18 +53,29 @@
 											</option>
 										</select>
 									</div>
+									<div class="form-group col-lg-2 col-md-4">
+										<label for="subProject">Тег</label>
+										<select name="tag" id="tag" class="form-control form-control-sm"
+												v-model="tags.selectedId">
+											<option value="" v-if="hasElements(tags.list)"></option>
+											<option v-for="(tag,id) of tags.list" :value="id">
+												@{{ tag }}
+											</option>
+										</select>
+									</div>
 								</div>
 
 								<div class="form-row">
-									<div class="form-group col-md-6">
+									<div class="form-group col-lg-6 col-md-9">
 										<div class="input-group input-daterange" name="date-range">
-											<div class="mx-2 mt-2">Период с</div>
+											<div class="mx-2 mt-2">Период<span class="text-danger">*</span> с</div>
 											<input type="text" class="form-control form-control-sm datepicker-input" name="dateFrom" :value="dateFrom" @input="changeDates($emit)">
 											<div class="mx-2 mt-2">по</div>
 											<input type="text" class="form-control form-control-sm datepicker-input" name="dateTo" :value="dateTo">
 										</div>
 										{{--<input type="text" class="custom-select" name="date-range"  id="date-range" value="" placeholder="Период" readonly/>--}}
 									</div>
+
 									<div class="form-group col-md-3">
 										<div class="btn btn-success" v-if="filterSettled" @click="loadReport()">
 											Показать
