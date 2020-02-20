@@ -11,14 +11,14 @@
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<title>ЦУП статистика</title>
 	<!-- Favicon icon -->
-	<link rel="apple-touch-icon" sizes="180x180" href="/img/icons/apple-touch-icon.png">
-	<link rel="icon" type="image/png" sizes="32x32" href="/img/icons/favicon-32x32.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="/img/icons/favicon-16x16.png">
-	<link rel="manifest" href="/img/icons/site.webmanifest">
-	<link rel="mask-icon" href="/img/icons/safari-pinned-tab.svg" color="#44c407">
-	<link rel="shortcut icon" href="/img/icons/favicon.ico">
-	<meta name="msapplication-TileColor" content="#00a300">
-	<meta name="msapplication-config" content="/img/icons/browserconfig.xml">
+	<link rel="apple-touch-icon" sizes="144x144" href="/img/icons/apple-touch-icon.png?v=gAe7o9dd7x">
+	<link rel="icon" type="image/png" sizes="32x32" href="/img/icons/favicon-32x32.png?v=gAe7o9dd7x">
+	<link rel="icon" type="image/png" sizes="16x16" href="/img/icons/favicon-16x16.png?v=gAe7o9dd7x">
+	<link rel="manifest" href="/img/icons/site.webmanifest?v=gAe7o9dd7x">
+	<link rel="mask-icon" href="/img/icons/safari-pinned-tab.svg?v=gAe7o9dd7x" color="#9068be">
+	<link rel="shortcut icon" href="/img/icons/favicon.ico?v=gAe7o9dd7x">
+	<meta name="msapplication-TileColor" content="#9068be">
+	<meta name="msapplication-config" content="/img/icons/browserconfig.xml?v=gAe7o9dd7x">
 	<meta name="theme-color" content="#ffffff">
 
 	<link href="{{ asset('/vendor/ule/css/style.css') }}" rel="stylesheet">
