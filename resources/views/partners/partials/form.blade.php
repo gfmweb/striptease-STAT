@@ -13,7 +13,7 @@
 <div class="form-group row">
 	{!! Form::label('email_add', 'Доп. e-mail\'ы', ['class' => 'col-sm-2 col-form-label']) !!}
 	<div class="col-sm-10">
-		{!! Form::text('email_add',null, ['class' => 'form-control', 'required' => "true"] )!!}
+		{!! Form::text('email_add',null, ['class' => 'form-control'] )!!}
 		<span class="help-block">Дополнительные e-mail'ы указываются через запятую</span>
 	</div>
 </div>
