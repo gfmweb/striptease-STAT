@@ -9,7 +9,7 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 	<!-- CSRF Token -->
 	<meta name="csrf-token" content="{{ csrf_token() }}">
-	<title>Stat BVCRM</title>
+	<title>ЦУП статистика</title>
 	<!-- Favicon icon -->
 	<link rel="apple-touch-icon" sizes="180x180" href="/img/icons/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="/img/icons/favicon-32x32.png">

@@ -11,12 +11,17 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Mail;
+use Auth;
 
 class PartnersController extends Controller
 {
 	public function index()
 	{
-		$partners = User::onlyPartners()->get();
+		if (Auth::user()->isSuperAdmin()) {
+			$partners = User::all();
+		} else {
+			$partners = User::onlyPartners()->get();
+		}
 
 		return view('partners.index')->with(['partners' => $partners]);
 	}
