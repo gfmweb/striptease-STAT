@@ -6,7 +6,7 @@
 </head>
 <body>
 <div class="logo">
-	<img src="/img/logo_big.jpg" style="">
+	<img src="/img/logo_big.png" style="" alt="ЦУП статистика">
 </div>
 <a class="login" href="{{ route('home') }}">вход</a>
 <style type="text/css">
@@ -51,4 +51,4 @@
 	}
 </style>
 </body>
-</html> 
+</html>
