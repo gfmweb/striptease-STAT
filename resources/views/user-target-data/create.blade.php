@@ -6,43 +6,53 @@
 			<div class="card">
 				<div class="card-body">
 					<div class="card-title">Внесение данных за неделю</div>
-					<p>Для заполнения данных пожалуйста сперва укажите неделю и проект.</p>
+					<p>Для заполнения данных по порядку выберите неделю, город, проект и подпроект.</p>
 					{{--VUE--}}
 					<div id="vue-user-target-data" class="data-block">
 						<div class="data-filter">
-							<form class="data-filter-form form-row">
-								<div class="form-group col-lg-3 col-md-6">
-									<label for="date-range">Неделя</label><br>
-									<input type="text" class="custom-select" name="date-range" id="date-range" value=""
-										   placeholder="Неделя"
-										   readonly/>
-								</div>
-								<div class="form-group col-lg-3 col-md-6">
-									<label for="city">Город</label>
-									<select name="city" id="city" class="custom-select" v-model="selectedCityId">
-										<option value="all" v-if="hasElements(cities.list)">Все</option>
-										<option v-for="(city,id) of cities.list" :value="id">
-											@{{ city }}
-										</option>
-									</select>
-								</div>
-								<div class="form-group col-lg-3 col-md-6">
-									<label for="subProject">Проект</label><br>
-									<select name="subProject" id="subProject" class="custom-select"
-											v-model="subProjects.selected">
-										<option v-for="(subProject,id) of subProjects.list" :value="id">
-											@{{subProject }}
-										</option>
-									</select>
-								</div>
-								<div class="form-group col-lg-3 col-md-4 filter-buttons flex-bottom-space">
-									<div class="btn btn-vimeo" v-if="filterSettled" @click="load()">
-										Показать
+							<form class="data-filter-form">
+								<div class="form-row">
+									<div class="form-group col-lg-3 col-md-6">
+										<label for="date-range">Неделя</label><br>
+										<input type="text" class="custom-select" name="date-range" id="date-range" value="" placeholder="Неделя" readonly/>
 									</div>
-									<div class="btn btn-success" v-if="haveChanges() && filterSettled"
-										 @click="save()">Сохранить
+									<div class="form-group col-lg-3 col-md-6">
+										<label for="city">Город</label>
+										<select name="city" id="city" class="custom-select" v-model="selectedCityId">
+											<option value="all" v-if="hasElements(cities.list)">Все</option>
+											<option v-for="(city,id) of cities.list" :value="id">
+												@{{ city }}
+											</option>
+										</select>
+									</div>
+									<div class="form-group col-lg-3 col-md-6">
+										<label for="projectSelect">Проект</label><br>
+										<select name="project" id="projectSelect" class="custom-select" v-model="selectedProjectId">
+											<option v-for="(project,id) of projects.list" :value="id">
+												@{{ project }}
+											</option>
+										</select>
+									</div>
+									<div class="form-group col-lg-3 col-md-6">
+										<label for="subProject">Подпроект</label><br>
+										<select name="subProject" id="subProject" class="custom-select" v-model="subProjects.selected">
+											<option v-for="(subProject,id) of subProjects.list" :value="id">
+												@{{ subProject }}
+											</option>
+										</select>
 									</div>
 								</div>
+								<div class="form-row">
+									<div class="form-group col-lg-3 col-md-4 filter-buttons flex-bottom-space">
+										<div class="btn btn-vimeo" v-if="filterSettled" @click="load()">
+											Показать
+										</div>
+										<div class="btn btn-success ml-2" v-if="haveChanges() && filterSettled"
+											 @click="save()">Сохранить
+										</div>
+									</div>
+								</div>
+
 							</form>
 						</div>
 

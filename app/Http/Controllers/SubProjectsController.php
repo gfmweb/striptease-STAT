@@ -14,15 +14,22 @@ class SubProjectsController extends Controller
 	public function list(Request $request)
 	{
 		$cityIds = $request->get('cityIds');
+		$project = $request->get('project');
 		$onlyMy  = !!$request->get('my', false);
 
-		SubProject::$listForSelectField = 'fullName';
+		if (!empty($request->get('field'))) {
+			SubProject::$listForSelectField = $request->get('field');
+		}
 
-		$list = SubProject::listForSelect(function (Builder $query) use ($cityIds, $onlyMy) {
+		$list = SubProject::listForSelect(function (Builder $query) use ($cityIds, $project, $onlyMy) {
 			$query->with('project');
 			// Фильтр по городу
 			if ($cityIds) {
 				$query->whereIn('city_id', $cityIds);
+			}
+			// Фильтр по проекту
+			if ($project) {
+				$query->where('project_id', $project);
 			}
 			// Фильтр по своим подпроектам
 			if ($onlyMy) {
@@ -34,6 +41,7 @@ class SubProjectsController extends Controller
 
 		return response()->json($list);
 	}
+
 
 	public function store(Request $request, $project_id)
 	{

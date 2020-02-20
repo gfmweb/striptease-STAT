@@ -239,7 +239,9 @@ const chat = new Vue({
 			},
 			loadSubProjects() {
 				this.loading = true;
-				const filters = {};
+				const filters = {
+					field: 'fullName'
+				};
 
 				if (this.selectedCityIds.length) {
 					filters.cityIds = this.selectedCityIds;

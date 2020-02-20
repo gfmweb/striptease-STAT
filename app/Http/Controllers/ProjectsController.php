@@ -17,6 +17,29 @@ use Illuminate\Http\Request;
 
 class ProjectsController extends Controller
 {
+	public function list(Request $request)
+	{
+		$cityIds = $request->get('cityIds');
+		$onlyMy  = !!$request->get('my', false);
+
+		$list = Project::listForSelect(function (Builder $query) use ($cityIds, $onlyMy) {
+			if ($cityIds || $onlyMy) {
+				$query->whereHas('subProjects', function (Builder $builder) use ($cityIds, $onlyMy) {
+					// фильтр по городу
+					if ($cityIds) $builder->whereIn('city_id', $cityIds);
+					// только свои
+					if ($onlyMy) {
+						$builder->whereHas('userSubProject', function (Builder $builder2) {
+							$builder2->where('user_id', Auth::id());
+						});
+					}
+				});
+			}
+		});
+
+		return response()->json($list);
+	}
+
 	public function index()
 	{
 		$projects = Project::all();

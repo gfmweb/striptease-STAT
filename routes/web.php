@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
 
 	Route::get('/cities/list', 'CitiesController@list')->name('cities.list');
 	Route::get('/sub-projects/list', 'SubProjectsController@list')->name('sub-projects.list');
+	Route::get('/projects/list', 'ProjectsController@list')->name('projects.list');
 	Route::get('/channels/list', 'ChannelsController@list')->name('channels.list');
 
 	Route::get('/reports/main', 'ReportsController@mainReport')->name('reports.main');

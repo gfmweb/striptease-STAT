@@ -5,6 +5,7 @@ const userTargetData = new Vue({
 			get: '/user-target-data/list',
 			save: '/user-target-data/save',
 			cities: '/cities/list',
+			projects: '/projects/list',
 			subProjects: '/sub-projects/list',
 		},
 		startDate: null,
@@ -23,6 +24,10 @@ const userTargetData = new Vue({
 			list: [],
 			selectedId: null,
 		},
+		projects: {
+			list: [],
+			selected: null,
+		},
 		subProjects: {
 			list: [],
 			selected: null,
@@ -32,7 +37,8 @@ const userTargetData = new Vue({
 	computed: {
 		canEdit: function () {
 			console.log(this.startDate.diff(this.current.dateFrom));
-			return this.startDate.diff(this.current.dateFrom) <= 0;
+			// return this.startDate.diff(this.current.dateFrom) <= 0;
+			return true;
 		},
 		selectedCityIds: {
 			set: function (id) {
@@ -47,27 +53,42 @@ const userTargetData = new Vue({
 			set: function (id) {
 				this.cities.selectedId = id;
 				if (id === '' || id === undefined) {
+					this.projects.list = [];
+				} else {
+					this.loadProjects();
+				}
+				this.subProjects.list = [];
+			},
+			get: function () {
+				return this.cities.selectedId;
+			}
+		},
+		selectedProjectId: {
+			set: function (id) {
+				this.projects.selected = id;
+				if (id === '' || id === undefined) {
 					this.subProjects.list = [];
 				} else {
 					this.loadSubProjects();
 				}
-
 			},
 			get: function () {
-				return this.cities.selectedId;
+				return this.projects.selected;
 			}
 		},
 		filterSettled() {
 			return !!(
 				this.filters.dateFrom
 				&& this.filters.dateTo
+				&& this.projects.selected
 				&& this.subProjects.selected
 			);
 		},
 	},
 	mounted: function () {
 		this.loadCities();
-		this.loadSubProjects();
+		// this.loadProjects();
+		// this.loadSubProjects();
 
 		$.ajaxSetup({
 			headers: {
@@ -129,7 +150,7 @@ const userTargetData = new Vue({
 				console.error('LOAD Cities error', error);
 			});
 		},
-		loadSubProjects() {
+		loadProjects() {
 			this.loading = true;
 			const filters = {
 				my: true
@@ -137,6 +158,34 @@ const userTargetData = new Vue({
 
 			if (this.selectedCityIds.length && this.selectedCityIds[0] !== null) {
 				filters.cityIds = this.selectedCityIds;
+			}
+
+			$.ajax({
+				url: this.urls.projects,
+				type: "GET",
+				data: filters,
+			}).done(data => {
+				this.loading = false;
+				this.projects.list = data;
+				this.selectedProjectIds = '';
+			}).fail(error => {
+				this.loading = false;
+				console.error('LOAD projects error', error);
+			});
+		},
+		loadSubProjects() {
+			this.loading = true;
+			const filters = {
+				my: true,
+				field: 'url',
+			};
+			// фильтр по городам
+			if (this.selectedCityIds.length && this.selectedCityIds[0] !== null) {
+				filters.cityIds = this.selectedCityIds;
+			}
+			// фильтр по проектам
+			if (this.projects.selected) {
+				filters.project = this.projects.selected;
 			}
 
 			$.ajax({
@@ -191,6 +240,7 @@ const userTargetData = new Vue({
 			// Сохраняем текущие настройки выборки
 			this.current.dateFrom = this.filters.dateFrom;
 			this.current.dateTo = this.filters.dateTo;
+			this.current.projectId = this.projects.selected;
 			this.current.subProjectId = this.subProjects.selected;
 			this.loading = true;
 
