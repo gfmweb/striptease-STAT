@@ -37,8 +37,7 @@ const userTargetData = new Vue({
 	computed: {
 		canEdit: function () {
 			console.log(this.startDate.diff(this.current.dateFrom));
-			// return this.startDate.diff(this.current.dateFrom) <= 0;
-			return true;
+			return this.startDate.diff(this.current.dateFrom) <= 0;
 		},
 		selectedCityIds: {
 			set: function (id) {
@@ -57,7 +56,10 @@ const userTargetData = new Vue({
 				} else {
 					this.loadProjects();
 				}
+				this.loaded = false;
+				this.projects.selected = null;
 				this.subProjects.list = [];
+				this.subProjects.selected = null;
 			},
 			get: function () {
 				return this.cities.selectedId;
@@ -71,6 +73,8 @@ const userTargetData = new Vue({
 				} else {
 					this.loadSubProjects();
 				}
+				this.loaded = false;
+				this.subProjects.selected = null;
 			},
 			get: function () {
 				return this.projects.selected;
