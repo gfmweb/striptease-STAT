@@ -70,5 +70,5 @@ Route::middleware('auth', 'admin')->group(function () {
 
 	// пароли
 	Route::resource('passwords', 'PasswordController');
-	Route::resource('password/{id}/addcity', 'PasswordCityController@add');
+	Route::post('password/{id}/addcity', 'PasswordCityController@create')->name('passwords.addcity');
 });

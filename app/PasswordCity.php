@@ -6,7 +6,7 @@ use App\Traits\ListForSelectTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Password extends Model
+class PasswordCity extends Model
 {
 
 	use ListForSelectTrait, SoftDeletes;

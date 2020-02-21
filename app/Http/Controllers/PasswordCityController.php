@@ -4,16 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Password;
-use App\City;
+use App\PasswordCity;
 
-class PasswordController extends Controller
+
+class PasswordCityController extends Controller
 {
 
 	public function create(Request $request, $project_id)
 	{
 		$passwordCity = new PasswordCity();
-		$passwordCity->project_id = $project_id;
+		$passwordCity->password_id = $project_id;
 		$passwordCity->city_id    = $request->get('city_id');
+		$passwordCity->save();
 
 		\Flash::success('Город добавлен');
 
