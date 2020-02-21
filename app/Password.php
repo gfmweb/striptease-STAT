@@ -12,11 +12,17 @@ class Password extends Model
 
 	protected $fillable = [
 		'name',
+		'comment',
 	];
 
 	public function passwordCities()
 	{
 		return $this->hasMany('App\PasswordCity');
+	}
+
+	public function tags()
+	{
+		return $this->belongsToMany('App\Tag');
 	}
 
 }

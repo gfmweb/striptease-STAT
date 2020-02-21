@@ -18,4 +18,6 @@ class PasswordCity extends Model
 		return $this->belongsTo('App\Password');
 	}
 
+
+
 }

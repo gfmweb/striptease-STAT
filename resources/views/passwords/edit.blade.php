@@ -3,7 +3,7 @@
 @section('content')
 	<div class="row page-titles">
 		<div class="col p-0">
-			<h4>Редактирование проекта</h4>
+			<h4>Редактирование пароля</h4>
 		</div>
 		<div class="col p-0">
 			<ol class="breadcrumb">
@@ -32,6 +32,7 @@
 								</select>
 							</div>
 						</div>
+
 						<div class="form-group">
 							@csrf
 							<input type="submit" value="Добавить город" class="btn btn-primary">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Password;
 use App\City;
+use App\Tag;
 
 class PasswordController extends Controller
 {
@@ -32,8 +33,13 @@ class PasswordController extends Controller
 		$password  = new Password();
 		$passwords = Password::all()->pluck('name', 'id')->toArray();
 		$passwords = ['' => 'Укажите Пароль'] + $passwords;
+		$tags      = Tag::listForSelect();
 
-		return view('passwords.create')->with(['password' => $password, 'passwords' => $passwords]);
+		return view('passwords.create')->with([
+			'password'  => $password,
+			'passwords' => $passwords,
+			'tags'      => $tags,
+		]);
 	}
 
 	/**
@@ -74,10 +80,12 @@ class PasswordController extends Controller
 	{
 		$password = Password::query()->findOrFail($id);
 		$cities   = City::all();
+		$tags     = Tag::listForSelect();
 
 		return view('passwords.edit')->with([
 			'password' => $password,
 			'cities'   => $cities,
+			'tags'     => $tags,
 		]);
 	}
 
@@ -96,7 +104,7 @@ class PasswordController extends Controller
 
 		\Flash::success('Пароль изменен');
 
-		return redirect()->route('passwords.index');
+		return redirect()->back();
 	}
 
 	/**
