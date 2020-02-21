@@ -67,4 +67,8 @@ Route::middleware('auth', 'admin')->group(function () {
 	Route::get('partners/list', 'PartnersController@list')->name('partners.list');
 	Route::resource('partners', 'PartnersController');
 	Route::post('partners/{id}/addsubproject', 'PartnersController@addUserSubProject')->name('partners.addsubproject');
+
+	// пароли
+	Route::resource('passwords', 'PasswordController');
+	Route::resource('password/{id}/addcity', 'PasswordCityController@add');
 });

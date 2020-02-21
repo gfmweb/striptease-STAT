@@ -30,5 +30,10 @@
 			<a href="{{ route('channels.index') }}"><i class="mdi mdi-key-variant"></i> <span class="nav-text">Каналы привлечения</span></a>
 		</li>
 	@endif
+	@if (Auth::user()->isSuperAdmin())
+		<li>
+			<a href="{{ route('passwords.index') }}"><i class="mdi mdi-key-variant"></i> <span class="nav-text">Пароли</span></a>
+		</li>
+	@endif
 	@stack('menu-footer')
 </ul>
