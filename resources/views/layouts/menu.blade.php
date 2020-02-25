@@ -1,7 +1,7 @@
 <ul class="metismenu" id="menu">
 	<li class="nav-label">Данные</li>
 	<li>
-		<a href="{{ route('user-target-data.create') }}"><i class="mdi mdi-table-edit"></i> <span class="nav-text">Заполнение данных</span></a>
+		<a href="{{ route('user-target-data.create') }}"><i class="mdi mdi-table-edit"></i> <span class="nav-text">Данные по проектам</span></a>
 	</li>
 	<li>
 		<a href="{{ route('password-city-data.create') }}"><i class="mdi mdi-table-edit"></i> <span class="nav-text">Данные по паролям</span></a>
