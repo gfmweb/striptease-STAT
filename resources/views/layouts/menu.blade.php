@@ -1,7 +1,7 @@
 <ul class="metismenu" id="menu">
 	<li class="nav-label">Данные</li>
 	<li>
-		<a href="{{ route('user-target-data.create') }}"><i class="mdi mdi-table-edit"></i> <span class="nav-text">Заполнение данных</span></a>
+		<a href="{{ route('user-target-data.create') }}"><i class="mdi mdi-table-edit"></i> <span class="nav-text">Данные по проектам</span></a>
 	</li>
 	<li>
 		<a href="{{ route('password-city-data.create') }}"><i class="mdi mdi-table-edit"></i> <span class="nav-text">Приходы по паролям</span></a>
@@ -30,7 +30,7 @@
 			<a href="{{ route('projects.index') }}"><i class="mdi mdi-settings"></i> <span class="nav-text">Проекты</span></a>
 		</li>
 		<li>
-			<a href="{{ route('channels.index') }}"><i class="mdi mdi-key-variant"></i> <span class="nav-text">Каналы привлечения</span></a>
+			<a href="{{ route('channels.index') }}"><i class="mdi mdi-sitemap"></i> <span class="nav-text">Каналы привлечения</span></a>
 		</li>
 	@endif
 	@if (Auth::user()->isSuperAdmin())

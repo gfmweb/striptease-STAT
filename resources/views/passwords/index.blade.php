@@ -17,6 +17,9 @@
 								<tr>
 									<th>#</th>
 									<th>Название</th>
+									<th>Город</th>
+									<th>Аудитория</th>
+									<th>Комментарий</th>
 									<th>Создан</th>
 									<th class="text-right">Действия</th>
 								</tr>
@@ -25,7 +28,24 @@
 								@foreach($passwords as $password)
 									<tr>
 										<td>{{ $password->id }}</td>
-										<td>{{ $password->name }}</td>
+										<td>
+											{{ $password->name }}
+										</td>
+										<td>
+											@if ($password->cities)
+												@foreach ($password->cities as $city)
+													<span class="badge badge-primary badge-sm">{{ $city->name }}</span>
+												@endforeach
+											@endif
+										</td>
+										<td>
+											@if ($password->tags)
+												@foreach ($password->tags as $tag)
+													<span class="badge badge-secondary badge-sm">{{ $tag->name }}</span>
+												@endforeach
+											@endif
+										</td>
+										<td>{{ $password->comment }}</td>
 										<td>{{ $password->created_at->format('d.m.Y') }}</td>
 										<td class="text-right">
 											<a href="{{ route('passwords.edit',$password->id) }}"

@@ -16,7 +16,7 @@ class PasswordController extends Controller
 	 */
 	public function index()
 	{
-		$passwords = Password::all();
+		$passwords = Password::orderBy('created_at', 'desc')->get();
 
 		return view('passwords.index')->with([
 			'passwords' => $passwords,
@@ -34,11 +34,13 @@ class PasswordController extends Controller
 		$passwords = Password::all()->pluck('name', 'id')->toArray();
 		$passwords = ['' => 'Укажите Пароль'] + $passwords;
 		$tags      = Tag::listForSelect();
+		$cities    = City::listForSelect();
 
 		return view('passwords.create')->with([
 			'password'  => $password,
 			'passwords' => $passwords,
 			'tags'      => $tags,
+			'cities'    => $cities,
 		]);
 	}
 
@@ -53,6 +55,9 @@ class PasswordController extends Controller
 		$password = new Password();
 		$password->fill($request->all());
 		$password->save();
+
+		$password->tags()->sync($request->tags);
+		$password->cities()->sync($request->cities);
 
 		\Flash::success('Пароль успешно создан');
 
@@ -79,7 +84,7 @@ class PasswordController extends Controller
 	public function edit($id)
 	{
 		$password = Password::query()->findOrFail($id);
-		$cities   = City::all();
+		$cities   = City::listForSelect();
 		$tags     = Tag::listForSelect();
 
 		return view('passwords.edit')->with([
@@ -100,6 +105,8 @@ class PasswordController extends Controller
 	{
 		$password = Password::query()->findOrFail($id);
 		$password->fill($request->all());
+		$password->tags()->sync($request->tags);
+		$password->cities()->sync($request->cities);
 		$password->save();
 
 		\Flash::success('Пароль изменен');
@@ -123,25 +130,4 @@ class PasswordController extends Controller
 
 		return redirect()->route('passwords.index')->getTargetUrl();
 	}
-
-	/**
-	 * @param Request $request
-	 * @param         $passwordId
-	 * @return \Illuminate\Http\RedirectResponse
-	 */
-	public function addCity(Request $request, $passwordId)
-	{
-		/** @var Password $password */
-		$password = Password::query()->findOrFail($passwordId);
-		$cityId   = $request->get('cityId');
-		if ($cityId) {
-			$password->cities()->attach($cityId);
-			\Flash::success('Город добавлен');
-		} else {
-			\Flash::warning('Не был указан город. Добавление не произведено');
-		}
-
-		return redirect()->back();
-	}
-
 }
