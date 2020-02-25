@@ -54,6 +54,8 @@ class PasswordController extends Controller
 		$password->fill($request->all());
 		$password->save();
 
+		$password->tags()->sync($request->tags);
+
 		\Flash::success('Пароль успешно создан');
 
 		return redirect()->route('passwords.index');
@@ -100,6 +102,7 @@ class PasswordController extends Controller
 	{
 		$password = Password::query()->findOrFail($id);
 		$password->fill($request->all());
+		$password->tags()->sync($request->tags);
 		$password->save();
 
 		\Flash::success('Пароль изменен');

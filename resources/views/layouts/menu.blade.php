@@ -30,7 +30,7 @@
 			<a href="{{ route('projects.index') }}"><i class="mdi mdi-settings"></i> <span class="nav-text">Проекты</span></a>
 		</li>
 		<li>
-			<a href="{{ route('channels.index') }}"><i class="mdi mdi-key-variant"></i> <span class="nav-text">Каналы привлечения</span></a>
+			<a href="{{ route('channels.index') }}"><i class="mdi mdi-sitemap"></i> <span class="nav-text">Каналы привлечения</span></a>
 		</li>
 	@endif
 	@if (Auth::user()->isSuperAdmin())

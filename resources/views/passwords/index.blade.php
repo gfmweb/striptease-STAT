@@ -17,6 +17,7 @@
 								<tr>
 									<th>#</th>
 									<th>Название</th>
+									<th>Комментарий</th>
 									<th>Создан</th>
 									<th class="text-right">Действия</th>
 								</tr>
@@ -26,6 +27,7 @@
 									<tr>
 										<td>{{ $password->id }}</td>
 										<td>{{ $password->name }}</td>
+										<td>{{ $password->comment }}</td>
 										<td>{{ $password->created_at->format('d.m.Y') }}</td>
 										<td class="text-right">
 											<a href="{{ route('passwords.edit',$password->id) }}"
