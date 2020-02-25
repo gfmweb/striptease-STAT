@@ -70,7 +70,7 @@ Route::middleware('auth', 'admin')->group(function () {
 
 	// пароли
 	Route::resource('passwords', 'PasswordController');
-	Route::post('password/{id}/add-city', 'PasswordController@addCity')->name('passwords.add-city');
+	// Route::post('password/{id}/add-city', 'PasswordController@addCity')->name('passwords.add-city');
 
 	// Ввод данных по паролю
 	Route::get('password-city-data/create', 'PasswordCityDataController@create')->name('password-city-data.create');
