@@ -4,7 +4,6 @@ const passwordCityData = new Vue({
 		urls: {
 			get: '/password-city-data/list',
 			save: '/password-city-data/save',
-			// cities: '/cities/list',
 		},
 		startDate: null,
 		loading: false,
@@ -18,15 +17,10 @@ const passwordCityData = new Vue({
 			dateTo: null,
 			subProjectId: null,
 		},
-		/*cities: {
-			list: [],
-			selectedId: null,
-		},*/
 		passwordCityData: [],
 	},
 	computed: {
 		canEdit: function () {
-			console.log(this.startDate.diff(this.current.dateFrom));
 			return this.startDate.diff(this.current.dateFrom) <= 0;
 		},
 		filterSettled() {
@@ -35,8 +29,6 @@ const passwordCityData = new Vue({
 
 	},
 	mounted: function () {
-		// this.loadCities();
-
 		$.ajaxSetup({
 			headers: {
 				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -53,7 +45,16 @@ const passwordCityData = new Vue({
 		this.datePickerInit();
 	},
 	methods: {
+		summaryByPassword(password) {
+			const cities = {
+				msk: Number(password.cities.msk && password.cities.msk.activations || 0),
+				spb: Number(password.cities.spb && password.cities.spb.activations || 0),
+				kzn: Number(password.cities.kzn && password.cities.kzn.activations || 0),
+				che: Number(password.cities.che && password.cities.che.activations || 0),
+			};
 
+			return cities.msk + cities.spb + cities.kzn + cities.che;
+		},
 		hasElements(obj) {
 			return !!Object.values(obj).length;
 		},
@@ -63,6 +64,22 @@ const passwordCityData = new Vue({
 		},
 		getChanges() {
 			return this.passwordCityData && this.passwordCityData.filter(row => row.changed);
+		},
+		prepareChanges(list) {
+			let prepared = [];
+			list.forEach(password => {
+				for (let city in password.cities) {
+					if (password.cities.hasOwnProperty(city)) {
+						prepared.push({
+							passwordId: password.id,
+							cityId: password.cities[city].cityId,
+							passwordCityId: password.cities[city].passwordCityId,
+							activations: password.cities[city].activations,
+						});
+					}
+				}
+			});
+			return prepared;
 		},
 		clearChangedList() {
 			const changed = this.getChanges();
@@ -75,7 +92,6 @@ const passwordCityData = new Vue({
 			weekPicker.datepicker({
 				format: 'dd.mm.yyyy',
 				language: 'ru',
-				// startDate: this.startDate.format('DD.MM.Y'),
 				calendarWeeks: true,
 				autoclose: true,
 				orientation: 'bottom',
@@ -99,8 +115,10 @@ const passwordCityData = new Vue({
 			weekPicker.on('hide', onDateChange);
 		},
 		updateData(data) {
-			data.forEach(row => row.changed = false);
-			this.userTargetData = data;
+			data.forEach(row => {
+				row.changed = false;
+			});
+			this.passwordCityData = data;
 		},
 		load() {
 			// Сохраняем текущие настройки выборки
@@ -122,16 +140,8 @@ const passwordCityData = new Vue({
 			});
 		},
 		save() {
-			const changed = this.getChanges();
-			const dataForSend = [];
-			if (changed && changed.length) {
-				changed.forEach(row => {
-					dataForSend.push({
-						passwordCityId: row.passwordCityId,
-						values: row.values,
-					});
-				});
-			}
+			const dataForSend = this.prepareChanges(this.getChanges());
+
 			if (dataForSend.length) {
 				console.log('SAVE DATA:', dataForSend);
 				this.loading = true;

@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * Class Password
  * @package App
  * @property Collection cities
+ * @property integer    id
  * @property string     name
  * @property string     comment
  */

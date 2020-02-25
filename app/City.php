@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  * Class City
  * @package App
  * @property string name
+ * @property string slug
  */
 class City extends Model
 {
