@@ -21,11 +21,11 @@
 					{!! \Form::close(); !!}
 					<hr>
 					<h5 class="mb-4">Добавить город</h5>
-					<form method="POST" action="{{ route('passwords.addcity', $password->id) }}">
+					<form method="POST" action="{{ route('passwords.add-city', $password->id) }}">
 						<div class="form-group row">
-							<label for="city_id" class="col-sm-2 col-form-label">Город</label>
+							<label for="cityId" class="col-sm-2 col-form-label">Город</label>
 							<div class="col-sm-4">
-								<select name="city_id" id="city_id" class="form-control">
+								<select name="cityId" id="cityId" class="form-control">
 									@foreach ($cities as $city)
 										<option value="{{ $city->id }}">{{ $city->name }}</option>
 									@endforeach

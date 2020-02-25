@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Password;
 use App\City;
+use App\Password;
 use App\Tag;
+use Illuminate\Http\Request;
 
 class PasswordController extends Controller
 {
@@ -45,7 +45,7 @@ class PasswordController extends Controller
 	/**
 	 * Store a newly created resource in storage.
 	 *
-	 * @param  \Illuminate\Http\Request  $request
+	 * @param \Illuminate\Http\Request $request
 	 * @return \Illuminate\Http\Response
 	 */
 	public function store(Request $request)
@@ -62,7 +62,7 @@ class PasswordController extends Controller
 	/**
 	 * Display the specified resource.
 	 *
-	 * @param  int  $id
+	 * @param int $id
 	 * @return \Illuminate\Http\Response
 	 */
 	public function show($id)
@@ -73,7 +73,7 @@ class PasswordController extends Controller
 	/**
 	 * Show the form for editing the specified resource.
 	 *
-	 * @param  int  $id
+	 * @param int $id
 	 * @return \Illuminate\Http\Response
 	 */
 	public function edit($id)
@@ -92,8 +92,8 @@ class PasswordController extends Controller
 	/**
 	 * Update the specified resource in storage.
 	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @param  int  $id
+	 * @param \Illuminate\Http\Request $request
+	 * @param int                      $id
 	 * @return \Illuminate\Http\Response
 	 */
 	public function update(Request $request, $id)
@@ -110,8 +110,9 @@ class PasswordController extends Controller
 	/**
 	 * Remove the specified resource from storage.
 	 *
-	 * @param  int  $id
+	 * @param int $id
 	 * @return \Illuminate\Http\Response
+	 * @throws \Exception
 	 */
 	public function destroy($id)
 	{
@@ -122,4 +123,25 @@ class PasswordController extends Controller
 
 		return redirect()->route('passwords.index')->getTargetUrl();
 	}
+
+	/**
+	 * @param Request $request
+	 * @param         $passwordId
+	 * @return \Illuminate\Http\RedirectResponse
+	 */
+	public function addCity(Request $request, $passwordId)
+	{
+		/** @var Password $password */
+		$password = Password::query()->findOrFail($passwordId);
+		$cityId   = $request->get('cityId');
+		if ($cityId) {
+			$password->cities()->attach($cityId);
+			\Flash::success('Город добавлен');
+		} else {
+			\Flash::warning('Не был указан город. Добавление не произведено');
+		}
+
+		return redirect()->back();
+	}
+
 }
