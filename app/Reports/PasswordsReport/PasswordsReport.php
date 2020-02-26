@@ -65,8 +65,10 @@ class PasswordsReport
 				'passwordCity.password.tags',
 				'passwordCity.city'
 			])
-			->whereBetween('date_from', [$this->params['dateFrom'], $this->params['dateTo']])
-			->orWhereBetween('date_to', [$this->params['dateFrom'], $this->params['dateTo']]);;
+			->where(function (Builder $query) {
+				$query->whereBetween('date_from', [$this->params['dateFrom'], $this->params['dateTo']]);
+				$query->orWhereBetween('date_to', [$this->params['dateFrom'], $this->params['dateTo']]);
+			});
 
 		// Если указан фильтр по тегам то дополняем условием
 		if (!empty($this->params['tagIds'])) {

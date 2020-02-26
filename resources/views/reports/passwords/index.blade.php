@@ -12,18 +12,7 @@
 						<loading-block :loading="loading"></loading-block>
 						<div class="data-filter">
 							<form class="data-filter-form">
-								<div class="form-row">
-									<div class="form-group col-lg-2 col-md-4">
-										<label for="subProject">Тег</label>
-										<select name="tag" id="tag" class="form-control form-control-sm"
-												v-model="tags.selectedId">
-											<option value="" v-if="hasElements(tags.list)"></option>
-											<option v-for="(tag,id) of tags.list" :value="id">
-												@{{ tag }}
-											</option>
-										</select>
-									</div>
-								</div>
+
 								<div class="form-row">
 									<div class="form-group col-lg-6 col-md-9">
 										<div class="input-group input-daterange" name="date-range">
@@ -40,6 +29,16 @@
 											Показать
 										</div>
 									</div>
+								</div>
+								<div class="form-row">
+									<label class="col-form-label col-lg-2 col-md-4" for="subProject">Фильтр по тегу:</label>
+									<select name="tag" id="tag" class="col-lg-2 col-md-4 form-control form-control-sm"
+											v-model="tags.selectedId">
+										<option value="" v-if="hasElements(tags.list)"></option>
+										<option v-for="(tag,id) of tags.list" :value="id">
+											@{{ tag }}
+										</option>
+									</select>
 								</div>
 							</form>
 						</div>
