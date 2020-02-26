@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\PasswordCity;
 use App\PasswordCityData;
-use App\UserTargetData;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
@@ -20,41 +19,49 @@ class PasswordCityDataController extends Controller
 	{
 		$dateFrom = $request->get('dateFrom');
 		$dateTo   = $request->get('dateTo');
+		$list     = [];
 
-		$list = PasswordCity::with(
+		PasswordCity::with(
 			[
 				'password',
 				'city',
 				'data' => function (HasMany $query) use ($dateFrom, $dateTo) {
 					$query
-						->select(PasswordCityData::$values)
-						->addSelect('password_city_id')// Для связывания таблиц
+						->select(['password_city_id', 'activations'])
 						->where('date_from', $dateFrom)
 						->where('date_to', $dateTo);
 				}
 			])
 			->get()
-			->map(function (PasswordCity $el) {
+			->each(function (PasswordCity $el) use (&$list) {
 				// Если данных не найдено то создаем пустой набор
 				if ($el->data->isNotEmpty()) {
-					$data = $el->data->first();
+					$activations = $el->data->first()->activations;
 				} else {
-					$data = new PasswordCityData;
+					$activations = 0;
 				}
 
-				return [
+				if (!isset($list[$el->password->id])) {
+					$list[$el->password->id] = [
+						'id'     => $el->password->id,
+						'name'   => $el->password->name,
+						'cities' => []
+					];
+				}
+
+				$list[$el->password->id]['cities'][$el->city->slug] = [
+					'cityId'         => $el->city->id,
 					'passwordCityId' => $el->id,
-					'passwordName'   => $el->password->name,
-					'cityName'       => $el->city->name,
-					'values'         => $data->onlyValues()
+					'activations'    => $activations,
 				];
+
+
 			});
 
-		return response()->json($list);
+		return response()->json(array_values($list));
 	}
 
-	public
-	function save(Request $request)
+	public function save(Request $request)
 	{
 		$changedList = $request->get('changed', []);
 		$dateFrom    = $request->get('dateFrom', '2020-01-13');
@@ -67,25 +74,22 @@ class PasswordCityDataController extends Controller
 		}
 
 		foreach ($changedList as $changed) {
-			$values         = $changed['values'];
-			$userTargetData = UserTargetData::query()
+			$passwordCityData = PasswordCityData::query()
 				->where('date_from', $dateFrom)
 				->where('date_to', $dateTo)
-				->where('user_target_id', $changed['userTargetId'])
+				->where('password_city_id', $changed['passwordCityId'])
 				->first();
 
-			if (!$userTargetData) {
-				$userTargetData                 = new UserTargetData();
-				$userTargetData->user_target_id = $changed['userTargetId'];
-				$userTargetData->date_from      = $dateFrom;
-				$userTargetData->date_to        = $dateTo;
+			if (!$passwordCityData) {
+				$passwordCityData                   = new PasswordCityData();
+				$passwordCityData->password_city_id = $changed['passwordCityId'];
+				$passwordCityData->date_from        = $dateFrom;
+				$passwordCityData->date_to          = $dateTo;
 			}
 
-			foreach (UserTargetData::$values as $field) {
-				$userTargetData->{$field} = $values[$field];
-			}
+			$passwordCityData->activations = $changed['activations'];
 
-			$userTargetData->save();
+			$passwordCityData->save();
 		}
 
 		return response()->json(['status' => 'success']);

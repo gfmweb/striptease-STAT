@@ -5,6 +5,7 @@ namespace App\Reports\MainReport;
 
 
 use App\Helpers\CalcHelper;
+use App\Helpers\TextHelper;
 use App\UserSubProject;
 use App\UserTarget;
 use App\UserTargetData;
@@ -106,7 +107,7 @@ class MainReport
 							'city'           => $userSubProject->subProject->city->name,
 							'projectName'    => $userSubProject->subProject->project->name,
 							'subProjectName' => $userSubProject->subProject->name,
-							'subProjectTags' => $userSubProject->subProject->tagsForLabel(),
+							'subProjectTags' => TextHelper::tagsForLabel($userSubProject->subProject),
 							'url'            => $userSubProject->subProject->fullUrl,
 							'shortUrl'       => $userSubProject->subProject->shortUrl,
 							'partner'        => $userSubProject->user->name,

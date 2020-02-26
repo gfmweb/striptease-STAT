@@ -2,33 +2,13 @@ const reportQueryBuilder = new Vue({
 		el: '#vue-report-query-builder',
 		data: {
 			urls: {
-				cities: '/cities/list',
-				subProjects: '/sub-projects/list',
-				partners: '/partners/list',
-				channels: '/channels/list',
 				tags: '/tags/list',
-				report: '/reports/main/data',
+				report: '/reports/passwords/data',
 			},
 			loadingCount: 0,
 			loaded: false,
 			dateFrom: null,
 			dateTo: null,
-			cities: {
-				list: [],
-				selectedId: null,
-			},
-			subProjects: {
-				list: [],
-				selectedId: null,
-			},
-			partners: {
-				list: [],
-				selectedId: null,
-			},
-			channels: {
-				list: [],
-				selectedId: 'all',
-			},
 			tags: {
 				list: [],
 				selectedId: '',
@@ -46,78 +26,7 @@ const reportQueryBuilder = new Vue({
 				}
 			},
 			filterSettled() {
-				return !!(
-					this.cities.selectedId
-					&& this.subProjects.selectedId
-					&& this.partners.selectedId
-					&& this.channels.selectedId
-					&& (this.dateFrom || this.dateTo)
-				);
-			},
-			selectedCityIds: {
-				set: function (id) {
-					this.selectedCitiesId = id;
-					if (id === '') this.selectedSubProjectIds = '';
-				},
-				get: function () {
-					return this.getSelectedIds(this.cities);
-				}
-			},
-			selectedCityId: {
-				set: function (id) {
-					this.cities.selectedId = id;
-					if (id === '' || id === undefined) {
-						this.subProjects.list = [];
-					} else {
-						this.loadSubProjects();
-					}
-
-				},
-				get: function () {
-					return this.cities.selectedId;
-				}
-			},
-			selectedSubProjectIds: {
-				set: function (id) {
-					this.selectedSubProjectsId = id;
-					if (id === '') this.selectedPartnerIds = '';
-				},
-				get: function () {
-					return this.getSelectedIds(this.subProjects);
-				}
-			},
-			selectedSubProjectId: {
-				set: function (id) {
-					this.subProjects.selectedId = id;
-					if (id === '' || id === undefined) {
-						this.partners.list = [];
-					} else {
-						this.loadPartners();
-					}
-
-				},
-				get: function () {
-					return this.subProjects.selectedId;
-				}
-			},
-			selectedPartnerIds: {
-				set: function (id) {
-					this.selectedPartnerId = id;
-				},
-				get: function () {
-					return this.getSelectedIds(this.partners);
-				}
-			},
-			selectedPartnerId: {
-				set: function (id) {
-					this.partners.selectedId = id;
-				},
-				get: function () {
-					return this.partners.selectedId;
-				}
-			},
-			selectedChannelIds: function () {
-				return this.getSelectedIds(this.channels);
+				return !!(this.dateFrom || this.dateTo);
 			},
 			selectedTagsIds: function () {
 				return this.getSelectedIds(this.tags);
@@ -131,8 +40,6 @@ const reportQueryBuilder = new Vue({
 				}
 			});
 
-			this.loadCities();
-			this.loadChannels();
 			this.loadTags();
 			this.datePickerInit();
 		},
@@ -198,9 +105,9 @@ const reportQueryBuilder = new Vue({
 					},
 					orderCellsTop: true,
 					columnDefs: [
-						{targets: [0, 1, 2, 3], type: "string"},
-						{targets: [4], type: 'reportWeek'},
-						{targets: [5, 6, 7, 8, 9, 10], type: 'reportNumeric'}
+						{targets: [0], type: "string"},
+						{targets: [1], type: 'reportWeek'},
+						{targets: [2,3,4,5], type: 'reportNumeric'}
 					],
 					language: {
 						"processing": "Подождите...",
@@ -226,93 +133,6 @@ const reportQueryBuilder = new Vue({
 					}
 				});
 			},
-			loadCities() {
-				this.loading = true;
-
-				$.ajax({
-					url: this.urls.cities,
-					type: "GET",
-					data: {},
-				}).done(data => {
-					this.loading = false;
-					this.cities.list = data;
-					if (!this.cities.list.length) {
-						this.subProjects.list = [];
-					}
-					this.selectedCityIds = '';
-
-				}).fail(error => {
-					this.loading = false;
-					console.error('LOAD Cities error', error);
-				});
-			},
-			loadSubProjects() {
-				this.loading = true;
-				const filters = {
-					field: 'fullName'
-				};
-
-				if (this.selectedCityIds.length) {
-					filters.cityIds = this.selectedCityIds;
-				}
-
-				$.ajax({
-					url: this.urls.subProjects,
-					type: "GET",
-					data: filters,
-				}).done(data => {
-					this.loading = false;
-					this.subProjects.list = data;
-					if (!this.subProjects.list.length) {
-						this.partners.list = [];
-					}
-					this.selectedSubProjectIds = '';
-				}).fail(error => {
-					this.loading = false;
-					console.error('LOAD subProjects error', error);
-				});
-			},
-			loadPartners() {
-				this.loading = true;
-				const filters = {};
-
-				if (this.selectedSubProjectIds.length) {
-					filters.subProjectIds = this.selectedSubProjectIds;
-				}
-				if (this.selectedCityIds.length) {
-					filters.cityIds = this.selectedCityIds;
-				}
-
-				$.ajax({
-					url: this.urls.partners,
-					type: "GET",
-					data: filters,
-				}).done(data => {
-					this.loading = false;
-					this.partners.list = data;
-					if (!this.partners.list.length) {
-						// this.partners.list = [];
-					}
-					this.selectedPartnerIds = '';
-				}).fail(error => {
-					this.loading = false;
-					console.error('LOAD partner error', error);
-				});
-			},
-			loadChannels() {
-				this.loading = true;
-
-				$.ajax({
-					url: this.urls.channels,
-					type: "GET",
-				}).done(data => {
-					this.loading = false;
-					this.channels.list = data;
-				}).fail(error => {
-					this.loading = false;
-					console.error('LOAD channels error', error);
-				});
-			},
 			loadTags() {
 				this.loading = true;
 
@@ -331,9 +151,6 @@ const reportQueryBuilder = new Vue({
 				this.loading = true;
 
 				const filters = {
-					subProjectIds: this.selectedSubProjectIds,
-					partnerIds: this.selectedPartnerIds,
-					channelIds: this.selectedChannelIds,
 					tagIds: this.selectedTagsIds,
 					dateFrom: this.dateSqlFormat(this.dateFrom),
 					dateTo: this.dateSqlFormat(this.dateTo, moment().format('Y-MM-DD')),

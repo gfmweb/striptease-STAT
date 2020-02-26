@@ -16,16 +16,16 @@
 										<label for="date-range">Неделя</label><br>
 										<input type="text" class="custom-select" name="date-range" id="date-range" value="" placeholder="Неделя" readonly/>
 									</div>
-								<div class="form-row">
-									<div class="form-group col-lg-3 col-md-4 filter-buttons flex-bottom-space">
-										<div class="btn btn-vimeo" v-if="filterSettled" @click="load()">
-											Показать
-										</div>
-										<div class="btn btn-success ml-2" v-if="haveChanges() && filterSettled"
-											 @click="save()">Сохранить
+									<div class="form-row">
+										<div class="form-group col-lg-3 col-md-4 filter-buttons flex-bottom-space">
+											<div class="btn btn-vimeo" v-if="filterSettled" @click="load()">
+												Показать
+											</div>
+											<div class="btn btn-success ml-2" v-if="haveChanges() && filterSettled"
+												 @click="save()">Сохранить
+											</div>
 										</div>
 									</div>
-								</div>
 
 							</form>
 						</div>
@@ -50,25 +50,27 @@
 									<tr v-for="password in passwordCityData"
 										:class="{'project-row-edited':password.changed}">
 										<th>@{{ password.name }}</th>
-										<td>
-											<editable-field v-model="row.values.msk.activations" @input="row.changed = true" v-if="canEdit"></editable-field>
-											<span v-else>@{{ row.values.msk.activations }}</span>
+										<td v-if="password.cities.msk">
+											<editable-field v-model="password.cities.msk.activations" @input="password.changed = true" v-if="canEdit"></editable-field>
+											<span v-else>@{{ password.cities.msk.activations }}</span>
 										</td>
-										<td>
-											<editable-field v-model="row.values.spb.activations" @input="row.changed = true" v-if="canEdit"></editable-field>
-											<span v-else>@{{ row.values.spb.activations }}</span>
+										<td v-else>—</td>
+										<td v-if="password.cities.spb">
+											<editable-field v-model="password.cities.spb.activations" @input="password.changed = true" v-if="canEdit"></editable-field>
+											<span v-else>@{{ password.cities.spb.activations }}</span>
 										</td>
-										<td>
-											<editable-field v-model="row.values.kzn.activations" @input="row.changed = true" v-if="canEdit"></editable-field>
-											<span v-else>@{{ row.values.kzn.activations }}</span>
+										<td v-else>—</td>
+										<td v-if="password.cities.kzn">
+											<editable-field v-model="password.cities.kzn.activations" @input="password.changed = true" v-if="canEdit"></editable-field>
+											<span v-else>@{{ password.cities.kzn.activations }}</span>
 										</td>
-										<td>
-											<editable-field v-model="row.values.che.activations" @input="row.changed = true" v-if="canEdit"></editable-field>
-											<span v-else>@{{ row.values.che.activations }}</span>
+										<td v-else>—</td>
+										<td v-if="password.cities.che">
+											<editable-field v-model="password.cities.che.activations" @input="password.changed = true" v-if="canEdit"></editable-field>
+											<span v-else>@{{ password.cities.che.activations }}</span>
 										</td>
-										<td class="text-right">
-											@{{ row.values.msk.activations +  row.values.spb.activations + row.values.kzn.activations+ row.values.che.activations }}
-										</td>
+										<td v-else>—</td>
+										<td>@{{ summaryByPassword(password) }}</td>
 									</tr>
 								</tbody>
 							</table>

@@ -8,16 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class PasswordCityData
  * @package App
- * @property int    password_city_id
- * @property int    activations
- * @property Carbon date_from
- * @property Carbon date_to
+ * @property int          password_city_id
+ * @property int          id
+ * @property int          activations
+ * @property Carbon       date_from
+ * @property Carbon       date_to
+ * @property PasswordCity passwordCity
  */
 class PasswordCityData extends Model
 {
-	public static $values = [
-		'activations',
-	];
 
 	protected $table = 'password_city_data';
 
@@ -35,11 +34,6 @@ class PasswordCityData extends Model
 		'date_from',
 		'date_to'
 	];
-
-	public function onlyValues()
-	{
-		return $this->only(self::$values);
-	}
 
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
