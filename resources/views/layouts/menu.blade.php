@@ -3,6 +3,11 @@
 	<li>
 		<a href="{{ route('user-target-data.create') }}"><i class="mdi mdi-table-edit"></i> <span class="nav-text">Заполнение данных</span></a>
 	</li>
+	@if (!Auth::user()->isAdmin() && !Auth::user()->isSuperAdmin())
+		<li>
+			<a href="{{ route('reports.my') }}"><i class="ion-android-list"></i> <span class="nav-text">Просмотр данных</span></a>
+		</li>
+	@endif
 	<li class="nav-label">Проекты</li>
 	<li>
 		<a @if (Auth::user()->subProjects->count()) href="{{ route('my-projects') }}" @endif>
@@ -19,6 +24,11 @@
 		<li>
 			<a href="{{ route('reports.main') }}"><i class="ion-android-list"></i><span class="nav-text">Отчет по партнерам</span></a>
 		</li>
+		@if (Auth::user()->isSuperAdmin())
+			<li>
+				<a href="{{ route('reports.my') }}"><i class="ion-android-list"></i> <span class="nav-text">Отчет только по мне</span></a>
+			</li>
+		@endif
 		<li class="nav-label">Справочники</li>
 		<li>
 			<a href="{{ route('partners.index') }}"><i class="mdi mdi-human-male-female"></i> <span class="nav-text">Партнеры</span></a>

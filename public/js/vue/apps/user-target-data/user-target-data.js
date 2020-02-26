@@ -156,9 +156,8 @@ const userTargetData = new Vue({
 		},
 		loadProjects() {
 			this.loading = true;
-			const filters = {
-				my: true
-			};
+			const filters = {};
+			if (this.onlyMy) filters.my = true;
 
 			if (this.selectedCityIds.length && this.selectedCityIds[0] !== null) {
 				filters.cityIds = this.selectedCityIds;
