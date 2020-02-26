@@ -22,6 +22,9 @@
 		<li>
 			<a href="{{ route('reports.main') }}"><i class="ion-android-list"></i><span class="nav-text">Отчет по партнерам</span></a>
 		</li>
+		<li>
+			<a href="{{ route('reports.passwords') }}"><i class="ion-android-list"></i><span class="nav-text">Отчет по паролям</span></a>
+		</li>
 		<li class="nav-label">Справочники</li>
 		<li>
 			<a href="{{ route('partners.index') }}"><i class="mdi mdi-human-male-female"></i> <span class="nav-text">Партнеры</span></a>

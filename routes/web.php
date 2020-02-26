@@ -39,6 +39,8 @@ Route::middleware('auth')->group(function () {
 
 	Route::get('/reports/main', 'ReportsController@mainReport')->name('reports.main');
 	Route::post('/reports/main/data', 'ReportsController@mainReportData')->name('reports.main.data');
+	Route::get('/reports/passwords', 'ReportsController@passwords')->name('reports.passwords');
+	Route::post('/reports/passwords/data', 'ReportsController@passwordsData')->name('reports.passwords.data');
 
 	Route::get('my-projects', 'ProjectsController@myProjects')->name('my-projects');
 	Route::post('my-projects/target-update', 'ProjectsController@myProjectTargetUpdate')->name('my-projects.update');
