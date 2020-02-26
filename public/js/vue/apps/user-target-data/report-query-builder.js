@@ -201,6 +201,19 @@ const reportQueryBuilder = new Vue({
 				});
 			},
 			dataTableInit() {
+				var columnDefs = [
+					{targets: [0, 1, 2, 3], type: "string"},
+					{targets: [4], type: 'reportWeek'},
+					{targets: [5, 6, 7, 8, 9, 10], type: 'reportNumeric'}
+				];
+				if (this.onlyMy) {
+					columnDefs = [
+						{targets: [0, 1, 2], type: "string"},
+						{targets: [3], type: 'reportWeek'},
+						{targets: [4, 5, 6, 7, 8, 9], type: 'reportNumeric'}
+					];
+				}
+
 				$('.report-table').DataTable({
 					// order: [[2, "asc"]],
 					fixedHeader: {
@@ -208,11 +221,7 @@ const reportQueryBuilder = new Vue({
 						headerOffset: 45,
 					},
 					orderCellsTop: true,
-					columnDefs: [
-						{targets: [0, 1, 2, 3], type: "string"},
-						{targets: [4], type: 'reportWeek'},
-						{targets: [5, 6, 7, 8, 9, 10], type: 'reportNumeric'}
-					],
+					columnDefs: columnDefs,
 					language: {
 						"processing": "Подождите...",
 						"search": "Поиск:",
