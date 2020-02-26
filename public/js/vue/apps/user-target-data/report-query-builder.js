@@ -8,6 +8,7 @@ const reportQueryBuilder = new Vue({
 				channels: '/channels/list',
 				tags: '/tags/list',
 				report: '/reports/main/data',
+				reportMy: '/reports/my/data',
 			},
 			loadingCount: 0,
 			loaded: false,
@@ -25,6 +26,7 @@ const reportQueryBuilder = new Vue({
 				list: [],
 				selectedId: null,
 			},
+			onlyMy: false,
 			channels: {
 				list: [],
 				selectedId: 'all',
@@ -49,7 +51,7 @@ const reportQueryBuilder = new Vue({
 				return !!(
 					this.cities.selectedId
 					&& this.subProjects.selectedId
-					&& this.partners.selectedId
+					&& (this.partners.selectedId || this.onlyMy)
 					&& this.channels.selectedId
 					&& (this.dateFrom || this.dateTo)
 				);
@@ -135,6 +137,8 @@ const reportQueryBuilder = new Vue({
 			this.loadChannels();
 			this.loadTags();
 			this.datePickerInit();
+
+			if (typeof onlyMyReport !== 'undefined') this.onlyMy = true;
 		},
 		methods: {
 			hasElements(obj) {
@@ -228,11 +232,12 @@ const reportQueryBuilder = new Vue({
 			},
 			loadCities() {
 				this.loading = true;
+				const filters = {};
 
 				$.ajax({
 					url: this.urls.cities,
 					type: "GET",
-					data: {},
+					data: filters,
 				}).done(data => {
 					this.loading = false;
 					this.cities.list = data;
@@ -249,8 +254,9 @@ const reportQueryBuilder = new Vue({
 			loadSubProjects() {
 				this.loading = true;
 				const filters = {
-					field: 'fullName'
+					field: 'fullName',
 				};
+				if (this.onlyMy) filters.my = true;
 
 				if (this.selectedCityIds.length) {
 					filters.cityIds = this.selectedCityIds;
@@ -339,8 +345,11 @@ const reportQueryBuilder = new Vue({
 					dateTo: this.dateSqlFormat(this.dateTo, moment().format('Y-MM-DD')),
 				};
 
+				var reportUrl = this.urls.report
+				if (this.onlyMy) reportUrl = this.urls.reportMy;
+
 				$.ajax({
-					url: this.urls.report,
+					url: reportUrl,
 					type: "POST",
 					data: filters
 				}).done(data => {

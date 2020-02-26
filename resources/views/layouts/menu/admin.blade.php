@@ -17,6 +17,7 @@
 <li class="nav-label">Отчеты</li>
 
 <li><a href="{{ route('reports.main') }}"><i class="ion-android-list"></i><span class="nav-text">Отчет по партнерам</span></a></li>
+<li><a href="{{ route('reports.my') }}"><i class="ion-android-list"></i> <span class="nav-text">Отчет по партнерам(личный)</span></a></li>
 <li><a href="{{ route('reports.passwords') }}"><i class="ion-android-list"></i><span class="nav-text">Отчет по паролям</span></a></li>
 
 <li class="nav-label">Справочники</li>

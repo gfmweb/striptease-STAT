@@ -37,8 +37,9 @@ Route::middleware('auth')->group(function () {
 	Route::get('/projects/list', 'ProjectsController@list')->name('projects.list');
 	Route::get('/channels/list', 'ChannelsController@list')->name('channels.list');
 
-	Route::get('/reports/main', 'ReportsController@mainReport')->name('reports.main');
-	Route::post('/reports/main/data', 'ReportsController@mainReportData')->name('reports.main.data');
+	// отчет партнеру по его данным
+	Route::get('/reports/my', 'ReportsController@myReport')->name('reports.my');
+	Route::post('/reports/my/data', 'ReportsController@myReportData')->name('reports.my.data');
 
 
 	Route::get('my-projects', 'ProjectsController@myProjects')->name('my-projects');
@@ -63,6 +64,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
 	Route::get('projects/{project_id}/subproject/{sub_project_id}/edit', 'SubProjectsController@edit')->name('projects.subproject.edit');
 	Route::post('projects/{project_id}/subproject/{sub_project_id}/update', 'SubProjectsController@update')->name('projects.subproject.update');
 	Route::get('projects/{project_id}/subproject/{sub_project_id}/delete', 'SubProjectsController@destroy')->name('projects.subproject.delete');
+
+	// все отчеты
+	Route::get('/reports/main', 'ReportsController@mainReport')->name('reports.main');
+	Route::post('/reports/main/data', 'ReportsController@mainReportData')->name('reports.main.data');
 
 	// партнеры
 	Route::get('partners/list', 'PartnersController@list')->name('partners.list');
