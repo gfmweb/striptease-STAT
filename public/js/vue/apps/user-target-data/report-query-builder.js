@@ -138,6 +138,13 @@ const reportQueryBuilder = new Vue({
 			this.loadTags();
 			this.datePickerInit();
 
+			var start = new Date();
+			start.setMonth(start.getMonth() - 1);
+			this.dateFrom = start.getDate() + '.' + (start.getMonth() + 1) + '.' + start.getFullYear();
+
+			var now = new Date();
+			this.dateTo = now.getDate() + '.' + (now.getMonth() + 1) + '.' + now.getFullYear();
+
 			if (typeof onlyMyReport !== 'undefined') this.onlyMy = true;
 		},
 		methods: {
