@@ -39,8 +39,7 @@ Route::middleware('auth')->group(function () {
 
 	Route::get('/reports/main', 'ReportsController@mainReport')->name('reports.main');
 	Route::post('/reports/main/data', 'ReportsController@mainReportData')->name('reports.main.data');
-	Route::get('/reports/passwords', 'ReportsController@passwords')->name('reports.passwords');
-	Route::post('/reports/passwords/data', 'ReportsController@passwordsData')->name('reports.passwords.data');
+
 
 	Route::get('my-projects', 'ProjectsController@myProjects')->name('my-projects');
 	Route::post('my-projects/target-update', 'ProjectsController@myProjectTargetUpdate')->name('my-projects.update');
@@ -51,7 +50,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // админы
-Route::middleware('auth', 'admin')->group(function () {
+Route::middleware(['auth', 'admin'])->group(function () {
 	// каналы
 	Route::resource('channels', 'ChannelsController');
 
@@ -72,7 +71,10 @@ Route::middleware('auth', 'admin')->group(function () {
 
 	// пароли
 	Route::resource('passwords', 'PasswordController');
-	// Route::post('password/{id}/add-city', 'PasswordController@addCity')->name('passwords.add-city');
+
+	// Отчеты
+	Route::get('/reports/passwords', 'ReportsController@passwords')->name('reports.passwords');
+	Route::post('/reports/passwords/data', 'ReportsController@passwordsData')->name('reports.passwords.data');
 
 	// Ввод данных по паролю
 	Route::get('password-city-data/create', 'PasswordCityDataController@create')->name('password-city-data.create');
