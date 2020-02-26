@@ -36,7 +36,6 @@ const userTargetData = new Vue({
 	},
 	computed: {
 		canEdit: function () {
-			console.log(this.startDate.diff(this.current.dateFrom));
 			return this.startDate.diff(this.current.dateFrom) <= 0;
 		},
 		selectedCityIds: {

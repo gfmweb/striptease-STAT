@@ -1,4 +1,4 @@
-const chat = new Vue({
+const reportQueryBuilder = new Vue({
 		el: '#vue-report-query-builder',
 		data: {
 			urls: {

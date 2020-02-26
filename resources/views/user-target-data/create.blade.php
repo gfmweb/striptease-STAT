@@ -128,7 +128,7 @@
 	<script type="text/javascript" src="/vendor/bootstrap-datepicker/bootstrap-datepicker.ru.min.js"></script>
 	<script type="text/javascript" src="/vendor/moment/moment.js"></script>
 	<script type="text/javascript" src="/vendor/vue/vue.js"></script>
-	@js('/js/vue/apps/user-target-data/components/editable-field.js')
+	@js('/js/vue/components/editable-field.js')
 	@js('/js/vue/components/loading-block.js')
 	@js('/js/vue/apps/user-target-data/user-target-data.js')
 @endpush

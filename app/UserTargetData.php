@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class User
+ * Class UserTargetData
  * @package App
  * @property int    user_target_id
  * @property int    coverage
