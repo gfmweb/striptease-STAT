@@ -33,7 +33,7 @@
 											</option>
 										</select>
 									</div>
-									<div class="form-group col-lg-3 col-md-4">
+									<div class="form-group col-lg-2 col-md-4">
 										<label for="subProject">Исполнитель<span class="text-danger">*</span></label>
 										<select name="partner" id="partner" class="form-control form-control-sm"
 												v-model="selectedPartnerId">
@@ -53,7 +53,7 @@
 											</option>
 										</select>
 									</div>
-									<div class="form-group col-lg-2 col-md-4">
+									<div class="form-group col-lg-3 col-md-4">
 										<label for="tags">Тип аудитории</label>
 										{{-- компонент select2 --}}
 										<select2 :options="tags.list" v-model="tags.selectedIds"></select2>
