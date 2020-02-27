@@ -29,6 +29,7 @@
 									<th>#</th>
 									<th>Имя</th>
 									<th>URL</th>
+									<th>Аудитория</th>
 									<th>Город</th>
 									<th>Добавлен</th>
 									<th></th>
@@ -39,6 +40,15 @@
 									<td>{{ $subProject->id }}</td>
 									<td>{{ $subProject->name }}</td>
 									<td>{{ $subProject->url }}</td>
+									<td>
+										@if ($subProject->tags)
+											@foreach ($subProject->tags as $tag)
+												<span class="badge badge-sm badge-warning">
+													{{ $tag->name }}
+												</span>
+											@endforeach
+										@endif
+									</td>
 									<td>
 										@if ($subProject->city)
 											{{ $subProject->city->name }}
