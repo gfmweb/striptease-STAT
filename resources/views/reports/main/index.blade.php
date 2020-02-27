@@ -54,14 +54,9 @@
 										</select>
 									</div>
 									<div class="form-group col-lg-2 col-md-4">
-										<label for="subProject">Тег</label>
-										<select name="tag" id="tag" class="form-control form-control-sm"
-												v-model="tags.selectedId">
-											<option value="" v-if="hasElements(tags.list)"></option>
-											<option v-for="(tag,id) of tags.list" :value="id">
-												@{{ tag }}
-											</option>
-										</select>
+										<label for="tags">Тип аудитории</label>
+										{{-- компонент select2 --}}
+										<select2 :options="tags.list" v-model="tags.selectedIds"></select2>
 									</div>
 								</div>
 
@@ -96,6 +91,14 @@
 @endsection
 
 @push('js')
+	<script type="text/javascript" src="{{ asset('/vendor/select2/select2.full.min.js') }}"></script>
+	<script type="text/x-template" id="select2-template">
+		<select multiple id="tags" name="tags[]" class="form-control form-control-sm">
+			<option v-for="(option,id) of options" :value="id">
+				@{{ option }}
+			</option>
+		</select>
+	</script>
 	<script type="text/javascript">
 
 	</script>
@@ -104,6 +107,7 @@
 	<script type="text/javascript" src="/vendor/moment/moment.js"></script>
 	<script type="text/javascript" src="/vendor/vue/vue.js"></script>
 	@js('/js/vue/components/loading-block.js')
+	@js('/js/vue/components/select2.js')
 	@js('/js/vue/apps/user-target-data/report-query-builder.js')
 	<link type="text/css" rel="stylesheet" href="/vendor/tables/css/datatable/dataTables.bootstrap4.min.css">
 	<script type="text/javascript" src="/vendor/tables/js/jquery.dataTables.min.js"></script>
@@ -111,4 +115,5 @@
 @endpush
 @push('css')
 	<link type="text/css" rel="stylesheet" href="/vendor/bootstrap-datepicker/bootstrap-datepicker.min.css">
+	<link rel="stylesheet" type="text/css" href="{{ asset('/vendor/select2/select2.min.css') }}">
 @endpush
