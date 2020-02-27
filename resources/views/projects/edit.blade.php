@@ -54,7 +54,7 @@
 											{{ $subProject->city->name }}
 										@endif
 									</td>
-									<td>{{ $subProject->created_at }}</td>
+									<td>{{ $subProject->created_at->format('d.m.Y') }}</td>
 									<td class="text-right">
 										<a href="{{ route('projects.subproject.edit', [$project->id, $subProject->id]) }}"
 										   class="btn btn-xs btn-outline-dark"><i class="fa fa-pencil"></i>
