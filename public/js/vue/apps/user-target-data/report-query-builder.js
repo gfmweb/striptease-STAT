@@ -3,6 +3,7 @@ const reportQueryBuilder = new Vue({
 	data: {
 		urls: {
 			cities: '/cities/list',
+			projects: '/projects/list',
 			subProjects: '/sub-projects/list',
 			partners: '/partners/list',
 			channels: '/channels/list',
@@ -15,6 +16,10 @@ const reportQueryBuilder = new Vue({
 		dateFrom: null,
 		dateTo: null,
 		cities: {
+			list: [],
+			selectedId: null,
+		},
+		projects: {
 			list: [],
 			selectedId: null,
 		},
@@ -50,6 +55,7 @@ const reportQueryBuilder = new Vue({
 		filterSettled() {
 			return !!(
 				this.cities.selectedId
+				&& this.projects.selectedId
 				&& this.subProjects.selectedId
 				&& (this.partners.selectedId || this.onlyMy)
 				&& this.channels.selectedId
@@ -69,14 +75,41 @@ const reportQueryBuilder = new Vue({
 			set: function (id) {
 				this.cities.selectedId = id;
 				if (id === '' || id === undefined) {
-					this.subProjects.list = [];
+					this.projects.list = [];
 				} else {
-					this.loadSubProjects();
+					this.loadProjects();
+					this.selectedProjectId = ''
 				}
-
 			},
 			get: function () {
 				return this.cities.selectedId;
+			}
+		},
+		selectedProjectIds: {
+			set: function (id) {
+				this.selectedProjectsId = id;
+				if (id === '') {
+					this.selectedSubProjectsId = '';
+					this.selectedPartnerIds    = '';
+				}
+			},
+			get: function () {
+				return this.getSelectedIds(this.projects);
+			}
+		},
+		selectedProjectId: {
+			set: function (id) {
+				this.projects.selectedId = id;
+				if (id === '' || id === undefined) {
+					this.subProjects.list = [];
+					this.partners.list = [];
+				} else {
+					this.loadSubProjects();
+				}
+				this.selectedSubProjectId = '';
+			},
+			get: function () {
+				return this.projects.selectedId;
 			}
 		},
 		selectedSubProjectIds: {
@@ -96,7 +129,6 @@ const reportQueryBuilder = new Vue({
 				} else {
 					this.loadPartners();
 				}
-
 			},
 			get: function () {
 				return this.subProjects.selectedId;
@@ -131,7 +163,6 @@ const reportQueryBuilder = new Vue({
 
 		this.loadCities();
 		this.loadChannels();
-
 		this.loadTags();
 
 		this.datePickerInit();
@@ -265,16 +296,38 @@ const reportQueryBuilder = new Vue({
 				console.error('LOAD Cities error', error);
 			});
 		},
-		loadSubProjects() {
+		loadProjects() {
 			this.loading = true;
-			const filters = {
-				field: 'fullName',
-			};
+			const filters = {};
 			if (this.onlyMy) filters.my = true;
 
 			if (this.selectedCityIds.length) {
 				filters.cityIds = this.selectedCityIds;
 			}
+
+			$.ajax({
+				url: this.urls.projects,
+				type: "GET",
+				data: filters,
+			}).done(data => {
+				this.loading = false;
+				this.projects.list = data;
+				if (!this.projects.list.length) {
+					this.subProjects.list = [];
+					this.partners.list = [];
+				}
+				this.selectedProjectIds = '';
+			}).fail(error => {
+				this.loading = false;
+				console.error('LOAD projects error', error);
+			});
+		},
+		loadSubProjects() {
+			this.loading = true;
+			const filters = {};
+			if (this.onlyMy)                    filters.my = true;
+			if (this.selectedCityIds.length)    filters.cityIds = this.selectedCityIds;
+			if (this.selectedProjectId.length) filters.project = this.selectedProjectId;
 
 			$.ajax({
 				url: this.urls.subProjects,
@@ -296,12 +349,8 @@ const reportQueryBuilder = new Vue({
 			this.loading = true;
 			const filters = {};
 
-			if (this.selectedSubProjectIds.length) {
-				filters.subProjectIds = this.selectedSubProjectIds;
-			}
-			if (this.selectedCityIds.length) {
-				filters.cityIds = this.selectedCityIds;
-			}
+			if (this.selectedCityIds.length)       filters.cityIds = this.selectedCityIds;
+			if (this.selectedSubProjectIds.length) filters.subProjectIds = this.selectedSubProjectIds;
 
 			$.ajax({
 				url: this.urls.partners,
@@ -352,11 +401,11 @@ const reportQueryBuilder = new Vue({
 
 			const filters = {
 				subProjectIds: this.selectedSubProjectIds,
-				partnerIds: this.selectedPartnerIds,
-				channelIds: this.selectedChannelIds,
-				tagIds: this.tags.selectedIds,
-				dateFrom: this.dateSqlFormat(this.dateFrom),
-				dateTo: this.dateSqlFormat(this.dateTo, moment().format('Y-MM-DD')),
+				partnerIds:    this.selectedPartnerIds,
+				channelIds:    this.selectedChannelIds,
+				tagIds:        this.tags.selectedIds,
+				dateFrom:      this.dateSqlFormat(this.dateFrom),
+				dateTo:        this.dateSqlFormat(this.dateTo, moment().format('Y-MM-DD')),
 			};
 
 			var reportUrl = this.urls.report

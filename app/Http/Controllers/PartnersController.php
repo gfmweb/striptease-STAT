@@ -126,7 +126,8 @@ class PartnersController extends Controller
 		$list = User::listForSelect(function (Builder $query) use ($cityIds, $subProjectIds) {
 			$query->onlyPartners();
 			if ($subProjectIds) {
-				$query->whereHas('subProjects', function (Builder $query) use ($cityIds) {
+				$query->whereHas('subProjects', function (Builder $query) use ($cityIds, $subProjectIds) {
+					$query->whereIn('sub_projects.id', $subProjectIds);
 					if ($cityIds) {
 						$query->whereIn('city_id', $cityIds);
 					}

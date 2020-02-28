@@ -28,7 +28,7 @@ class SubProjectsController extends Controller
 				$query->whereIn('city_id', $cityIds);
 			}
 			// Фильтр по проекту
-			if ($project) {
+			if ($project && $project !== 'all') {
 				$query->where('project_id', $project);
 			}
 			// Фильтр по своим подпроектам

@@ -24,7 +24,16 @@
 										</select>
 									</div>
 									<div class="form-group col-lg-3">
-										<label for="subProject">Проект<span class="text-danger">*</span></label>
+										<label for="project_select">Проект<span class="text-danger">*</span></label>
+										<select name="project" id="project_select" class="form-control form-control-sm" v-model="selectedProjectId">
+											<option value="all" v-if="hasElements(projects.list)">Все</option>
+											<option v-for="(project,id) of projects.list" :value="id">
+												@{{ project }}
+											</option>
+										</select>
+									</div>
+									<div class="form-group col-lg-3">
+										<label for="subProject">Подпроект<span class="text-danger">*</span></label>
 										<select name="subProject" id="subProject" class="form-control form-control-sm"
 												v-model="selectedSubProjectId">
 											<option value="all" v-if="hasElements(subProjects.list)">Все</option>
@@ -33,9 +42,12 @@
 											</option>
 										</select>
 									</div>
+								</div>
+
+								<div class="form-row">
 									<div class="form-group col-lg-3">
-										<label for="subProject">Канал</label>
-										<select name="channel" id="channel" class="form-control form-control-sm"
+										<label for="channel">Канал</label>
+										<select name="channel" id="channel" class="form-control"
 												v-model="channels.selectedId">
 											<option value="all" v-if="hasElements(channels.list)">Все</option>
 											<option v-for="(channel,id) of channels.list" :value="id">
@@ -43,18 +55,14 @@
 											</option>
 										</select>
 									</div>
-
 									<div class="form-group col-lg-3">
 										<label for="tags">Тип аудитории</label>
 										{{-- компонент select2 --}}
 										<select2 :options="tags.list" v-model="tags.selectedIds"></select2>
 									</div>
-								</div>
-
-								<div class="form-row">
 									<div class="form-group col-lg-6">
+										<label>Период <span class="text-danger">*</span></label>
 										<div class="input-group input-daterange" name="date-range">
-											<div class="mx-2 mt-2">Период<span class="text-danger">*</span> с</div>
 											<input type="text" class="form-control form-control-sm datepicker-input" name="dateFrom" :value="dateFrom" @input="changeDates($emit)">
 											<div class="mx-2 mt-2">по</div>
 											<input type="text" class="form-control form-control-sm datepicker-input" name="dateTo" :value="dateTo">

@@ -6,14 +6,14 @@
 			<div class="card">
 				<div class="card-body">
 					<div class="card-title mb-4">Отчет по партнерам</div>
-					<p>Для формирования отчета сперва заполните следующие поля:</p>
+					<p>Для формирования отчета по порядку заполните следующие поля:</p>
 					{{--VUE--}}
 					<div id="vue-report-query-builder" class="data-block">
 						<loading-block :loading="loading"></loading-block>
 						<div class="data-filter">
 							<form class="data-filter-form">
 								<div class="form-row">
-									<div class="form-group col-lg-2 col-md-4">
+									<div class="form-group col-lg-3 col-md-2">
 										<label for="city">Город<span class="text-danger">*</span></label>
 										<select name="city" id="city" class="form-control form-control-sm"
 												v-model="selectedCityId">
@@ -23,17 +23,25 @@
 											</option>
 										</select>
 									</div>
-									<div class="form-group col-lg-3 col-md-4">
-										<label for="subProject">Проект<span class="text-danger">*</span></label>
-										<select name="subProject" id="subProject" class="form-control form-control-sm"
-												v-model="selectedSubProjectId">
+									<div class="form-group col-lg-3 col-md-2">
+										<label for="project_select">Проект<span class="text-danger">*</span></label>
+										<select name="project" id="project_select" class="form-control form-control-sm" v-model="selectedProjectId">
+											<option value="all" v-if="hasElements(projects.list)">Все</option>
+											<option v-for="(project,id) of projects.list" :value="id">
+												@{{ project }}
+											</option>
+										</select>
+									</div>
+									<div class="form-group col-lg-3 col-md-2">
+										<label for="subProject">Подпроект<span class="text-danger">*</span></label>
+										<select name="subProject" id="subProject" class="form-control form-control-sm" v-model="selectedSubProjectId">
 											<option value="all" v-if="hasElements(subProjects.list)">Все</option>
 											<option v-for="(subProject,id) of subProjects.list" :value="id">
 												@{{ subProject }}
 											</option>
 										</select>
 									</div>
-									<div class="form-group col-lg-2 col-md-4">
+									<div class="form-group col-lg-3 col-md-2">
 										<label for="subProject">Исполнитель<span class="text-danger">*</span></label>
 										<select name="partner" id="partner" class="form-control form-control-sm"
 												v-model="selectedPartnerId">
@@ -43,9 +51,12 @@
 											</option>
 										</select>
 									</div>
-									<div class="form-group col-lg-2 col-md-4">
-										<label for="subProject">Канал</label>
-										<select name="channel" id="channel" class="form-control form-control-sm"
+								</div>
+
+								<div class="form-row">
+									<div class="form-group col-md-3">
+										<label for="channel">Канал</label>
+										<select name="channel" id="channel" class="form-control"
 												v-model="channels.selectedId">
 											<option value="all" v-if="hasElements(channels.list)">Все</option>
 											<option v-for="(channel,id) of channels.list" :value="id">
@@ -53,17 +64,15 @@
 											</option>
 										</select>
 									</div>
-									<div class="form-group col-lg-3 col-md-4">
+									<div class="form-group col-md-3">
 										<label for="tags">Тип аудитории</label>
 										{{-- компонент select2 --}}
 										<select2 :options="tags.list" v-model="tags.selectedIds"></select2>
 									</div>
-								</div>
-
-								<div class="form-row">
 									<div class="form-group col-lg-6 col-md-9">
+										<label>Период <span class="text-danger">*</span></label>
 										<div class="input-group input-daterange" name="date-range">
-											<div class="mx-2 mt-2">Период<span class="text-danger">*</span> с</div>
+											<div class="mx-2 mt-2">с</div>
 											<input type="text" class="form-control form-control-sm datepicker-input" name="dateFrom" :value="dateFrom" @input="changeDates($emit)">
 											<div class="mx-2 mt-2">по</div>
 											<input type="text" class="form-control form-control-sm datepicker-input" name="dateTo" :value="dateTo">
