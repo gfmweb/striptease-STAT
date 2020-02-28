@@ -9,6 +9,7 @@ use App\Status;
 use App\StatusHistory;
 use App\SubProject;
 use App\User;
+use App\Tag;
 use App\UserSubProject;
 use App\UserTarget;
 use Auth;
@@ -54,11 +55,13 @@ class ProjectsController extends Controller
 		$project     = Project::query()->findOrFail($id);
 		$subProjects = $project->subProjects;
 		$cities      = City::all();
+		$tags        = Tag::listForSelect();
 
 		return view('projects.edit')->with([
 			'project'     => $project,
 			'subProjects' => $subProjects,
 			'cities'      => $cities,
+			'tags'        => $tags,
 		]);
 	}
 
@@ -80,6 +83,19 @@ class ProjectsController extends Controller
 		\Flash::success('Проект изменен');
 
 		return redirect()->route('projects.index');
+	}
+
+	// добавить выбранный тип аудитории всем подпроектам проекта
+	public function addTags(Request $request, $id)
+	{
+		$project = Project::query()->findOrFail($id);
+		foreach ($project->subProjects as $subProject) {
+			$subProject->tags()->sync($request->tags);
+		}
+
+		\Flash::success('Подпроекты обновлены');
+
+		return redirect()->back();
 	}
 
 	public function store(Request $request)

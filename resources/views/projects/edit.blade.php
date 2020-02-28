@@ -66,6 +66,20 @@
 								</tr>
 							@endforeach
 						</table>
+
+						<div class="text-right">
+							<p class="mb-2">Применить выбранный тип аудитории ко всем подпроектам в проекте:</p>
+							<form action="{{ route('projects.addtags', $project->id) }}" method="POST" class="form-inline pull-right">
+								<select name="tags[]" id="tags" multiple class="form-control w-80pc">
+									@foreach ($tags as $tag_id => $tag_name)
+										<option value="{{ $tag_id }}">{{ $tag_name }}</option>
+									@endforeach
+								</select>
+								@csrf
+								<input type="submit" value="Применить" class="btn btn-primary ml-2">
+							</form>
+						</div>
+						<div class="clearfix"></div>
 					@endif
 
 					<hr>
@@ -105,12 +119,19 @@
 @endsection
 
 @push('js')
+	<script src="{{ asset('/vendor/select2/select2.full.min.js') }}"></script>
 	<script>
 		$(function(){
+			$('#tags').select2()
+
 			/*$('[data-delete]').click(function(e){
 				e.preventDefault();
 				if (confirm('Удалить подпроект?')) $(this).closest('td').find('form').submit();
 			})*/
 		})
 	</script>
+@endpush
+
+@push('css')
+	<link rel="stylesheet" type="text/css" href="{{ asset('/vendor/select2/select2.min.css') }}">
 @endpush

@@ -57,6 +57,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
 	// проекты
 	Route::get('projects/statuses', 'ProjectsController@targets')->name('projects.statuses');
+	Route::post('project/{id}/addtags', 'ProjectsController@addTags')->name('projects.addtags');
 	Route::resource('projects', 'ProjectsController');
 
 	// подпроекты
