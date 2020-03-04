@@ -75,6 +75,9 @@ class PasswordsReport
 			$dataQuery->whereHas('passwordCity.password.tags', function (Builder $query) {
 				$query->whereIn('tag_id', $this->params['tagIds']);
 			});
+		} else {
+			// отсеиваем удаленные пароли
+			$dataQuery->whereHas('passwordCity.password');
 		}
 
 		// выборка
