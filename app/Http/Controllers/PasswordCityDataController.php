@@ -34,6 +34,7 @@ class PasswordCityDataController extends Controller
 			])
 			->get()
 			->each(function (PasswordCity $el) use (&$list) {
+				if (!$el->password || !$el->city) return null;
 				// Если данных не найдено то создаем пустой набор
 				if ($el->data->isNotEmpty()) {
 					$activations = $el->data->first()->activations;
@@ -55,8 +56,7 @@ class PasswordCityDataController extends Controller
 					'activations'    => $activations,
 				];
 
-
-			});
+			})->filter();
 
 		return response()->json(array_values($list));
 	}
