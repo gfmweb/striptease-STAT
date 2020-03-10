@@ -9,7 +9,7 @@ use App\User;
 use App\UserSubProject;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use Hash;
 use Mail;
 use Auth;
 
@@ -61,8 +61,12 @@ class PartnersController extends Controller
 
 	public function update(Request $request, $id)
 	{
+		/** @var User $partner */
 		$partner = User::query()->findOrFail($id);
-		$partner->fill($request->all());
+		$partner->fill($request->except('password'));
+		if ($request->filled('password')) {
+			$partner->password =  Hash::make($request->get('password'));
+		}
 		$partner->save();
 
 		\Flash::success('Партнер успешно изменен');
@@ -85,6 +89,7 @@ class PartnersController extends Controller
 
 	public function destroy($id)
 	{
+		/** @var User $partner */
 		$partner = User::query()->findOrFail($id);
 		$partner->delete();
 

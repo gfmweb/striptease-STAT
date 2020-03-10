@@ -35,7 +35,7 @@
 											   class="btn btn-xs btn-outline-dark"><i class="fa fa-pencil"></i>
 											</a>
 											<a href="{{ route('partners.destroy',$partner->id) }}"
-											   class="btn btn-xs btn-danger"><i class="fa fa-remove"></i>
+											   class="btn btn-xs btn-danger btn-destroy"><i class="fa fa-remove"></i>
 											</a>
 										</td>
 									</tr>
