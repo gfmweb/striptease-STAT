@@ -7,6 +7,7 @@
 			<th>Подпроект / Сайт</th>
 			<th>Канал</th>
 			<th>Неделя</th>
+			<th>Охват</th>
 			<th>Лидов</th>
 			<th>Активаций</th>
 			<th>Затраты, руб.</th>
@@ -16,6 +17,7 @@
 		</tr>
 		<tr class="text-right bg-grey">
 			<td colspan="4">Суммарно:</td>
+			<td>{{ $report->sum('coverage') }}</td>
 			<td>{{ $report->sum('leads') }}</td>
 			<td>{{ $report->sum('activations') }}</td>
 			<td>{{ App\Helpers\TextHelper::numberFormat($report->sum('cost')) }}</td>
@@ -42,6 +44,7 @@
 					с {{ $item['dateFrom']->format('d.m.Y') }}<br>
 					по {{ $item['dateTo']->format('d.m.Y')}}
 				</td>
+				<td class="text-right">{{ $item['coverage'] }}</td>
 				<td class="text-right">{{ $item['leads'] }}</td>
 				<td class="text-right">{{ $item['activations'] }}</td>
 				<td class="text-right">{{ App\Helpers\TextHelper::numberFormat($item['cost']) }}</td>
