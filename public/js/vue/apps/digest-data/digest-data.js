@@ -19,9 +19,6 @@ const digestData = new Vue({
 		digestData: [],
 	},
 	computed: {
-		canEdit: function () {
-			return this.startDate.diff(this.current.dateFrom) <= 0;
-		},
 		filterSettled() {
 			return !!(this.filters.dateFrom && this.filters.dateTo);
 		},

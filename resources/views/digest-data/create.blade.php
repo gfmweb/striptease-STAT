@@ -16,6 +16,17 @@
 										<label for="date-range">Неделя</label><br>
 										<input type="text" class="custom-select" name="date-range" id="date-range" value="" placeholder="Неделя" readonly/>
 									</div>
+
+									<div class="form-group col-lg-3 col-md-6">
+										<label for="city_id">Город</label>
+										<select name="city_id" id="city_id" class="form-control">
+											<option value="">Выберите город</option>
+											@foreach ($cities as $id => $name)
+												<option value="{{ $id }}">{{ $name }}</option>
+											@endforeach
+										</select>
+									</div>
+
 									<div class="form-row">
 										<div class="form-group col-lg-3 col-md-4 filter-buttons flex-bottom-space">
 											<div class="btn btn-vimeo" v-if="filterSettled" @click="load()">
@@ -35,45 +46,35 @@
 							<table class="table table-bordered table-sm">
 								<thead>
 									<tr>
-										<th rowspan="2">Пароль</th>
-										<th colspan="4">Кол-во активациий по городам</th>
-										<th rowspan="2">Сумма</th>
-									</tr>
-									<tr>
-										<th>Москва</th>
-										<th>Санкт-Петербург</th>
-										<th>Казань</th>
-										<th>Чебоксары</th>
+										<th>Группа</th>
+										<th>Дайджест</th>
+										<th>Получатели</th>
+										<th>Лиды</th>
+										<th>Активации</th>
+										<th>Бюджет</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr v-for="digest in digestData" :class="{'project-row-edited':digest.changed}">
-										<th>@{{ digest.name }}</th>
-										<td v-if="digest.cities.msk">
-											<editable-field v-model="digest.cities.msk.activations" @input="digest.changed = true" v-if="canEdit"></editable-field>
-											<span v-else>@{{ digest.cities.msk.activations }}</span>
+										<th>@{{ digest.group_name }}</th>
+										<td>@{{ digest.name }}</td>
+										<td>
+											<editable-field @input="digest.changed = true"></editable-field>
 										</td>
-										<td v-else>—</td>
-										<td v-if="digest.cities.spb">
-											<editable-field v-model="digest.cities.spb.activations" @input="digest.changed = true" v-if="canEdit"></editable-field>
-											<span v-else>@{{ digest.cities.spb.activations }}</span>
+										<td>
+											<editable-field @input="digest.changed = true"></editable-field>
 										</td>
-										<td v-else>—</td>
-										<td v-if="digest.cities.kzn">
-											<editable-field v-model="digest.cities.kzn.activations" @input="digest.changed = true" v-if="canEdit"></editable-field>
-											<span v-else>@{{ digest.cities.kzn.activations }}</span>
+										<td>
+											<editable-field @input="digest.changed = true"></editable-field>
 										</td>
-										<td v-else>—</td>
-										<td v-if="digest.cities.che">
-											<editable-field v-model="digest.cities.che.activations" @input="digest.changed = true" v-if="canEdit"></editable-field>
-											<span v-else>@{{ digest.cities.che.activations }}</span>
+										<td>
+											<editable-field @input="digest.changed = true"></editable-field>
 										</td>
-										<td v-else>—</td>
 										{{-- <td>@{{ summaryByDigest(digest) }}</td> --}}
 									</tr>
 								</tbody>
 							</table>
-							<p v-if="!canEdit" class="text-danger">Данные внести невозможно. Прошли допустимые сроки на редактирование данной недели.</p>
+							
 						</div>
 					</div>
 					{{--/VUE--}}

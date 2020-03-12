@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Digest;
 use App\DigestData;
+use App\City;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
@@ -12,7 +13,12 @@ class DigestDataController extends Controller
 {
 	public function create()
 	{
-		return view('digest-data.create');
+
+		$cities = City::listForSelect();
+
+		return view('digest-data.create')->with([
+			'cities'      => $cities,
+		]);;
 	}
 
 	public function list(Request $request)
@@ -36,11 +42,11 @@ class DigestDataController extends Controller
 				}
 
 				// построение списка
-				$list[$el->group->id][$el->id] = [
+				$list[$el->id] = [
 					'group_id'    => $el->group->id,
 					'group_name'  => $el->group->name,
-					'digest_id'   => $el->id,
-					'digest_name' => $el->name,
+					'id'          => $el->id,
+					'name'        => $el->name,
 					'data'        => $data,
 				];
 			})->filter();
