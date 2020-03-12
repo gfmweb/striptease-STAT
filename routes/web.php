@@ -82,9 +82,16 @@ Route::middleware(['auth', 'admin'])->group(function () {
 	Route::get('/reports/passwords', 'ReportsController@passwords')->name('reports.passwords');
 	Route::post('/reports/passwords/data', 'ReportsController@passwordsData')->name('reports.passwords.data');
 
+	Route::get('/reports/digest', 'ReportsController@digest')->name('reports.digest');
+
 	// Ввод данных по паролю
 	Route::get('password-city-data/create', 'PasswordCityDataController@create')->name('password-city-data.create');
 	Route::get('password-city-data/list', 'PasswordCityDataController@list')->name('password-city-data.list');
 	Route::post('password-city-data/save', 'PasswordCityDataController@save')->name('password-city-data.save');
+
+	// Ввод данных по дайджесту
+	Route::get('digest-data/create', 'DigestDataController@create')->name('digest-data.create');
+	Route::get('digest-data/list', 'DigestDataController@list')->name('digest-data.list');
+	Route::post('digest-data/save', 'DigestDataController@save')->name('digest-data.save');
 
 });
