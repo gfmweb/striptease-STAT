@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Digest;
+use App\DigestGroup;
 use App\DigestData;
 use App\City;
 use Carbon\Carbon;
@@ -17,7 +18,7 @@ class DigestDataController extends Controller
 		$cities = City::listForSelect();
 
 		return view('digest-data.create')->with([
-			'cities'      => $cities,
+			'cities' => $cities,
 		]);;
 	}
 
@@ -27,8 +28,7 @@ class DigestDataController extends Controller
 		$dateTo   = $request->get('dateTo');
 		$list     = [];
 
-		Digest::with(
-			[
+		Digest::with([
 				'group',
 			])
 			->get()
@@ -42,14 +42,23 @@ class DigestDataController extends Controller
 				}
 
 				// построение списка
-				$list[$el->id] = [
-					'group_id'    => $el->group->id,
-					'group_name'  => $el->group->name,
-					'id'          => $el->id,
-					'name'        => $el->name,
-					'data'        => $data,
+				$list[$el->group->id][$el->id] = [
+					'group_id'   => $el->group->id,
+					'group_name' => $el->group->name,
+					'id'         => $el->id,
+					'name'       => $el->name,
+					'data'       => $data,
 				];
 			})->filter();
+
+		// сортировка по группе и подсчет итемов в каждой
+		/*$group_id = array_column($list, 'group_id');
+		$group_count = array_count_values($group_id);
+		array_multisort($group_id, SORT_ASC, $list);
+		foreach ($list as $key => $item) $list[$key]['group_count'] = $group_count[$list[$key]['group_id']];*/
+
+		// return response()->json($list);
+		foreach ($list as $group_id => $group) $list[$group_id] = array_values($group);
 
 		return response()->json(array_values($list));
 	}

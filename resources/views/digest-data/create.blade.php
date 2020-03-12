@@ -32,7 +32,7 @@
 											<div class="btn btn-vimeo" v-if="filterSettled" @click="load()">
 												Показать
 											</div>
-											<div class="btn btn-success ml-2" v-if="haveChanges() && filterSettled"
+											<div class="btn btn-success ml-2" v-if="false"
 												 @click="save()">Сохранить
 											</div>
 										</div>
@@ -55,26 +55,44 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr v-for="digest in digestData" :class="{'project-row-edited':digest.changed}">
-										<th>@{{ digest.group_name }}</th>
-										<td>@{{ digest.name }}</td>
-										<td>
-											<editable-field @input="digest.changed = true"></editable-field>
-										</td>
-										<td>
-											<editable-field @input="digest.changed = true"></editable-field>
-										</td>
-										<td>
-											<editable-field @input="digest.changed = true"></editable-field>
-										</td>
-										<td>
-											<editable-field @input="digest.changed = true"></editable-field>
-										</td>
-										{{-- <td>@{{ summaryByDigest(digest) }}</td> --}}
-									</tr>
+									{{-- @foreach ($groups as $group_id => $group_name) --}}
+										{{--<tr v-for="(digest, i) in digestData" v-if="digest.group_id == {{ $group_id }}" :class="{'project-row-edited':digest.changed}">
+											<td
+												:rowspan="digest.group_count"
+												v-if="digest[i].group_id != digest[i-1].group_id"
+											>@{{ digest.group_name }}</td>
+											<td>@{{ digest.name }}</td>
+											<td>
+												<editable-field @input="digest.changed = true"></editable-field>
+											</td>
+											<td>
+												<editable-field @input="digest.changed = true"></editable-field>
+											</td>
+											<td>
+												<editable-field @input="digest.changed = true"></editable-field>
+											</td>
+											<td>
+												<editable-field @input="digest.changed = true"></editable-field>
+											</td>
+										</tr>--}}
+									{{-- @endforeach --}}
+									<template v-for="(group, i_group) in digestData">
+										<tr v-for="(digest, i_digest) in group" :class="{'project-row-edited':digest.changed}">
+											<th
+												:rowspan="group.length"
+												v-if="i_digest == 0"
+											>@{{ digest.group_name }}</th>
+											<td>@{{ digest.name }}</td>
+											<td>@{{ digest.data.coverage }}</td>
+											<td>@{{ digest.data.leads }}</td>
+											<td>@{{ digest.data.activations }}</td>
+											<td>@{{ digest.data.budget }}</td>
+										</tr>
+									</template>
+
 								</tbody>
 							</table>
-							
+
 						</div>
 					</div>
 					{{--/VUE--}}

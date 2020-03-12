@@ -41,7 +41,7 @@ const digestData = new Vue({
 		this.datePickerInit();
 	},
 	methods: {
-		summaryByDigest(digest) {
+		/*summaryByDigest(digest) {
 			const cities = {
 				msk: Number(digest.cities.msk && digest.cities.msk.activations || 0),
 				spb: Number(digest.cities.spb && digest.cities.spb.activations || 0),
@@ -53,15 +53,15 @@ const digestData = new Vue({
 		},
 		hasElements(obj) {
 			return !!Object.values(obj).length;
-		},
-		haveChanges() {
+		},*/
+		/*haveChanges() {
 			let changed = this.getChanges();
 			return changed && changed.length;
-		},
-		getChanges() {
+		},*/
+		/*getChanges() {
 			return this.digestData && this.digestData.filter(row => row.changed);
-		},
-		prepareChanges(list) {
+		},*/
+		/*prepareChanges(list) {
 			let prepared = [];
 			list.forEach(password => {
 				for (let city in password.cities) {
@@ -76,11 +76,11 @@ const digestData = new Vue({
 				}
 			});
 			return prepared;
-		},
-		clearChangedList() {
+		},*/
+		/*clearChangedList() {
 			const changed = this.getChanges();
 			changed && changed.forEach(row => row.changed = false);
-		},
+		},*/
 		datePickerInit() {
 			const weekPicker = $("#date-range");
 			const weekPickerDateFrom = weekPicker.find('[name="dateFrom"]');
@@ -111,10 +111,12 @@ const digestData = new Vue({
 			weekPicker.on('hide', onDateChange);
 		},
 		updateData(data) {
-			console.log(data);
-			data.forEach(row => {
-				row.changed = false;
+			data.forEach(group => {
+				group.forEach(digest => {
+					digest.changed = false;
+				})
 			});
+			console.log(data);
 			this.digestData = data;
 		},
 		load() {
