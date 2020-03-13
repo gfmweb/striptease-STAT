@@ -14,6 +14,13 @@ class DigestData extends Model
 		'activations' => 0,
 	];*/
 
+	public static $values = [
+		'coverage',
+		'leads',
+		'activations',
+		'budget',
+	];
+
 	protected $fillable   = [
 		'digest_id',
 		'city_id',
@@ -33,6 +40,11 @@ class DigestData extends Model
 	public function digest()
 	{
 		return $this->belongsTo(Digest::class);
+	}
+
+	public function onlyValues()
+	{
+		return $this->only(self::$values);
 	}
 
 }

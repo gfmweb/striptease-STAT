@@ -26,10 +26,19 @@ class DigestDataController extends Controller
 	{
 		$dateFrom = $request->get('dateFrom');
 		$dateTo   = $request->get('dateTo');
+		$city     = $request->get('city');
 		$list     = [];
 
 		Digest::with([
 				'group',
+				'data' => function (HasMany $query) use ($dateFrom, $dateTo, $city) {
+					$query
+						->select(DigestData::$values)
+						->addSelect('digest_id') // Для связывания моделей
+						->where('date_from', $dateFrom)
+						->where('date_to', $dateTo)
+						->where('city_id', $city);
+				}
 			])
 			->get()
 			->each(function (Digest $el) use (&$list) {
@@ -47,17 +56,11 @@ class DigestDataController extends Controller
 					'group_name' => $el->group->name,
 					'id'         => $el->id,
 					'name'       => $el->name,
-					'data'       => $data,
+					'data'       => $data->onlyValues(),
 				];
 			})->filter();
 
-		// сортировка по группе и подсчет итемов в каждой
-		/*$group_id = array_column($list, 'group_id');
-		$group_count = array_count_values($group_id);
-		array_multisort($group_id, SORT_ASC, $list);
-		foreach ($list as $key => $item) $list[$key]['group_count'] = $group_count[$list[$key]['group_id']];*/
-
-		// return response()->json($list);
+		// объекты на втором уровне превращаем в массивы
 		foreach ($list as $group_id => $group) $list[$group_id] = array_values($group);
 
 		return response()->json(array_values($list));
@@ -66,32 +69,33 @@ class DigestDataController extends Controller
 	public function save(Request $request)
 	{
 		$changedList = $request->get('changed', []);
-		$dateFrom    = $request->get('dateFrom', '2020-01-13');
-		$dateTo      = $request->get('dateTo', '2020-01-19');
-		$startDate   = (new Carbon())->subDay(3)->startOfWeek();
-
-		// Проверка на 3 дня (предыдущую неделю можно редактировать лишь спустя еще 3 дня после)
-		if (Carbon::parse($dateFrom) < $startDate) {
-			response()->json(['status' => 'error', 'error' => 'На эту неделю нельзя заполнять данные. Прошли сроки']);
-		}
+		$dateFrom    = $request->get('dateFrom');
+		$dateTo      = $request->get('dateTo');
+		$city        = $request->get('city');
 
 		foreach ($changedList as $changed) {
-			$DigestData = DigestData::query()
+			$values         = $changed['values'];
+			// обновление?
+			$digestData = DigestData::query()
 				->where('date_from', $dateFrom)
 				->where('date_to', $dateTo)
-				->where('password_city_id', $changed['DigestId'])
+				->where('digest_id', $changed['digestId'])
+				->where('city_id', $city)
 				->first();
-
-			if (!$DigestData) {
-				$DigestData                   = new DigestData();
-				$DigestData->password_city_id = $changed['DigestId'];
-				$DigestData->date_from        = $dateFrom;
-				$DigestData->date_to          = $dateTo;
+			// новая запись
+			if (!$digestData) {
+				$digestData            = new DigestData();
+				$digestData->digest_id = $changed['digestId'];
+				$digestData->city_id   = $city;
+				$digestData->date_from = $dateFrom;
+				$digestData->date_to   = $dateTo;
 			}
 
-			$DigestData->activations = $changed['activations'];
+			foreach (DigestData::$values as $field) {
+				$digestData->{$field} = $values[$field];
+			}
 
-			$DigestData->save();
+			$digestData->save();
 		}
 
 		return response()->json(['status' => 'success']);

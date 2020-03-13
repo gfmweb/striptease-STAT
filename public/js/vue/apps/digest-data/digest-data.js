@@ -10,19 +10,35 @@ const digestData = new Vue({
 		loaded: false,
 		filters: {
 			dateFrom: null,
-			dateTo: null
+			dateTo: null,
 		},
 		current: {
 			dateFrom: null,
 			dateTo: null,
+			city: null,
+		},
+		city: {
+			selectedId: null,
 		},
 		digestData: [],
 	},
 	computed: {
 		filterSettled() {
-			return !!(this.filters.dateFrom && this.filters.dateTo);
+			return !!(this.filters.dateFrom && this.filters.dateTo && this.city.selectedId);
 		},
-
+		selectedCityId: {
+			set: function (id) {
+				if (id === '' || id === undefined) {
+					this.city.selectedId = null;
+				} else {
+					this.city.selectedId = id;
+				}
+				this.loaded = false;
+			},
+			get: function () {
+				return this.city.selectedId;
+			}
+		},
 	},
 	mounted: function () {
 		$.ajaxSetup({
@@ -54,33 +70,18 @@ const digestData = new Vue({
 		hasElements(obj) {
 			return !!Object.values(obj).length;
 		},*/
-		/*haveChanges() {
+		haveChanges() {
 			let changed = this.getChanges();
 			return changed && changed.length;
-		},*/
-		/*getChanges() {
-			return this.digestData && this.digestData.filter(row => row.changed);
-		},*/
-		/*prepareChanges(list) {
-			let prepared = [];
-			list.forEach(password => {
-				for (let city in password.cities) {
-					if (password.cities.hasOwnProperty(city)) {
-						prepared.push({
-							passwordId: password.id,
-							cityId: password.cities[city].cityId,
-							passwordCityId: password.cities[city].passwordCityId,
-							activations: password.cities[city].activations,
-						});
-					}
-				}
-			});
-			return prepared;
-		},*/
-		/*clearChangedList() {
+		},
+		getChanges() {
+			// проходим по схлопнутому массиву и считываем у digest свойство changed
+			return this.digestData && this.digestData.flat().filter(digest => digest.changed);
+		},
+		clearChangedList() {
 			const changed = this.getChanges();
 			changed && changed.forEach(row => row.changed = false);
-		},*/
+		},
 		datePickerInit() {
 			const weekPicker = $("#date-range");
 			const weekPickerDateFrom = weekPicker.find('[name="dateFrom"]');
@@ -95,6 +96,8 @@ const digestData = new Vue({
 			let that = this;
 
 			function onDateChange(e) {
+				that.loaded = false;
+
 				let value = weekPicker.val();
 				if (!value.trim().length) return;
 
@@ -116,13 +119,13 @@ const digestData = new Vue({
 					digest.changed = false;
 				})
 			});
-			console.log(data);
 			this.digestData = data;
 		},
 		load() {
 			// Сохраняем текущие настройки выборки
 			this.current.dateFrom = this.filters.dateFrom;
-			this.current.dateTo = this.filters.dateTo;
+			this.current.dateTo   = this.filters.dateTo;
+			this.current.city     = this.city.selectedId;
 			this.loading = true;
 
 			$.ajax({
@@ -139,7 +142,16 @@ const digestData = new Vue({
 			});
 		},
 		save() {
-			const dataForSend = this.prepareChanges(this.getChanges());
+			const changed = this.getChanges();
+			const dataForSend = [];
+			if (changed && changed.length) {
+				changed.forEach(row => {
+					dataForSend.push({
+						digestId: row.id,
+						values: row.data,
+					});
+				});
+			}
 
 			if (dataForSend.length) {
 				console.log('SAVE DATA:', dataForSend);
@@ -150,7 +162,8 @@ const digestData = new Vue({
 					data: {
 						dateFrom: this.current.dateFrom,
 						dateTo: this.current.dateTo,
-						changed: dataForSend
+						city: this.current.city,
+						changed: dataForSend,
 					},
 					dataType: 'json'
 				}).done(data => {

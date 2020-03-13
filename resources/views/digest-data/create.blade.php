@@ -19,8 +19,7 @@
 
 									<div class="form-group col-lg-3 col-md-6">
 										<label for="city_id">Город</label>
-										<select name="city_id" id="city_id" class="form-control">
-											<option value="">Выберите город</option>
+										<select name="city_id" id="city_id" class="form-control" v-model="selectedCityId">
 											@foreach ($cities as $id => $name)
 												<option value="{{ $id }}">{{ $name }}</option>
 											@endforeach
@@ -32,8 +31,7 @@
 											<div class="btn btn-vimeo" v-if="filterSettled" @click="load()">
 												Показать
 											</div>
-											<div class="btn btn-success ml-2" v-if="false"
-												 @click="save()">Сохранить
+											<div class="btn btn-success ml-2" v-if="haveChanges()" @click="save()">Сохранить
 											</div>
 										</div>
 									</div>
@@ -46,8 +44,7 @@
 							<table class="table table-bordered table-sm">
 								<thead>
 									<tr>
-										<th>Группа</th>
-										<th>Дайджест</th>
+										<th colspan="2">Наши действия</th>
 										<th>Получатели</th>
 										<th>Лиды</th>
 										<th>Активации</th>
@@ -55,44 +52,29 @@
 									</tr>
 								</thead>
 								<tbody>
-									{{-- @foreach ($groups as $group_id => $group_name) --}}
-										{{--<tr v-for="(digest, i) in digestData" v-if="digest.group_id == {{ $group_id }}" :class="{'project-row-edited':digest.changed}">
+									<template v-for="(group, i_group) in digestData">
+										<tr v-for="(digest, i_digest) in group" :class="{'project-row-edited':digest.changed}">
 											<td
-												:rowspan="digest.group_count"
-												v-if="digest[i].group_id != digest[i-1].group_id"
+												:rowspan="group.length"
+												v-if="i_digest == 0"
 											>@{{ digest.group_name }}</td>
 											<td>@{{ digest.name }}</td>
 											<td>
-												<editable-field @input="digest.changed = true"></editable-field>
+												<editable-field v-model="digest.data.coverage" @input="digest.changed = true"></editable-field>
 											</td>
 											<td>
-												<editable-field @input="digest.changed = true"></editable-field>
+												<editable-field v-model="digest.data.leads" @input="digest.changed = true"></editable-field>
 											</td>
 											<td>
-												<editable-field @input="digest.changed = true"></editable-field>
+												<editable-field v-model="digest.data.activations" @input="digest.changed = true"></editable-field>
 											</td>
 											<td>
-												<editable-field @input="digest.changed = true"></editable-field>
+												<editable-field v-model="digest.data.budget" @input="digest.changed = true"></editable-field>
 											</td>
-										</tr>--}}
-									{{-- @endforeach --}}
-									<template v-for="(group, i_group) in digestData">
-										<tr v-for="(digest, i_digest) in group" :class="{'project-row-edited':digest.changed}">
-											<th
-												:rowspan="group.length"
-												v-if="i_digest == 0"
-											>@{{ digest.group_name }}</th>
-											<td>@{{ digest.name }}</td>
-											<td>@{{ digest.data.coverage }}</td>
-											<td>@{{ digest.data.leads }}</td>
-											<td>@{{ digest.data.activations }}</td>
-											<td>@{{ digest.data.budget }}</td>
 										</tr>
 									</template>
-
 								</tbody>
 							</table>
-
 						</div>
 					</div>
 					{{--/VUE--}}
