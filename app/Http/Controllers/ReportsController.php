@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Reports\MainReport\MainReport;
 use App\Reports\PasswordsReport\PasswordsReport;
+use App\Reports\DigestReport\DigestReport;
+use App\City;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -94,6 +96,30 @@ class ReportsController extends Controller
 		$report->sortBy('dateFrom');
 
 		return view('reports.passwords.partials.table')->with(['report' => $report]);
+	}
+
+	public function digest(Request $request)
+	{
+		$cities = City::listForSelect();
+		return view('reports.digest.index')->with(['cities' => $cities]);
+	}
+
+	/**
+	 * @param Request $request
+	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 */
+	public function digestData(Request $request)
+	{
+		$params = [
+			'city'     => $request->get('city'),
+			'dateFrom' => $request->get('dateFrom'),
+			'dateTo'   => $request->get('dateTo'),
+		];
+
+		$report = new DigestReport($params);
+		// $report->sortBy('dateFrom');
+
+		return view('reports.digest.partials.table')->with(['report' => $report]);
 	}
 
 }

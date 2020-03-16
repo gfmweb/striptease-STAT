@@ -10,9 +10,13 @@ class DigestData extends Model
 
 	protected $table = 'digest_data';
 
-	/*protected $attributes = [
+	// для того, чтобы при создании пустой модели в ней были нули
+	protected $attributes = [
+		'coverage'    => 0,
+		'leads'       => 0,
 		'activations' => 0,
-	];*/
+		'budget'      => 0,
+	];
 
 	public static $values = [
 		'coverage',
