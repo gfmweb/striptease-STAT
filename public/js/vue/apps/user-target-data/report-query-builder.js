@@ -233,13 +233,13 @@ const reportQueryBuilder = new Vue({
 			var columnDefs = [
 				{targets: [0, 1, 2, 3], type: "string"},
 				{targets: [4], type: 'reportWeek'},
-				{targets: [5, 6, 7, 8, 9, 10, 11], type: 'reportNumeric'}
+				{targets: [5, 6, 7, 8, 9, 10, 11, 12], type: 'reportNumeric'}
 			];
 			if (this.onlyMy) {
 				columnDefs = [
 					{targets: [0, 1, 2], type: "string"},
 					{targets: [3], type: 'reportWeek'},
-					{targets: [4, 5, 6, 7, 8, 9, 10], type: 'reportNumeric'}
+					{targets: [4, 5, 6, 7, 8, 9, 10, 11], type: 'reportNumeric'}
 				];
 			}
 

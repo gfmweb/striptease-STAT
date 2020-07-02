@@ -28,6 +28,7 @@ class UserTargetData extends Model
 		'leads',
 		'activations',
 		'cost',
+		'ctr',
 	];
 
 	protected $table = 'user_target_data';
@@ -39,6 +40,7 @@ class UserTargetData extends Model
 		'leads'       => 0,
 		'activations' => 0,
 		'cost'        => 0.00,
+		'ctr'         => 0,
 	];
 	protected $fillable   = [
 		'user_target_id',
@@ -48,6 +50,7 @@ class UserTargetData extends Model
 		'leads',
 		'activations',
 		'cost',
+		'ctr',
 		'date_from',
 		'date_to',
 	];
