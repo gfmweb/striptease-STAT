@@ -8,8 +8,9 @@
 			<th>Канал</th>
 			<th>Неделя</th>
 			<th>Охват</th>
-			<th>CTR</th>
+			<th>Клики</th>
 			<th>Лидов</th>
+			<th>CTR,&nbsp;%</th>
 			<th>Активаций</th>
 			<th>Затраты, руб.</th>
 			<th title="[Затраты] / [Кол. лидов]">CPL, руб.</th>
@@ -19,8 +20,9 @@
 		<tr class="text-right bg-grey">
 			<td colspan="4">Суммарно:</td>
 			<td>{{ $report->sum('coverage') }}</td>
-			<td></td>
+			<td>{{ $report->sum('clicks') }}</td>
 			<td>{{ $report->sum('leads') }}</td>
+			<td></td>
 			<td>{{ $report->sum('activations') }}</td>
 			<td>{{ App\Helpers\TextHelper::numberFormat($report->sum('cost')) }}</td>
 			<td title="[сумма Затраты] / [сумма Кол. лидов]">{{ App\Helpers\TextHelper::numberFormat($report->cplSum(),2) }}</td>
@@ -47,8 +49,9 @@
 					по {{ $item['dateTo']->format('d.m.Y')}}
 				</td>
 				<td class="text-right">{{ $item['coverage'] }}</td>
-				<td class="text-right">{{ $item['ctr'] }}%</td>
+				<td class="text-right">{{ $item['clicks'] }}</td>
 				<td class="text-right">{{ $item['leads'] }}</td>
+				<td class="text-right">{{ $item['ctr'] }}%</td>
 				<td class="text-right">{{ $item['activations'] }}</td>
 				<td class="text-right">{{ App\Helpers\TextHelper::numberFormat($item['cost']) }}</td>
 

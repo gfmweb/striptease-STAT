@@ -118,6 +118,7 @@ class MainReport
 					$item['cpl']             = CalcHelper::cpl($item['leads'], $item['cost']);
 					$item['activationPrice'] = CalcHelper::cpl($item['activations'], $item['cost']);
 					$item['conversionSum']   = CalcHelper::percent($item['activations'], $item['leads']);
+					$item['ctr']             = CalcHelper::percent($item['coverage'], $item['clicks']);
 
 					$this->items->push($item);
 				});
