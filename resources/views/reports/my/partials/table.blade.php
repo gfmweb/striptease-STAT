@@ -7,7 +7,7 @@
 			<th>Подпроект / Сайт</th>
 			<th>Канал</th>
 			<th>Неделя</th>
-			<th>Охват</th>
+			<th>Показы</th>
 			<th>Клики</th>
 			<th>Лидов</th>
 			<th>CTR,&nbsp;%</th>
@@ -51,7 +51,7 @@
 				<td class="text-right">{{ $item['coverage'] }}</td>
 				<td class="text-right">{{ $item['clicks'] }}</td>
 				<td class="text-right">{{ $item['leads'] }}</td>
-				<td class="text-right">{{ $item['ctr'] }}%</td>
+				<td class="text-right">{{ App\Helpers\TextHelper::numberFormat($item['ctr'], 2) }}%</td>
 				<td class="text-right">{{ $item['activations'] }}</td>
 				<td class="text-right">{{ App\Helpers\TextHelper::numberFormat($item['cost']) }}</td>
 
