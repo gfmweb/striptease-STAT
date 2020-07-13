@@ -63,7 +63,7 @@
 									<tr>
 										<th style="width: 200px;">Канал</th>
 										<th style="min-width: 80px;">Показы</th>
-										<th>Переходы/просмотры</th>
+										{{-- <th>Переходы/просмотры</th> --}}
 										<th style="min-width: 70px;">Клики</th>
 										<th>Кол-во лидов</th>
 										<th>Кол-во активациий</th>
@@ -81,10 +81,10 @@
 											<editable-field v-model="row.values.coverage" @input="row.changed = true" v-if="canEdit"></editable-field>
 											<span v-else>@{{ row.values.coverage }}</span>
 										</td>
-										<td>
+										{{-- <td>
 											<editable-field v-model="row.values.transition" @input="row.changed = true" v-if="canEdit"></editable-field>
 											<span v-else>@{{ row.values.transition }}</span>
-										</td>
+										</td> --}}
 										<td>
 											<editable-field v-model="row.values.clicks" @input="row.changed = true" v-if="canEdit"></editable-field>
 											<span v-else>@{{ row.values.clicks }}</span>

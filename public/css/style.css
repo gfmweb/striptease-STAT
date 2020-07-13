@@ -55,6 +55,15 @@ table a {
 	position: relative;
 }
 
+.data-table .scroll-x {
+	overflow-x: scroll;
+	padding-bottom: 20px;
+}
+
+.dataTable.table-sm>thead>tr>th {
+	font-size: 12px;
+}
+
 .nowrap {
 	white-space:nowrap;
 }
