@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\City;
+use App\Reports\ChannelsReport\ChannelsReport;
+use App\Reports\DigestReport\DigestReport;
 use App\Reports\MainReport\MainReport;
 use App\Reports\PasswordsReport\PasswordsReport;
-use App\Reports\DigestReport\DigestReport;
-use App\City;
-use Illuminate\Http\Request;
 use Auth;
+use Illuminate\Http\Request;
 
 class ReportsController extends Controller
 {
@@ -42,7 +43,7 @@ class ReportsController extends Controller
 			'dateTo'        => $request->get('dateTo'),
 		];
 
-		if (!empty($request->get('my'))) $params['partnerIds'] = array(Auth::id());
+		if (!empty($request->get('my'))) $params['partnerIds'] = [Auth::id()];
 
 		$report = new MainReport($params);
 		$report->sortBy('dateFrom');
@@ -56,7 +57,7 @@ class ReportsController extends Controller
 		$params = [
 			'channelIds'    => $request->get('channelIds', []),
 			'subProjectIds' => $request->get('subProjectIds', []),
-			'partnerIds'    => array(Auth::id()),
+			'partnerIds'    => [Auth::id()],
 			'tagIds'        => $request->get('tagIds', []),
 			'dateFrom'      => $request->get('dateFrom'),
 			'dateTo'        => $request->get('dateTo'),
@@ -101,6 +102,7 @@ class ReportsController extends Controller
 	public function digest(Request $request)
 	{
 		$cities = City::listForSelect();
+
 		return view('reports.digest.index')->with(['cities' => $cities]);
 	}
 
@@ -117,9 +119,34 @@ class ReportsController extends Controller
 		];
 
 		$report = new DigestReport($params);
-		// $report->sortBy('dateFrom');
 
 		return view('reports.digest.partials.table')->with(['report' => $report]);
+	}
+
+
+	public function channels(Request $request)
+	{
+		$cities = City::listForSelect();
+
+		return view('reports.channels.index')->with(['cities' => $cities]);
+	}
+
+	/**
+	 * @param Request $request
+	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+	 */
+	public function channelsData(Request $request)
+	{
+		$params = [
+			'partnerIds'    => $request->get('partnerIds'),
+			'cityIds'       => $request->get('cityIds'),
+			'channelIds'    => $request->get('channelIds'),
+			'subProjectIds' => $request->get('subProjectIds'),
+		];
+
+		$report = new ChannelsReport($params);
+
+		return view('reports.channels.partials.table')->with(['report' => $report]);
 	}
 
 }

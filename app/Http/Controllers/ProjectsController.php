@@ -8,8 +8,8 @@ use App\Project;
 use App\Status;
 use App\StatusHistory;
 use App\SubProject;
-use App\User;
 use App\Tag;
+use App\User;
 use App\UserSubProject;
 use App\UserTarget;
 use Auth;
@@ -20,18 +20,25 @@ class ProjectsController extends Controller
 {
 	public function list(Request $request)
 	{
-		$cityIds = $request->get('cityIds');
-		$onlyMy  = !!$request->get('my', false);
+		$cityIds    = $request->get('cityIds');
+		$onlyMy     = !!$request->get('my', false);
+		$partnerIds = $request->get('partnerIds', []);
 
-		$list = Project::listForSelect(function (Builder $query) use ($cityIds, $onlyMy) {
-			if ($cityIds || $onlyMy) {
-				$query->whereHas('subProjects', function (Builder $builder) use ($cityIds, $onlyMy) {
+		$list = Project::listForSelect(function (Builder $query) use ($cityIds, $onlyMy, $partnerIds) {
+			if ($cityIds || $onlyMy || $partnerIds) {
+				$query->whereHas('subProjects', function (Builder $builder) use ($cityIds, $onlyMy, $partnerIds) {
 					// фильтр по городу
 					if ($cityIds) $builder->whereIn('city_id', $cityIds);
 					// только свои
 					if ($onlyMy) {
 						$builder->whereHas('userSubProject', function (Builder $builder2) {
 							$builder2->where('user_id', Auth::id());
+						});
+					}
+					// фильтр по партнеру
+					if ($partnerIds) {
+						$builder->whereHas('userSubProject', function (Builder $builder2) use($partnerIds) {
+							$builder2->whereIn('user_id', $partnerIds);
 						});
 					}
 				});

@@ -10,6 +10,7 @@ use Illuminate\Support\Collection;
  * @package App
  * @property int                         id
  * @property Channel                     channel
+ * @property Status                      status
  * @property int                         channel_id
  * @property Collection | UserTargetData data
  */

@@ -39,4 +39,4 @@ Vue.component('select2', {
 	destroyed: function () {
 		$(this.$el).off().select2('destroy')
 	}
- })
+ });

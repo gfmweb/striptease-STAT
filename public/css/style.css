@@ -110,3 +110,7 @@ table a {
 .form-control-sm {
 	height: 40px;
 }
+
+.text-middle {
+	vertical-align: middle;
+}
