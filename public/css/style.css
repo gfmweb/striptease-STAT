@@ -112,5 +112,5 @@ table a {
 }
 
 .text-middle {
-	vertical-align: middle;
+	vertical-align: middle !important;
 }
