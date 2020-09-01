@@ -86,9 +86,12 @@
 
 @push('js')
 	<script type="text/javascript" src="/vendor/vue/vue.js"></script>
-	@js('/js/vue/components/loading-block.js')
-	@js('/js/vue/apps/channels/report-query-builder.js')
+
+	<script type="text/javascript" src="/js/vue/components/loading-block.js"></script>
+	<script type="text/javascript" src="/js/vue/apps/channels/report-query-builder.js"></script>
+
 	<link type="text/css" rel="stylesheet" href="/vendor/tables/css/datatable/dataTables.bootstrap4.min.css">
 	<script type="text/javascript" src="/vendor/tables/js/jquery.dataTables.min.js"></script>
-	@js('/js/helpers/dataTables/order-functions.js')
+
+	<script type="text/javascript" src="/js/helpers/dataTables/order-functions.js"></script>
 @endpush

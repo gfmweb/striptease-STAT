@@ -90,7 +90,7 @@
 @endsection
 
 @push('js')
-	<script type="text/javascript" src="{{ asset('/vendor/select2/select2.full.min.js') }}"></script>
+	<script type="text/javascript" src="/vendor/select2/select2.full.min.js"></script>
 	<script type="text/x-template" id="select2-template">
 		<select multiple id="tags" name="tags[]" class="form-control form-control-sm">
 			<option v-for="(option,id) of options" :value="id">
@@ -105,12 +105,12 @@
 	<script type="text/javascript" src="/vendor/bootstrap-datepicker/bootstrap-datepicker.ru.min.js"></script>
 	<script type="text/javascript" src="/vendor/moment/moment.js"></script>
 	<script type="text/javascript" src="/vendor/vue/vue.js"></script>
-	@js('/js/vue/components/loading-block.js')
-	@js('/js/vue/components/select2.js')
-	@js('/js/vue/apps/user-target-data/report-query-builder.js')
+	<script type="text/javascript" src="/js/vue/components/loading-block.js"></script>
+	<script type="text/javascript" src="/js/vue/components/select2.js"></script>
+	<script type="text/javascript" src="/js/vue/apps/user-target-data/report-query-builder.js"></script>
 	<link type="text/css" rel="stylesheet" href="/vendor/tables/css/datatable/dataTables.bootstrap4.min.css">
 	<script type="text/javascript" src="/vendor/tables/js/jquery.dataTables.min.js"></script>
-	@js('/js/helpers/dataTables/order-functions.js')
+	<script type="text/javascript" src="/js/helpers/dataTables/order-functions.js"></script>
 @endpush
 @push('css')
 	<link type="text/css" rel="stylesheet" href="/vendor/bootstrap-datepicker/bootstrap-datepicker.min.css">
