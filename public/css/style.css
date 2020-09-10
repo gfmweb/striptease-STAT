@@ -60,12 +60,12 @@ table a {
 	padding-bottom: 20px;
 }
 
-.dataTable.table-sm>thead>tr>th {
+.dataTable.table-sm > thead > tr > th {
 	font-size: 12px;
 }
 
 .nowrap {
-	white-space:nowrap;
+	white-space: nowrap;
 }
 
 .page-titles {
@@ -97,6 +97,7 @@ table a {
 .font-family-arial {
 	font-family: arial, sans-serif;
 }
+
 .line-height-2 {
 	line-height: 1.5em;
 }
@@ -113,4 +114,13 @@ table a {
 
 .text-middle {
 	vertical-align: middle !important;
+}
+
+.report-table .bg-warning {
+	color: #00000090 !important;
+}
+
+.report-table .bg-success {
+	background-color: #47b65d !important;
+	fill: #47b65d !important;
 }
