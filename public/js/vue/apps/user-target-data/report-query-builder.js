@@ -6,8 +6,9 @@ const reportQueryBuilder = new Vue({
 			projects: '/projects/list',
 			subProjects: '/sub-projects/list',
 			partners: '/partners/list',
-			channels: '/channels/list',
-			tags: '/tags/list',
+            audienceTypes: '/audience-types/list',
+            goals: '/goals/list',
+            channels: '/channels/list',
 			report: '/reports/main/data',
 			reportMy: '/reports/my/data',
 		},
@@ -15,32 +16,38 @@ const reportQueryBuilder = new Vue({
 		loaded: false,
 		dateFrom: null,
 		dateTo: null,
+        onlyMy: false,
 		cities: {
 			list: [],
-			selectedId: null,
+			selectedIds: null,
 		},
 		projects: {
 			list: [],
-			selectedId: null,
+			selectedIds: null,
 		},
 		subProjects: {
 			list: [],
-			selectedId: null,
+			selectedIds: null,
 		},
 		partners: {
 			list: [],
 			selectedId: null,
 		},
-		onlyMy: false,
+        audienceTypes: {
+            list: [],
+            selectedIds: null,
+        },
+        goals: {
+            list: [],
+            selectedIds: null,
+        },
 		channels: {
 			list: [],
-			selectedId: 'all',
-		},
-		tags: {
-			list: [],
-			selectedIds: [],
+			selectedId: null,
+            selectedIds: [],
 		},
 		report: null,
+		notZeroCost: true,
 	},
 	computed: {
 		loading: {
@@ -54,11 +61,11 @@ const reportQueryBuilder = new Vue({
 		},
 		filterSettled() {
 			return !!(
-				this.cities.selectedId
-				&& this.projects.selectedId
-				&& this.subProjects.selectedId
+				this.cities.selectedIds
+				&& this.projects.selectedIds
+				&& this.subProjects.selectedIds
 				&& (this.partners.selectedId || this.onlyMy)
-				&& this.channels.selectedId
+				&& this.goals.selectedIds
 				&& (this.dateFrom || this.dateTo)
 			);
 		},
@@ -73,7 +80,7 @@ const reportQueryBuilder = new Vue({
 		},
 		selectedCityId: {
 			set: function (id) {
-				this.cities.selectedId = id;
+				this.cities.selectedIds = id;
 				if (id === '' || id === undefined) {
 					this.projects.list = [];
 				} else {
@@ -82,7 +89,7 @@ const reportQueryBuilder = new Vue({
 				}
 			},
 			get: function () {
-				return this.cities.selectedId;
+				return this.cities.selectedIds;
 			}
 		},
 		selectedProjectIds: {
@@ -99,7 +106,7 @@ const reportQueryBuilder = new Vue({
 		},
 		selectedProjectId: {
 			set: function (id) {
-				this.projects.selectedId = id;
+				this.projects.selectedIds = id;
 				if (id === '' || id === undefined) {
 					this.subProjects.list = [];
 					this.partners.list = [];
@@ -109,7 +116,7 @@ const reportQueryBuilder = new Vue({
 				this.selectedSubProjectId = '';
 			},
 			get: function () {
-				return this.projects.selectedId;
+				return this.projects.selectedIds;
 			}
 		},
 		selectedSubProjectIds: {
@@ -123,7 +130,7 @@ const reportQueryBuilder = new Vue({
 		},
 		selectedSubProjectId: {
 			set: function (id) {
-				this.subProjects.selectedId = id;
+				this.subProjects.selectedIds = id;
 				if (id === '' || id === undefined) {
 					this.partners.list = [];
 				} else {
@@ -131,7 +138,7 @@ const reportQueryBuilder = new Vue({
 				}
 			},
 			get: function () {
-				return this.subProjects.selectedId;
+				return this.subProjects.selectedIds;
 			}
 		},
 		selectedPartnerIds: {
@@ -150,8 +157,76 @@ const reportQueryBuilder = new Vue({
 				return this.partners.selectedId;
 			}
 		},
-		selectedChannelIds: function () {
-			return this.getSelectedIds(this.channels);
+		selectedAudienceTypeIds: {
+			set: function (id) {
+				this.selectedAudienceTypeId = id;
+                if (id === '') {
+                    this.selectedGoalIds = '';
+                    this.selectedChannelIds = '';
+                }
+			},
+			get: function () {
+				return this.getSelectedIds(this.audienceTypes);
+			}
+		},
+        selectedAudienceTypeId: {
+			set: function (id) {
+				this.audienceTypes.selectedIds = id;
+
+                if (id === '' || id === undefined) {
+                    this.goals.list = [];
+                    this.channels.list = [];
+                } else {
+                    this.selectedGoalId = ''
+                    this.selectedChannelIds = []
+                    this.loadGoals().then(()=>{
+                        this.loadChannels();
+                    });
+
+                }
+			},
+			get: function () {
+				return this.audienceTypes.selectedIds;
+			}
+		},
+		selectedGoalIds: {
+			set: function (id) {
+				this.selectedGoalId = id;
+                if (id === '') this.selectedChannelIds = '';
+			},
+			get: function () {
+				return this.getSelectedIds(this.goals);
+			}
+		},
+        selectedGoalId: {
+			set: function (id) {
+				this.goals.selectedIds = id;
+                if (id === '' || id === undefined) {
+                    this.channels.list = [];
+                } else {
+                    this.selectedChannelId = ''
+                    this.loadChannels();
+                }
+			},
+			get: function () {
+				return this.goals.selectedIds;
+			}
+		},
+        selectedChannelIds: {
+			set: function (id) {
+				this.selectedChannelId = id;
+			},
+			get: function () {
+				return this.getSelectedIds(this.channels);
+			}
+		},
+        selectedChannelId: {
+			set: function (id) {
+				this.channels.selectedId = id;
+			},
+			get: function () {
+				return this.channels.selectedId;
+			}
 		},
 	},
 	mounted: function () {
@@ -162,17 +237,12 @@ const reportQueryBuilder = new Vue({
 		});
 
 		this.loadCities();
-		this.loadChannels();
-		this.loadTags();
+		this.loadAudienceTypes()
 
 		this.datePickerInit();
 
-		var start = new Date();
-		start.setMonth(start.getMonth() - 1);
-		this.dateFrom = start.getDate() + '.' + (start.getMonth() + 1) + '.' + start.getFullYear();
-
-		var now = new Date();
-		this.dateTo = now.getDate() + '.' + (now.getMonth() + 1) + '.' + now.getFullYear();
+		this.dateFrom = moment().subtract(1, 'months').format('DD.MM.YYYY');
+		this.dateTo   = moment().format('DD.MM.YYYY');
 
 		if (typeof onlyMyReport !== 'undefined') this.onlyMy = true;
 	},
@@ -183,13 +253,18 @@ const reportQueryBuilder = new Vue({
 		getSelectedIds(list) {
 			let result = [];
 
-			if (list.selectedId === '') return result;
-
-			if (list.selectedId === 'all') {
-				for (let id in list.list) result.push(id);
-			} else {
-				result.push(list.selectedId);
+			if (list.selectedId !== undefined) {
+				if (list.selectedId === '') return result;
+				if (list.selectedId === 'all') {
+					//for (let id in list.list) result.push(id);
+					return 'all';
+				} else
+					result.push(list.selectedId);
 			}
+
+			if (list.selectedIds !== undefined) {
+				result = !list.selectedIds.length ? 'all' : list.selectedIds
+			}			
 
 			return result;
 		},
@@ -289,7 +364,7 @@ const reportQueryBuilder = new Vue({
 				if (!this.cities.list.length) {
 					this.subProjects.list = [];
 				}
-				this.selectedCityIds = '';
+				this.selectedCityId = 'all';
 
 			}).fail(error => {
 				this.loading = false;
@@ -316,7 +391,7 @@ const reportQueryBuilder = new Vue({
 					this.subProjects.list = [];
 					this.partners.list = [];
 				}
-				this.selectedProjectIds = '';
+				this.selectedProjectId = 'all';
 			}).fail(error => {
 				this.loading = false;
 				console.error('LOAD projects error', error);
@@ -327,7 +402,7 @@ const reportQueryBuilder = new Vue({
 			const filters = {};
 			if (this.onlyMy)                    filters.my = true;
 			if (this.selectedCityIds.length)    filters.cityIds = this.selectedCityIds;
-			if (this.selectedProjectId.length) filters.project = this.selectedProjectId;
+			if (this.selectedProjectId.length)  filters.project = this.selectedProjectId;
 
 			$.ajax({
 				url: this.urls.subProjects,
@@ -339,7 +414,7 @@ const reportQueryBuilder = new Vue({
 				if (!this.subProjects.list.length) {
 					this.partners.list = [];
 				}
-				this.selectedSubProjectIds = '';
+				this.selectedSubProjectId = 'all';
 			}).fail(error => {
 				this.loading = false;
 				console.error('LOAD subProjects error', error);
@@ -362,50 +437,94 @@ const reportQueryBuilder = new Vue({
 				if (!this.partners.list.length) {
 					// this.partners.list = [];
 				}
-				this.selectedPartnerIds = '';
+				this.selectedPartnerId = 'all';
 			}).fail(error => {
 				this.loading = false;
 				console.error('LOAD partner error', error);
 			});
 		},
+        loadAudienceTypes() {
+            this.loading = true;
+            const filters = {};
+
+            return $.ajax({
+                url: this.urls.audienceTypes,
+                type: "GET",
+            }).done(data => {
+                this.loading = false;
+                this.audienceTypes.list = data;
+
+                if (!Object.values(this.audienceTypes.list).length) {
+                    this.goals.list = [];
+                    this.channels.list = [];
+                }
+                this.selectedAudienceTypeId = 'all';
+
+            }).fail(error => {
+                this.loading = false;
+                console.error('LOAD audienceTypes error', error);
+            });
+        },
+        loadGoals() {
+            this.loading = true;
+            const filters = {};
+
+            if (this.selectedAudienceTypeIds.length)       filters.audienceTypeIds = this.selectedAudienceTypeIds;
+
+            return $.ajax({
+                url: this.urls.goals,
+                type: "GET",
+                data: filters,
+            }).done(data => {
+                this.loading = false;
+                this.goals.list = data;
+
+                if (!Object.values(this.goals.list).length) {
+                    this.channels.list = [];
+                }
+                this.selectedGoalId = 'all';
+
+            }).fail(error => {
+                this.loading = false;
+                console.error('LOAD goals error', error);
+            });
+        },
 		loadChannels() {
 			this.loading = true;
+            const filters = {};
+
+            if (this.selectedAudienceTypeIds.length)filters.audienceTypeIds = this.selectedAudienceTypeIds;
+            if (this.selectedGoalIds.length)        filters.goalsIds = this.selectedGoalIds;
 
 			$.ajax({
 				url: this.urls.channels,
 				type: "GET",
+                data: filters,
 			}).done(data => {
 				this.loading = false;
 				this.channels.list = data;
+                this.selectedChannelId = '';
+                this.channels.selectedIds = [];
 			}).fail(error => {
 				this.loading = false;
 				console.error('LOAD channels error', error);
-			});
-		},
-		loadTags() {
-			this.loading = true;
-
-			$.ajax({
-				url: this.urls.tags,
-				type: "GET",
-			}).done(data => {
-				this.loading = false;
-				this.tags.list = data;
-			}).fail(error => {
-				this.loading = false;
-				console.error('LOAD tags error', error);
 			});
 		},
 		loadReport() {
 			this.loading = true;
 
 			const filters = {
-				subProjectIds: this.selectedSubProjectIds,
-				partnerIds:    this.selectedPartnerIds,
-				channelIds:    this.selectedChannelIds,
-				tagIds:        this.tags.selectedIds,
-				dateFrom:      this.dateSqlFormat(this.dateFrom),
-				dateTo:        this.dateSqlFormat(this.dateTo, moment().format('Y-MM-DD')),
+				cityIds:         this.selectedCityIds,
+				projectIds:      this.selectedProjectIds,
+				subProjectIds:   this.selectedSubProjectIds,
+				partnerIds:      this.selectedPartnerIds,
+                goalsIds:        this.selectedGoalIds,
+                audienceTypeIds: this.selectedAudienceTypeIds,
+                // channelIds:   this.selectedChannelIds,
+                channelIds:      this.channels.selectedIds,
+                dateFrom:        this.dateSqlFormat(this.dateFrom),
+				dateTo:          this.dateSqlFormat(this.dateTo, moment().format('Y-MM-DD')),
+				notZeroCost:     this.notZeroCost,
 			};
 
 			var reportUrl = this.urls.report
